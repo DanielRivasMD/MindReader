@@ -1,0 +1,3 @@
+[deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+MindReader = "29767591-7395-4f5d-bb0f-9767abbb8d26"
