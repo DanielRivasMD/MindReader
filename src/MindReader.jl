@@ -13,6 +13,7 @@ include( "Utilities/argParser.jl" );
 #  declare tool directories
 utilDir    = "Utilities/"
 signalDir  = "SignalProcessing/"
+arqDir     = "Architect/"
 hmmDir     = "HiddenMarkovModel/"
 
 ################################################################################
@@ -24,6 +25,7 @@ include( string(utilDir,    "fileReaderXLSX.jl") );
 include( string(signalDir,  "signalBin.jl") );
 include( string(signalDir,  "fastFourierTransform.jl") );
 include( string(hmmDir,     "hiddenMarkovModel.jl") );
+include( string(arqDir,     "architect.jl") );
 
 ################################################################################
 
