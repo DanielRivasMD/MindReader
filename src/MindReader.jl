@@ -21,6 +21,7 @@ signalDir  = "SignalProcessing/"
 include( string(utilDir,    "fileReaderEDF.jl") );
 include( string(utilDir,    "fileReaderXLSX.jl") );
 include( string(signalDir,  "signalBin.jl") );
+include( string(signalDir,  "fastFourierTransform.jl") );
 
 ################################################################################
 end
