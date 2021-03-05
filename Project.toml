@@ -4,7 +4,9 @@ authors = ["DanielRivasMD <danielrivasmd@gmail.com> and contributors"]
 version = "0.1.0"
 
 [deps]
+AbstractPlotting = "537997a7-5e4e-5d89-9595-2241ea00577e"
 ArgParse = "c7e460c6-2fb9-53a9-8c5b-16f535851c63"
+CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
 EDF = "ccffbfc1-f56e-50fb-a33b-53d1781b2825"
