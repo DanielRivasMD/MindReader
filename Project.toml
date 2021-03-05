@@ -18,6 +18,12 @@ StructArrays = "09ab397b-f2b6-538f-b94a-2f83cf4a842a"
 XLSX = "fdbf4ff8-1666-58a4-91e7-1b58723a45e0"
 
 [compat]
+ArgParse = "1.1"
+DataFrames = "0.22"
+EDF = "0.6"
+FFTW = "1.3"
+Flux = "0.11"
+StructArrays = "0.5"
 XLSX = "0.7"
 DataFrames = "0.22"
 FFTW = "1.3"
