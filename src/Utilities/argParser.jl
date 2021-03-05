@@ -1,6 +1,6 @@
 ################################################################################
 
-using ArgParse
+import ArgParse: ArgParseSettings, @add_arg_table!, parse_args
 
 ################################################################################
 
@@ -16,6 +16,11 @@ function shArgParser(args)
         arg_type            = String
         required            = false
         help                = "output directory"
+      "--outimg", "-i"
+        arg_type             = String
+        #  required             = true
+        default              = "img"
+        help                 = "image heatmap output"
       "--fft", "-t"
         nargs               = '?'
         arg_type            = Int
@@ -44,10 +49,10 @@ shArgs = shArgParser(ARGS)
 begin
   file    = shArgs["file"]
   outdir  = shArgs["outdir"]
+  outimg  = shArgs["outimg"]
   fftBin  = shArgs["fft"]
   winBin  = shArgs["window-size"]
   overlap = shArgs["bin-overlap"]
 end
 
 ################################################################################
-
