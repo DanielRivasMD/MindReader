@@ -57,6 +57,31 @@ end
 
 ################################################################################
 
+# three-layered recurrent autoencoder
+"""
+
+    buildRecurrentAutoencoder(inputLayer, compressedLayer, σ, )
+
+Build a three-layered recurrent autoencoder
+
+# Arguments
+`inputLayer` number of neurons on input
+
+`compressedLayer` number of neurons on inner compression layer
+
+`σ` layer identity
+
+"""
+function buildRecurrentAutoencoder(inputLayer::Integer, compressedLayer::Integer, σ, )
+  @info("Building three-layered recurrent autoencoder...")
+  return Flux.Chain(
+    Flux.LSTM(inputLayer, compressedLayer),
+    Flux.Dense(compressedLayer, inputLayer, σ),
+  )
+end
+
+################################################################################
+
 # five-layered autoencoder
 """
 
@@ -112,6 +137,35 @@ function buildAssymmetricalAutoencoder(inputLayer::Integer, assymetricalLayer1::
     Flux.Dense(assymetricalLayer1, assymetricalLayer2, σ),
     Flux.Dense(assymetricalLayer2, assymetricalLayer3, σ),
     Flux.Dense(assymetricalLayer3, inputLayer, σ),
+  )
+end
+
+################################################################################
+
+# five-layered recurrent autoencoder
+"""
+
+    buildRecurrentAutoencoder(inputLayer, innerLayer1, compressedLayer, σ, )
+
+Build a five-layered recurrent autoencoder
+
+# Arguments
+`inputLayer` number of neurons on input
+
+`innerLayer1` number of neurons on first compression layer
+
+`compressedLayer` number of neurons on inner compression layer
+
+`σ` layer identity
+
+"""
+function buildRecurrentAutoencoder(inputLayer::Integer, innerLayer1::Integer, compressedLayer::Integer, σ, )
+  @info("Building five-layered recurrent autoencoder...")
+  return Flux.Chain(
+    Flux.LSTM(inputLayer, innerLayer1),
+    Flux.LSTM(innerLayer1, compressedLayer),
+    Flux.LSTM(compressedLayer, innerLayer1),
+    Flux.Dense(innerLayer1, inputLayer, σ),
   )
 end
 
