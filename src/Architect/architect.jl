@@ -29,6 +29,34 @@ end
 
 ################################################################################
 
+# four-layered assymetrical autoencoder
+"""
+
+    buildAssymmetricalAutoencoder(inputLayer, assymetricalLayer1, assymetricalLayer2, σ, )
+
+Build a four-layered assymetrical autoencoder
+
+# Arguments
+`inputLayer` number of neurons on input
+
+`assymetricalLayer1` number of neurons on assymetrical layer 1
+
+`assymetricalLayer2` number of neurons on assymetrical layer 2
+
+`σ` layer identity
+
+"""
+function buildAssymmetricalAutoencoder(inputLayer::Integer, assymetricalLayer1::Integer, assymetricalLayer2::Integer, σ, )
+  @info("Building four-layered assymetrical autoencoder...")
+  return Flux.Chain(
+    Flux.Dense(inputLayer, assymetricalLayer1, σ),
+    Flux.Dense(assymetricalLayer1, assymetricalLayer2, σ),
+    Flux.Dense(assymetricalLayer2, inputLayer, σ),
+  )
+end
+
+################################################################################
+
 # five-layered autoencoder
 """
 
@@ -53,6 +81,37 @@ function buildAutoencoder(inputLayer::Integer, innerLayer1::Integer, compressedL
     Flux.Dense(innerLayer1, compressedLayer, σ),
     Flux.Dense(compressedLayer, innerLayer1, σ),
     Flux.Dense(innerLayer1, inputLayer, σ),
+  )
+end
+
+################################################################################
+
+# five-layered assymetrical autoencoder
+"""
+
+    buildAssymmetricalAutoencoder(inputLayer, innerLayer1, compressedLayer, σ, )
+
+Build a five-layered assymetrical autoencoder
+
+# Arguments
+`inputLayer` number of neurons on input
+
+`assymetricalLayer1` number of neurons on assymetrical layer 1
+
+`assymetricalLayer2` number of neurons on assymetrical layer 2
+
+`assymetricalLayer3` number of neurons on assymetrical layer 3
+
+`σ` layer identity
+
+"""
+function buildAssymmetricalAutoencoder(inputLayer::Integer, assymetricalLayer1::Integer, assymetricalLayer2::Integer, assymetricalLayer3::Integer, σ, )
+  @info("Building five-layered autoencoder...")
+  return Flux.Chain(
+    Flux.Dense(inputLayer, assymetricalLayer1, σ),
+    Flux.Dense(assymetricalLayer1, assymetricalLayer2, σ),
+    Flux.Dense(assymetricalLayer2, assymetricalLayer3, σ),
+    Flux.Dense(assymetricalLayer3, inputLayer, σ),
   )
 end
 
