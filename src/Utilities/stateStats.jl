@@ -1,5 +1,9 @@
 ################################################################################
 
+import FreqTables
+
+################################################################################
+
 function collectState(inDc::Dict{String,Tuple{Array{Int64,1},Array{Array{Float64,1},1}}})
 
   keyString = inDc[convert.(String, keys(inDc))[1]][1]
@@ -15,6 +19,19 @@ function collectState(inDc::Dict{String,Tuple{Array{Int64,1},Array{Array{Float64
     end
   end
   return toHeat, keyString
+end
+
+################################################################################
+
+function stateStats(stateAr::Array{Float64, 2}, numState = 5)
+
+  statsAr = zeros(Int64, numState, size(stateAr, 1))
+  ct = 0
+  for rw in eachrow(stateAr)
+    ct += 1
+    statsAr[:, ct] = FreqTables.freqtable(rw).array
+  end
+  return statsAr
 end
 
 ################################################################################

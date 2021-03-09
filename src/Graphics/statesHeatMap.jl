@@ -1,6 +1,7 @@
 ################################################################################
 
 import CairoMakie
+import DelimitedFiles
 
 ################################################################################
 
@@ -9,6 +10,10 @@ function plotHeatmap(inDc::Dict{String,Tuple{Array{Int64,1},Array{Array{Float64,
   @info "Plotting..."
   # create array to plot
   toHeat, keyString = collectState(inDc)
+
+  # collect stats & write
+  stats = stateStats(toHeat)
+  DelimitedFiles.writedlm(string(outdir, "/", outimg, ".csv"), stats, ", ")
 
   # # add label tracks
   # for ix in 1:size(labelAr, 2)
@@ -46,7 +51,6 @@ function plotHeatmap(inDc::Dict{String,Tuple{Array{Int64,1},Array{Array{Float64,
 
   ################################################################################
 
-  println(outdir, outimg)
   CairoMakie.save(string(outdir, "/", outimg, ".svg"), plotFig, )
 
   ################################################################################
