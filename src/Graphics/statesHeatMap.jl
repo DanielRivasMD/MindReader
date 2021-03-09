@@ -8,17 +8,7 @@ function plotHeatmap(inDc::Dict{String,Tuple{Array{Int64,1},Array{Array{Float64,
 
   @info "Plotting..."
   # create array to plot
-  toHeat = zeros(length(inDc), length(inDc[convert.(String, keys(inDc))[1]][1]))
-  # toHeat = zeros(length(inDc) + 3, length(inDc[convert.(String, keys(inDc))[1]][1]))
-  c = size(toHeat, 1)
-  for k in elecID
-    if haskey(inDc, k)
-      toHeat[c, :] = inDc[k][1]
-      c -= 1
-    else
-      @info k
-    end
-  end
+  toHeat, keyString = collectState(inDc)
 
   # # add label tracks
   # for ix in 1:size(labelAr, 2)
