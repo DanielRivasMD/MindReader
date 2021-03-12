@@ -13,7 +13,8 @@ function runHeatmap(inDc::Dict{String,Tuple{Array{Int64,1},Array{Array{Float64,1
 
   # collect stats & write
   stats = stateStats(toHeat)
-  DelimitedFiles.writedlm(string(outdir, "/", outimg, ".csv"), stats, ", ")
+  DelimitedFiles.writedlm(string("csv/", outimg, ".csv"), stats, ", ") #  hardcoded csv directory
+  #  DelimitedFiles.writedlm(string(outdir, "/", outimg, ".csv"), stats, ", ")
 
   # # add label tracks
   # for ix in 1:size(labelAr, 2)
