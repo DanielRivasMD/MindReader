@@ -28,6 +28,7 @@ graphDir   = "Graphics/"
 @info("Loading modules...")
 include( string(utilDir,    "fileReaderEDF.jl") );
 include( string(utilDir,    "electrodeID.jl") );
+include( string(utilDir,    "stateStats.jl") );
 # include( string(utilDir,    "fileReaderXLSX.jl") );
 include( string(signalDir,  "signalBin.jl") );
 include( string(signalDir,  "fastFourierTransform.jl") );

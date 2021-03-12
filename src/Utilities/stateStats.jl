@@ -24,12 +24,21 @@ end
 ################################################################################
 
 function stateStats(stateAr::Array{Float64, 2}, numState = 5)
-
-  statsAr = zeros(Int64, numState, size(stateAr, 1))
+  statsAr = zeros(Int64, numState, size(stateAr, 1))                            # empty out array
   ct = 0
-  for rw in eachrow(stateAr)
+  for rw in eachrow(stateAr)                                                    # iterate on each row (channel)
+    rwFq = FreqTables.freqtable(rw)                                             # get the frequency
+    tmpFq = FreqTables.freqtable([1.:numState...])                              # adjust frecuency table for non-present values
+    for jx in 1:numState
+      ixs = findall(isequal.(names(tmpFq)[1][jx], names(rwFq)[1]))
+      if sum(ixs) > 0
+        tmpFq[jx] = rwFq[ixs[1]]
+      else
+        tmpFq[jx] = 0
+      end
+    end
     ct += 1
-    statsAr[:, ct] = FreqTables.freqtable(rw).array
+    statsAr[:, ct] = tmpFq.array                                                # collect frecuency into array
   end
   return statsAr
 end
