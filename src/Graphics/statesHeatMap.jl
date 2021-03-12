@@ -5,7 +5,7 @@ import DelimitedFiles
 
 ################################################################################
 
-function plotHeatmap(inDc::Dict{String,Tuple{Array{Int64,1},Array{Array{Float64,1},1}}})
+function runHeatmap(inDc::Dict{String,Tuple{Array{Int64,1},Array{Array{Float64,1},1}}}, )
 
   @info "Plotting..."
   # create array to plot
@@ -20,14 +20,14 @@ function plotHeatmap(inDc::Dict{String,Tuple{Array{Int64,1},Array{Array{Float64,
   #   toHeat[ix, :] .= labelAr[1:size(toHeat, 2), ix]
   # end
 
-  ################################################################################
+  @info "Rendering..."
+  plotChannelsHeatmap(toHeat)
 
-  # # rendering
-  # sc = AbstractPlotting.Scene()
-  # sc = AbstractPlotting.heatmap(toHeat', show_axis = false)
-  # CairoMakie.save("hm.svg", sc, pt_per_unit = 0.5)
+end
 
-  ################################################################################
+################################################################################
+
+function plotChannelsHeatmap(toHeat::Array{Float64, 2}, )
 
   # plot layout
   plotFig = CairoMakie.Figure()
@@ -49,11 +49,8 @@ function plotHeatmap(inDc::Dict{String,Tuple{Array{Int64,1},Array{Array{Float64,
   cbar.width = CairoMakie.Relative(2 / 3)
   cbar.ticks = 0:1:5
 
-  ################################################################################
-
+  # save rendering
   CairoMakie.save(string(outdir, "/", outimg, ".svg"), plotFig, )
-
-  ################################################################################
 
 end
 
