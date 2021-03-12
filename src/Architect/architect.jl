@@ -4,6 +4,21 @@ import Flux
 
 ################################################################################
 
+function buildDeepRecurrentAutoencoder(inputLayer::Integer, compressedLayer::Integer, σ, )
+  @info("Building deep recurrent autoencoder...")
+  return Flux.Chain(
+    Flux.LSTM(inputLayer, convert(Int64, inputLayer - 20)),
+    Flux.LSTM(convert(Int64, inputLayer - 20), convert(Int64, inputLayer - 40)),
+    Flux.LSTM(convert(Int64, inputLayer - 40), convert(Int64, inputLayer - 60)),
+    Flux.LSTM(convert(Int64, inputLayer - 60), compressedLayer),
+    Flux.LSTM(compressedLayer, convert(Int64, inputLayer - 60)),
+    Flux.LSTM(convert(Int64, inputLayer - 60), convert(Int64, inputLayer - 40)),
+    Flux.LSTM(convert(Int64, inputLayer - 40), convert(Int64, inputLayer - 20)),
+    Flux.Dense(convert(Int64, inputLayer - 20), inputLayer, σ),
+  )
+end
+
+
 # three-layered autoencoder
 """
 
