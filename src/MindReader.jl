@@ -41,7 +41,7 @@ include( string(graphDir,   "statesHeatMap.jl") );
 
 import Parameters: @with_kw
 
-# set parameters
+# set hyperparameters
 @with_kw mutable struct Params
   η::Float64 = 1e-3                               # learning rate
   epochs::Int = 10                                # number of epochs
@@ -60,18 +60,34 @@ freqDc = extractChannelFFT(edfDf, binSize = winBin, binOverlap = overlap)
 
 ################################################################################
 
-errDc = Dict{String,Tuple{Array{Int64,1},Array{Array{Float64,1},1}}}()
+for d in [Symbol(i, "Dc") for i = [:err, :post, :comp]]
+  @eval $d = Dict{String, Tuple{Array{Int64, 1}, Array{Array{Float64, 1}, 1}}}()
+end
+
 for (k, f) in freqDc
   println()
   @info k
   #  build & train autoencoder
   freqAr = shifter(f)
-  model = buildAutoencoder(length(freqAr[1]), 100, leakyrelu)
+  model = buildDeepRecurrentAutoencoder(length(freqAr[1]), 100, leakyrelu)
+  # model = buildRecurrentAutoencoder(length(freqAr[1]), 100, leakyrelu)
+  # model = buildAutoencoder(length(freqAr[1]), 100, leakyrelu)
   model = modelTrain(freqAr, model, Params)
 
   ################################################################################
 
+  #  # post
   postAr = cpu(model).(freqAr)
+  #  aPos = reshifter(postAr) |> p -> Flux.flatten(p)
+  #
+  #  # setup
+  #  mPen, hmm = setup(aPos)
+  #  # process
+  #  for i in 1:5
+  #    postDc[k] = process(hmm, aPos, mPen)
+  #  end
+
+  ################################################################################
 
   # error
   aErr = reshifter(postAr - freqAr) |> p -> Flux.flatten(p)
@@ -82,6 +98,19 @@ for (k, f) in freqDc
   for i in 1:5
     errDc[k] = process(hmm, aErr, mPen)
   end
+
+
+  #  # compressed
+  #  compAr = cpu(model[1]).(freqAr)
+  #  aComp = reshifter(compAr, length(compAr[1])) |> p -> Flux.flatten(p)
+  #
+  #  # setup
+  #  mPen, hmm = setup(aComp)
+  #  # process
+  #  for i in 1:5
+  #    compDc[k] = process(hmm, aComp, mPen)
+  #  end
+  #
 
   ################################################################################
 
