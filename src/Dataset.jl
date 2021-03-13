@@ -6,7 +6,7 @@ using Distances
 
 #  functions
 utilDir = "Utilities/"
-include( string("src/", utilDir,  "stateStats.jl") );
+include( string(utilDir,  "stateStats.jl") );
 
 outdir = "./" #  output
 
@@ -17,18 +17,22 @@ colStats = summarizeStats( string.("csv/", csvList) )
 #  purge brain death records
 colStats = colStats[[1:50; 54:99], :]
 
-#  calculate pairwise by Euclidean distance
-pwAr = pairwise(Euclidean(), colStats, dims = 1)
+#  columns
+pwcolAr = pairwise(Euclidean(), colStats, dims = 1)                # calculate pairwise by Euclidean distance
+hcl1 = hclust(pwcolAr, linkage = :average, branchorder = :optimal) # hierarchical clustering
 
-#  hierarchical clustering
-hcl = hclust(pwAr)
+#  rows
+pwrowAr = pairwise(Euclidean(), colStats, dims = 1)                # calculate pairwise by Euclidean distance
+hcl2 = hclust(pwrowAr, linkage = :average, branchorder = :optimal) # hierarchical clustering
 
-#  plot heatmap + top dendrogram
+#  plot heatmap + dendrograms
+ly = grid(2, 2, heights = [0.2, 0.8, 0.2, 0.8], widths = [0.8, 0.2, 0.8, 0.2])
 plot(
-  plot(hcl, xticks=false),
-  heatmap(colStats[hcl.order, :], colorbar = false, ),
-  layout = grid(2,1, heights = [0.2,0.8])
+  plot(hcl1, xticks = false),
+  plot(tikcs = nothing, border = :none),
+  heatmap(colStats[hcl1.order, :], colorbar = false, ),
+  plot(hcl2, yticks = false, xrotation = 90, orientation = :horizontal), 
+  layout = ly, 
 )
-
 
 ################################################################################
