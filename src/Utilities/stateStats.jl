@@ -2,6 +2,7 @@
 
 import FreqTables
 import DelimitedFiles
+import CairoMakie
 
 ################################################################################
 
