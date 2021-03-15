@@ -22,7 +22,7 @@ pwcolAr = pairwise(Euclidean(), colStats, dims = 1)                # calculate p
 hcl1 = hclust(pwcolAr, linkage = :average, branchorder = :optimal) # hierarchical clustering
 
 #  rows
-pwrowAr = pairwise(Euclidean(), colStats, dims = 1)                # calculate pairwise by Euclidean distance
+pwrowAr = pairwise(Euclidean(), colStats, dims = 2)                # calculate pairwise by Euclidean distance
 hcl2 = hclust(pwrowAr, linkage = :average, branchorder = :optimal) # hierarchical clustering
 
 #  plot heatmap + dendrograms
