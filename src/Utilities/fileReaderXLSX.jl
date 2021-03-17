@@ -18,7 +18,7 @@ Read annotation XLSX file
 ```
 
 """
-function xread(xlsxFile)
+function xread(xlsxFile::String)
   # read xlsx file
   @info("Reading XLSX file...")
   xtmp = XLSX.readxlsx(xlsxFile)
@@ -28,7 +28,7 @@ function xread(xlsxFile)
   end
 
   # load sheets on dataframes
-  outDc = Dict()
+  outDc = Dict{String, DataFrame}()
   kys = ["PD" 7; "SA" 6; "EM" 4]
   for (k, s) in eachrow(kys)
     j = (match.(Regex(k), xtmp |> XLSX.sheetnames) .|> !isnothing |> findall)[1]
