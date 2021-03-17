@@ -2,6 +2,7 @@
 
 using FreqTables
 using NamedArrays
+using OrderedCollections
 
 ################################################################################
 
@@ -12,7 +13,7 @@ using NamedArrays
 Calculate sensitivity and specificity from 2 x 2 array
 
 """
-function ss(ar)
+function ss(ar::NamedArray{Int64, 2, Array{Int64, 2}, Tuple{OrderedCollections.OrderedDict{Int64, Int64}, OrderedCollections.OrderedDict{String, Int64}}})
   return (sensitivity = ar[1, 1] / ( ar[1, 1] + ar[2, 1] ), specificity = ar[2, 2] / ( ar[2, 2] + ar[1, 2] ))
 end
 
@@ -50,14 +51,14 @@ end
 Calculate sensitivity and specificity from a HMM
 
 """
-function sensspec(tbVc::Array{Int64, 1}, labelVec::Array{Int64, 1})
+function sensspec(tbVc::Array{Int64, 1}, labelVec::Array{Int64, 2})
   # reassign frecuency labels
   tbVec = copy(tbVc)
   tbVec[findall(tbVec .> 1)] .= 2
   tbVec[findall(tbVec .== 1)] .= 1
   # adjust & concatenate frecuency tables
-  positives = tbVec[labelVec .== 2] |> freqtable |> reverse |> stFreqTb
-  negatives = tbVec[labelVec .== 1] |> freqtable |> reverse |> stFreqTb
+  positives = tbVec[labelVec[:, 1] .== 1] |> freqtable |> reverse |> stFreqTb
+  negatives = tbVec[labelVec[:, 1] .== 0] |> freqtable |> reverse |> stFreqTb
   outNamedArray = [positives negatives]
   return ss(outNamedArray)
 end
