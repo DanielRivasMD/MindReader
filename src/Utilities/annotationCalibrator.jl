@@ -27,7 +27,7 @@ Input annotations from XLSX and incorporates them to neural network for training
 `binOverlap` overlap
 
 """
-function annotationCalibrator(xDf; startTime, recordFreq, signalLength, binSize, binOverlap)
+function annotationCalibrator(xDf; startTime::Time, recordFreq::Array{Int16, 1}, signalLength::Int64, binSize::Int64, binOverlap::Int64)
 
   # collect recording frecuency
   recFreq = begin
@@ -38,7 +38,7 @@ function annotationCalibrator(xDf; startTime, recordFreq, signalLength, binSize,
 
   # fields to check
   fields = ["ST", "MA", "EM"]
-  stepSize = floor(Int32, binSize / binOverlap)
+  stepSize = floor(Int64, binSize / binOverlap)
   signalSteps = 1:stepSize:signalLength
   binArr = zeros(Int64, length(signalSteps), length(fields))
 
