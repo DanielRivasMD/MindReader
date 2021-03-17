@@ -28,6 +28,33 @@ end
 
 ################################################################################
 
+function runHeatmap(inDc::Dict{String,Tuple{Array{Int64,1},Array{Array{Float64,1},1}}}, labelAr::Array{Int64, 2})
+
+  @info "Plotting..."
+  # create array to plot
+  toHeat, keyString = collectState(inDc)
+
+  # concatenate annotations
+  labelAr .+= 1
+  toHeat = [labelAr'; toHeat]
+
+  # collect stats & write
+  stats = stateStats(toHeat)
+  DelimitedFiles.writedlm(string("csv/", outimg, ".csv"), stats, ", ") #  hardcoded csv directory
+  #  DelimitedFiles.writedlm(string(outdir, "/", outimg, ".csv"), stats, ", ")
+
+  # # add label tracks
+  # for ix in 1:size(labelAr, 2)
+  #   toHeat[ix, :] .= labelAr[1:size(toHeat, 2), ix]
+  # end
+
+  @info "Rendering..."
+  plotChannelsHeatmap(toHeat)
+
+end
+
+################################################################################
+
 function plotChannelsHeatmap(toHeat::Array{Float64, 2}, )
 
   # plot layout
