@@ -65,6 +65,20 @@ end
 
 ################################################################################
 
+function sensspec(ssDc::Dict{String, Tuple{Array{Int64, 1}, Array{Array{Float64, 1}, 1}}}, labelVec::Array{Int64, 2})
+
+  outDc = Dict{String, Array{Float64, 2}}()
+  for (k, v) in errDc
+    tmp = zeros(1, 2)
+    (tmp[1, 1], tmp[1, 2]) = sensspec(errDc[k][1], labelVec)
+    outDc[k] = tmp
+  end
+
+  return outDc
+end
+
+################################################################################
+
 """
 
     stFreqTb(fTb::NamedArray{Int64, 1})
