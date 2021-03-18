@@ -28,15 +28,14 @@ end
 
 ################################################################################
 
-function runHeatmap(inDc::Dict{String,Tuple{Array{Int64,1},Array{Array{Float64,1},1}}}, labelAr::Array{Int64, 2})
+function runHeatmap(inDc::Dict{String,Tuple{Array{Int64,1},Array{Array{Float64,1},1}}}, lbAr::Array{Int64, 2})
 
   @info "Plotting..."
   # create array to plot
   toHeat, keyString = collectState(inDc)
 
   # concatenate annotations
-  labelAr .+= 1
-  toHeat = [labelAr'; toHeat]
+  toHeat = [toHeat; lbAr' .+ 1]
 
   # collect stats & write
   stats = stateStats(toHeat)
