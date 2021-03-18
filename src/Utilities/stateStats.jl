@@ -53,7 +53,8 @@ function summarizeStats(fileList::Array{String, 1}, maxChannel = 25)
   for f in fileList
     cf += 1
     stAr = DelimitedFiles.readdlm(f, ',')                                       # read csv files
-    grRt = groundStateRatio(stAr)                                               # perform operations. get ground state ratio
+    maxChannel < size(stAr, 2) ? lMar = maxChannel : lMar = size(stAr, 2)       # adjust margin
+    grRt = groundStateRatio(stAr)[1:lMar]                                       # perform operations. get ground state ratio
     collectAr[cf, 1:length(grRt)] = grRt[:, 1]                                  # collect into array
   end
   plotStatesHeatmap(collectAr)                                                  # plot
