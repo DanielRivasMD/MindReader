@@ -39,7 +39,7 @@ julia> getSignals("file.edf")
 """
 function getSignals(edfFile)
   # read edf file
-  @info("Reading EDF file...")
+  @info "Reading EDF file..."
   edfRecord = EDF.read(edfFile)
 
   # load signals

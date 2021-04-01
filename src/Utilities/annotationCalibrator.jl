@@ -29,6 +29,7 @@ Input annotations from XLSX and incorporates them to neural network for training
 """
 function annotationCalibrator(xDf; startTime::Time, recordFreq::Array{Int16, 1}, signalLength::Int64, binSize::Int64, binOverlap::Int64)
 
+  @info "Calibrating annotations..."
   # collect recording frecuency
   recFreq = begin
     recAv = (sum(recordFreq)) / (length(recordFreq))

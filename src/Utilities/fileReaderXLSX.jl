@@ -20,7 +20,7 @@ Read annotation XLSX file
 """
 function xread(xlsxFile::String)
   # read xlsx file
-  @info("Reading XLSX file...")
+  @info "Reading XLSX file..."
   xtmp = XLSX.readxlsx(xlsxFile)
 
   if xtmp |> XLSX.sheetcount != 3

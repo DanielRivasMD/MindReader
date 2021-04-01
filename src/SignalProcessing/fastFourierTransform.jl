@@ -66,7 +66,7 @@ Use extractChannelFFT on EDF file per channel
 
 """
 function extractChannelFFT(edfDf::DataFrames.DataFrame; binSize::Int64 = 256, binOverlap::Int64 = 2)
-  @info("Extracting channels frecuencies...")
+  @info "Extracting channels frecuencies..."
   channelDc = Dict()
   freqAr = begin
     stepSize = floor(Int32, binSize / binOverlap)
