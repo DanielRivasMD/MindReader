@@ -9,37 +9,6 @@ activate("../")
 
 ################################################################################
 
-#  argument parser
-include( "Utilities/argParser.jl" );
-
-################################################################################
-
-
-#  declare tool directories
-utilDir    = "Utilities/"
-signalDir  = "SignalProcessing/"
-arqDir     = "Architect/"
-hmmDir     = "HiddenMarkovModel/"
-graphDir   = "Graphics/"
-
-################################################################################
-
-#  load functions
-@info("Loading modules...")
-include( string(utilDir,    "fileReaderEDF.jl") );
-include( string(utilDir,    "electrodeID.jl") );
-include( string(utilDir,    "stateStats.jl") );
-# include( string(utilDir,    "fileReaderXLSX.jl") );
-include( string(signalDir,  "signalBin.jl") );
-include( string(signalDir,  "fastFourierTransform.jl") );
-include( string(hmmDir,     "hiddenMarkovModel.jl") );
-include( string(arqDir,     "architect.jl") );
-include( string(arqDir,     "shapeShifter.jl") );
-include( string(arqDir,     "autoencoder.jl") );
-include( string(graphDir,   "statesHeatMap.jl") );
-
-################################################################################
-
 import Parameters: @with_kw
 
 # set hyperparameters
@@ -50,6 +19,50 @@ import Parameters: @with_kw
   throttle::Int = 5                               # throttle timeout
   device::Function = gpu                          # set as gpu, if gpu available
 end
+
+################################################################################
+
+#  argument parser
+include( "Utilities/argParser.jl" );
+
+################################################################################
+
+
+#  declare tool directories
+begin
+  utilDir    = "Utilities/"
+  signalDir  = "SignalProcessing/"
+  arqDir     = "Architect/"
+  hmmDir     = "HiddenMarkovModel/"
+  pcaDir     = "PrincipalComponentAnalysis/"
+  imgDir     = "ImageProcessing/"
+  graphDir   = "Graphics/"
+end;
+
+################################################################################
+
+#  load functions
+begin
+  @info("Loading modules...")
+  include( string(utilDir,    "fileReaderEDF.jl") )
+  include( string(utilDir,    "electrodeID.jl") )
+  include( string(utilDir,    "stateStats.jl") )
+  include( string(utilDir,    "fileReaderXLSX.jl") )
+  include( string(utilDir,    "annotationCalibrator.jl") )
+  include( string(signalDir,  "signalBin.jl") )
+  include( string(signalDir,  "fastFourierTransform.jl") )
+  include( string(hmmDir,     "hiddenMarkovModel.jl") )
+  include( string(arqDir,     "architect.jl") )
+  include( string(arqDir,     "shapeShifter.jl") )
+  include( string(arqDir,     "autoencoder.jl") )
+  # include( string(arqDir,     "SMPerceptron.jl") )
+  include( string(graphDir,   "statesHeatMap.jl") )
+  include( string(utilDir,    "screening.jl") )
+  include( string(utilDir,    "permutations.jl") )
+end;
+
+################################################################################
+
 
 ################################################################################
 
