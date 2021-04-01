@@ -31,6 +31,7 @@ include( "Utilities/argParser.jl" );
 #  declare tool directories
 begin
   utilDir    = "Utilities/"
+  annotDir   = "Annotator/"
   signalDir  = "SignalProcessing/"
   arqDir     = "Architect/"
   hmmDir     = "HiddenMarkovModel/"
@@ -47,8 +48,8 @@ begin
   include( string(utilDir,    "fileReaderEDF.jl") )
   include( string(utilDir,    "electrodeID.jl") )
   include( string(utilDir,    "stateStats.jl") )
-  include( string(utilDir,    "fileReaderXLSX.jl") )
-  include( string(utilDir,    "annotationCalibrator.jl") )
+  include( string(annotDir,   "fileReaderXLSX.jl") )
+  include( string(annotDir,   "annotationCalibrator.jl") )
   include( string(signalDir,  "signalBin.jl") )
   include( string(signalDir,  "fastFourierTransform.jl") )
   include( string(hmmDir,     "hiddenMarkovModel.jl") )
