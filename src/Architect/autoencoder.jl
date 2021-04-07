@@ -2,15 +2,15 @@
 
 import Flux: mse, throttle, ADAM
 import Parameters: @with_kw
-import CUDAapi
+# import CUDAapi
 
 ################################################################################
 
-if CUDAapi.has_cuda()
-  # @info "CUDA is on"
-  import CuArrays
-  CuArrays.allowscalar(false)
-end
+# if CUDAapi.has_cuda()
+  # # @info "CUDA is on"
+  # import CuArrays
+  # CuArrays.allowscalar(false)
+# end
 
 ################################################################################
 

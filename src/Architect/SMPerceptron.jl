@@ -3,15 +3,15 @@
 import Flux.Data: DataLoader
 import Flux: onehotbatch, onecold, logitcrossentropy, throttle, @epochs
 import Parameters: @with_kw
-import CUDAapi
+# import CUDAapi
 
 ################################################################################
 
-if CUDAapi.has_cuda()
-  @info "CUDA is on"
-  import CuArrays
-  CuArrays.allowscalar(false)
-end
+# if CUDAapi.has_cuda()
+  # @info "CUDA is on"
+  # import CuArrays
+  # CuArrays.allowscalar(false)
+# end
 
 ################################################################################
 
