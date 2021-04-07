@@ -26,10 +26,10 @@ Data loader to neural network trainer
 function loadData(dataAr, labelAr, args; shuffle = false)
 
   # one-hot-encode the labels
-  labelAr = FLux.onehotbatch(labelAr, args.labels)
+  labelAr = Flux.onehotbatch(labelAr, args.labels)
 
   # batching
-  dataAr = Flux.Data.DataLoader(dataAr, labelAr, batchsize = args.batchsize, shuffle = shuffle)
+  dataAr = Flux.Data.DataLoader((dataAr, labelAr), batchsize = args.batchsize, shuffle = shuffle)
 
   return dataAr
 end
