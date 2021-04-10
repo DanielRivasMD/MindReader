@@ -8,6 +8,7 @@ import Parameters: @with_kw
   epochs::Int = 10                                # number of epochs
   batchsize::Int = 1000                           # batch size for training
   throttle::Int = 5                               # throttle timeout
+  labels::Array{Int64, 1} = 0:7                   # training labels three-column annotation
   device::Function = gpu                          # set as gpu, if gpu available
 end
 
@@ -20,6 +21,7 @@ using Flux
 #  declare tool directories
 begin
   utilDir    = "Utilities/"
+  annotDir   = "Annotator/"
   signalDir  = "SignalProcessing/"
   arqDir     = "Architect/"
   hmmDir     = "HiddenMarkovModel/"
@@ -36,15 +38,15 @@ begin
   include( string(utilDir,    "fileReaderEDF.jl") )
   include( string(utilDir,    "electrodeID.jl") )
   include( string(utilDir,    "stateStats.jl") )
-  include( string(utilDir,    "fileReaderXLSX.jl") )
-  include( string(utilDir,    "annotationCalibrator.jl") )
+  include( string(annotDir,   "fileReaderXLSX.jl") )
+  include( string(annotDir,   "annotationCalibrator.jl") )
   include( string(signalDir,  "signalBin.jl") )
   include( string(signalDir,  "fastFourierTransform.jl") )
   include( string(hmmDir,     "hiddenMarkovModel.jl") )
   include( string(arqDir,     "architect.jl") )
   include( string(arqDir,     "shapeShifter.jl") )
   include( string(arqDir,     "autoencoder.jl") )
-  # include( string(arqDir,     "SMPerceptron.jl") )
+  include( string(arqDir,     "SMPerceptron.jl") )
   include( string(graphDir,   "statesHeatMap.jl") )
   include( string(utilDir,    "screening.jl") )
   include( string(utilDir,    "permutations.jl") )
@@ -85,6 +87,9 @@ for file in listFiles
       binSize = winBin,
       binOverlap = overlap
     )
+
+    # label encoding
+    labelAr = labelParser(labelAr)
 
     # concatenate labels
     if labSw
