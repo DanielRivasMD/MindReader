@@ -118,7 +118,13 @@ end
 
 ################################################################################
 
-#  TODO: build & train neural network
+for (k, v) in elecDc
+  println()
+  @info k
+  println()
+  model = buildPerceptron(size(v[1], 1), relu, Params)
+  model = modelTrain(v, annotAr, model, Params)
+end
 
 ################################################################################
 
