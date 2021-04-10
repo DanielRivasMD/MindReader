@@ -86,3 +86,23 @@ function annotationCalibrator(xDf; startTime::Time, recordFreq::Array{Int16, 1},
 end
 
 ################################################################################
+
+"""
+
+    labelParser(lbAr)
+
+Parse three-column array into binary encoding
+
+"""
+function labelParser(lbAr::Matrix{Int64})
+  @info "Parsing annotations..."
+  lbSz = size(lbAr, 1)
+  tmpAr = Array{String}(undef, lbSz, 1)
+  for ix in 1:lbSz
+    tmpAr[ix, 1] = string(lbAr[ix,  1], lbAr[ix, 2], lbAr[ix, 3], )
+  end
+  outAr = parse.(Int64, tmpAr, base = 2)
+  return outAr
+ end
+
+################################################################################
