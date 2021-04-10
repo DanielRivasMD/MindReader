@@ -14,7 +14,7 @@ function buildDeepRecurrentAutoencoder(inputLayer::Integer, compressedLayer::Int
     Flux.LSTM(compressedLayer, convert(Int64, inputLayer - 60)),
     Flux.LSTM(convert(Int64, inputLayer - 60), convert(Int64, inputLayer - 40)),
     Flux.LSTM(convert(Int64, inputLayer - 40), convert(Int64, inputLayer - 20)),
-    Flux.Dense(convert(Int64, inputLayer - 20), inputLayer, σ),
+    Flux.LSTM(convert(Int64, inputLayer - 20), inputLayer),
   )
 end
 
@@ -189,11 +189,11 @@ end
 # two-layered perceptron
 """
 
-    buildPerceptron(inputLayer, perceptronLayer1, perceptronLayer2, σ)
+    buildPerceptron(inputLayer, Params, σ)
 
 Build a two-layered simple perceptron
 
-#Arguments
+# Arguments
 `inputLayer` number of neurons on input
 
 `σ` layer identity
@@ -201,7 +201,7 @@ Build a two-layered simple perceptron
 arguments passed as `Params` with `Parameters::@with_kw`
 
 """
-function buildPerceptron(inputLayer::Integer, Params, σ, )
+function buildPerceptron(inputLayer::Integer, σ, Params, )
   args = Params()
 
   @info("Building two-layered simple perceptron...")
@@ -215,11 +215,11 @@ end
 # three-layered perceptron
 """
 
-    buildPerceptron(inputLayer, perceptronLayer1, perceptronLayer2, σ)
+    buildPerceptron(inputLayer, perceptronLayer1, Params, σ)
 
 Build a three-layered simple perceptron
 
-#Arguments
+# Arguments
 `inputLayer` number of neurons on input
 
 `perceptronLayer1` number of neurons on first perceptron layer
@@ -229,7 +229,7 @@ Build a three-layered simple perceptron
 arguments passed as `Params` with `Parameters::@with_kw`
 
 """
-function buildPerceptron(inputLayer::Integer, perceptronLayer1::Integer, Params, σ, )
+function buildPerceptron(inputLayer::Integer, perceptronLayer1::Integer, σ, Params, )
   args = Params()
 
   @info("Building three-layered simple perceptron...")
@@ -244,11 +244,11 @@ end
 # four-layered perceptron
 """
 
-    buildPerceptron(inputLayer, perceptronLayer1, perceptronLayer2, perceptronLayer3, σ)
+    buildPerceptron(inputLayer, perceptronLayer1, perceptronLayer2, Params, σ)
 
 Build a four-layered simple perceptron
 
-#Arguments
+# Arguments
 `inputLayer` number of neurons on input
 
 `perceptronLayer1` number of neurons on first perceptron layer
@@ -257,8 +257,10 @@ Build a four-layered simple perceptron
 
 `σ` layer identity
 
+arguments passed as `Params` with `Parameters::@with_kw`
+
 """
-function buildPerceptron(inputLayer::Integer, perceptronLayer1::Integer, perceptronLayer2::Integer, Params, σ, )
+function buildPerceptron(inputLayer::Integer, perceptronLayer1::Integer, perceptronLayer2::Integer, σ, Params, )
   args = Params()
 
   @info("Building four-layered simple perceptron...")
@@ -274,11 +276,11 @@ end
 # five-layered perceptron
 """
 
-    buildPerceptron(inputLayer, perceptronLayer1, perceptronLayer2, perceptronLayer3, perceptronLayer4, σ)
+    buildPerceptron(inputLayer, perceptronLayer1, perceptronLayer2, perceptronLayer3, Params, σ)
 
 Build a five-layered simple perceptron
 
-#Arguments
+# Arguments
 `inputLayer` number of neurons on input
 
 `perceptronLayer1` number of neurons on first perceptron layer
@@ -292,7 +294,7 @@ Build a five-layered simple perceptron
 arguments passed as `Params` with `Parameters::@with_kw`
 
 """
-function buildPerceptron(inputLayer::Integer, perceptronLayer1::Integer, perceptronLayer2::Integer, perceptronLayer3::Integer, Params, σ, )
+function buildPerceptron(inputLayer::Integer, perceptronLayer1::Integer, perceptronLayer2::Integer, perceptronLayer3::Integer, σ, Params, )
   args = Params()
 
   @info("Building five-layered simple perceptron...")
