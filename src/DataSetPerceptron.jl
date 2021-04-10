@@ -63,7 +63,7 @@ listFiles = listFiles[1:3]
 winBin = 128
 overlap = 4
 
-annotAr = Array{Int64, 2}(undef, 0, 0)
+annotAr = Array
 
 labSw = true
 for file in listFiles
@@ -123,7 +123,7 @@ for (k, v) in elecDc
   @info k
   println()
   model = buildPerceptron(size(v[1], 1), relu, Params)
-  model = modelTrain(v, annotAr, model, Params)
+  model = modelTrain(reshifter(v), annotAr, model, Params)
 end
 
 ################################################################################

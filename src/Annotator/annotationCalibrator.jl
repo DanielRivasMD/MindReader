@@ -102,6 +102,7 @@ function labelParser(lbAr::Matrix{Int64})
     tmpAr[ix, 1] = string(lbAr[ix,  1], lbAr[ix, 2], lbAr[ix, 3], )
   end
   outAr = parse.(Int64, tmpAr, base = 2)
+  outAr = reshape(outAr, (size(outAr, 1), ))
   return outAr
  end
 

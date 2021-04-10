@@ -91,6 +91,7 @@ function modelTrain(inputAr, labelAr, model, Params)
   args = Params()
 
   @info("Loading data...")
+  inputAr = Flux.flatten(inputAr)
   trainAr = loadData(inputAr, labelAr, args, shuffle = true)
   trainAr = args.device.(trainAr)
 
