@@ -27,6 +27,9 @@ include( "Utilities/argParser.jl" );
 
 ################################################################################
 
+#  function main(file::String; outdir = "./", fftBin = 16, winBin = 128, overlap = 4)
+
+################################################################################
 
 #  declare tool directories
 begin
@@ -64,76 +67,131 @@ end;
 
 ################################################################################
 
+#  read data
+begin
+  # read edf file
+  edfDf, startTime, recordFreq = getSignals(file)
+
+  # # read xlsx file
+  # xfile = replace(file, "edf" => "xlsx")
+  # xDf = xread(xfile)
+
+  # # labels array
+  # labelAr = annotationCalibrator(
+    # xDf,
+    # startTime = startTime,
+    # recordFreq = recordFreq,
+    # signalLength = size(edfDf, 1),
+    # binSize = winBin,
+    # binOverlap = overlap
+  # )
+
+  # calculate fft
+  freqDc = extractChannelFFT(edfDf, binSize = winBin, binOverlap = overlap)
+end;
 
 ################################################################################
 
-# read edf file
-edfDf, startTime, recordFreq = getSignals(file)
-
-# calculate fft
-freqDc = extractChannelFFT(edfDf, binSize = winBin, binOverlap = overlap)
-
-################################################################################
-
-for d in [Symbol(i, "Dc") for i = [:err, :post, :comp]]
-  @eval $d = Dict{String, Tuple{Array{Int64, 1}, Array{Array{Float64, 1}, 1}}}()
-end
-
-for (k, f) in freqDc
-  println()
-  @info k
-  #  build & train autoencoder
-  freqAr = shifter(f)
-  model = buildDeepRecurrentAutoencoder(length(freqAr[1]), 100, leakyrelu)
-  # model = buildRecurrentAutoencoder(length(freqAr[1]), 100, leakyrelu)
-  # model = buildAutoencoder(length(freqAr[1]), 100, leakyrelu)
-  model = modelTrain(freqAr, model, Params)
-
-  ################################################################################
-
-  #  # post
-  postAr = cpu(model).(freqAr)
-  #  aPos = reshifter(postAr) |> p -> Flux.flatten(p)
-  #
-  #  # setup
-  #  mPen, hmm = setup(aPos)
-  #  # process
-  #  for i in 1:5
-  #    postDc[k] = process(hmm, aPos, mPen)
-  #  end
-
-  ################################################################################
-
-  # error
-  aErr = reshifter(postAr - freqAr) |> p -> Flux.flatten(p)
-
-  # setup
-  mPen, hmm = setup(aErr)
-  # process
-  for i in 1:5
-    errDc[k] = process(hmm, aErr, mPen)
+# build autoencoder & train hidden Markov model
+begin
+  for d in [Symbol(i, "Dc") for i = [:err, :post, :comp]]
+    @eval $d = Dict{String, Tuple{Array{Int64, 1}, Array{Array{Float64, 1}, 1}}}()
   end
 
+  # TODO: check errors. Array
+  # ssDc = Dict()
+  for (k, f) in freqDc
+    println()
+    @info k
+    # ssDc[k] = Dict()
 
-  #  # compressed
-  #  compAr = cpu(model[1]).(freqAr)
-  #  aComp = reshifter(compAr, length(compAr[1])) |> p -> Flux.flatten(p)
-  #
-  #  # setup
-  #  mPen, hmm = setup(aComp)
-  #  # process
-  #  for i in 1:5
-  #    compDc[k] = process(hmm, aComp, mPen)
-  #  end
-  #
+    #  build & train autoencoder
+    freqAr = shifter(f)
+    # model = buildDeepRecurrentAutoencoder(length(freqAr[1]), 100, leakyrelu)
+    # model = buildRecurrentAutoencoder(length(freqAr[1]), 100, leakyrelu)
+    model = buildAutoencoder(length(freqAr[1]), 100, leakyrelu)
+    model = modelTrain(freqAr, model, Params)
 
-  ################################################################################
+    ################################################################################
 
-end
+    #  # post
+    postAr = cpu(model).(freqAr)
+    #  aPos = reshifter(postAr) |> p -> Flux.flatten(p)
+    #
+    #  # setup
+    #  mPen, hmm = setup(aPos)
+    #  # process
+    #  for i in 1:5
+    #    postDc[k] = process(hmm, aPos, mPen)
+    #  end
+    #
+    #  # # calculate sensitivity & specificity
+    #  # ssDc[k]['P'] = sensspec(postDc[k][1], labelAr)
+
+    ################################################################################
+
+    # error
+    aErr = reshifter(postAr - freqAr) |> p -> Flux.flatten(p)
+
+    # setup
+    mPen, hmm = setup(aErr)
+    # process
+    for i in 1:5
+      errDc[k] = process(hmm, aErr, mPen)
+    end
+
+    # # calculate sensitivity & specificity
+    # ssDc[k]['E'] = sensspec(errDc[k][1], labelAr)
+
+    ################################################################################
+
+    #  # compressed
+    #  compAr = cpu(model[1]).(freqAr)
+    #  aComp = reshifter(compAr, length(compAr[1])) |> p -> Flux.flatten(p)
+    #
+    #  # setup
+    #  mPen, hmm = setup(aComp)
+    #  # process
+    #  for i in 1:5
+    #    compDc[k] = process(hmm, aComp, mPen)
+    #  end
+    #
+    #  # # calculate sensitivity & specificity
+    #  # ssDc[k]['C'] = sensspec(compDc[k][1], labelAr)
+
+    ################################################################################
+
+  end
+end;
+
+################################################################################
+
+# scree = sensspec(errDc, labelAr)
+# permut = rdPerm(errDc, labelAr, weighted = false)
+# perWeg = rdPerm(errDc, labelAr, weighted = true)
+
+# function toArray(stDc::Dict{String, Array{Float64, 2}})
+  # outAr = Array{Float64, 2}(undef, length(stDc), 2)
+  # ct = 0
+  # for (_, v) in stDc
+    # ct += 1
+    # outAr[ct, :] = v
+  # end
+  # return outAr
+# end
+
+# DelimitedFiles.writedlm(string("screen/", outimg, ".csv"), toArray(scree), ", ")
+# DelimitedFiles.writedlm(string("permutation/U", outimg, ".csv"), toArray(permut), ", ")
+# DelimitedFiles.writedlm(string("permutation/W", outimg, ".csv"), toArray(perWeg), ", ")
 
 ################################################################################
 
 runHeatmap(errDc)
+# runHeatmap(errDc, labelAr)
+
+################################################################################
+
+#  end
 
 ################################################################################
 
