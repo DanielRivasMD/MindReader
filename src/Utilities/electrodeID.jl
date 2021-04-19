@@ -67,6 +67,7 @@ Bipolar = [
 "T7-FT9",
 "FT9-FT10",
 "FT10-T8",
+"T8-P8",
 ]
 
 elecID = [ParasagittalL;
