@@ -68,6 +68,7 @@ annotAr = Array
 labSw = true
 for file in listFiles
 
+  @info file
   file = string("/Users/drivas/Factorem/EEG/data/patientEEG/", file)
   #  read data
   begin
@@ -93,8 +94,8 @@ for file in listFiles
 
     # concatenate labels
     if labSw
-      annotAr = copy(labelAr)
-      labSw = false
+      global annotAr = copy(labelAr)
+      global labSw = false
     else
       annotAr = [annotAr; labelAr]
     end
