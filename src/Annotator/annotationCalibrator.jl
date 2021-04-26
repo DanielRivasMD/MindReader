@@ -17,6 +17,51 @@ function getSeizureFile(annot::String)
   annot |> p -> replace(p, "File Name: " => "") |> p -> replace(p, ".edf" => "")
 end
 
+function annotationCalibrator(summaryFile::String)
+
+  annotDc = Dict{String, Vector{Tuple{String, String}}}()
+  lastFile = ""
+  startTime = ""
+  endTime = ""
+  timeVc = [(startTime, endTime)]
+  sno = 0
+  fl = false
+  sw = false
+
+  open(summaryFile) do f
+    line = 0
+
+    while !eof(f)
+
+      line += 1
+      z = readline(f)
+      if contains(z, "File Name")
+        lastFile = getSeizureFile(z)
+        fl = true
+      elseif contains(z, "Number of Seizures")
+        sno = getSeizureNo(z)
+      elseif contains(z, "Seizure") & contains(z, "Start Time")
+        startTime = getSeizureSec(z)
+      elseif contains(z, "Seizure") & contains(z, "End Time")
+        endTime = getSeizureSec(z)
+        push!(timeVc, (startTime, endTime))
+        if length(timeVc) == sno + 1
+          sw = true
+        end
+      end
+
+      if fl & sw
+        sw = false
+        annotDc[lastFile] = timeVc[2:end]
+        timeVc = [(startTime, endTime)]
+      end
+
+    end
+  end
+
+  return annotDc
+end
+
 """
 
     annotationCalibrator(xDf;
