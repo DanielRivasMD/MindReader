@@ -5,6 +5,17 @@ using Dates
 
 ################################################################################
 
+function getSeizureSec(annot::String)
+  annot |> p -> findfirst(':', p) |> p -> getindex(annot, p + 2:length(annot)) |> p -> replace(p, " seconds" => "")
+end
+
+function getSeizureNo(annot::String)
+  annot |> p -> replace(p, "Number of Seizures in File: " => "") |> p -> parse(Int64, p)
+end
+
+function getSeizureFile(annot::String)
+  annot |> p -> replace(p, "File Name: " => "") |> p -> replace(p, ".edf" => "")
+end
 
 """
 
