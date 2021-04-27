@@ -6,7 +6,7 @@ using Dates
 ################################################################################
 
 function getSeizureSec(annot::String)
-  annot |> p -> findfirst(':', p) |> p -> getindex(annot, p + 2:length(annot)) |> p -> replace(p, " seconds" => "")
+  annot |> p -> findfirst(':', p) |> p -> getindex(annot, p + 2:length(annot)) |> p -> replace(p, " seconds" => "") |> Second
 end
 
 function getSeizureNo(annot::String)
@@ -19,10 +19,10 @@ end
 
 function annotationCalibrator(summaryFile::String)
 
-  annotDc = Dict{String, Vector{Tuple{String, String}}}()
+  annotDc = Dict{String, Vector{Tuple{Second, Second}}}()
   lastFile = ""
-  startTime = ""
-  endTime = ""
+  startTime = Second(0)
+  endTime = Second(0)
   timeVc = [(startTime, endTime)]
   sno = 0
   fl = false
