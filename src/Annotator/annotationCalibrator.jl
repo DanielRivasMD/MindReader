@@ -62,6 +62,59 @@ function annotationCalibrator(summaryFile::String)
   return annotDc
 end
 
+
+"""
+    annotationCalibrator(annotations;
+    startTime, recordFreq, signalLength, binSize, binOverlap)
+
+Input annotations from summary file [physionet]
+
+# Arguments
+`annotations` annotations summary [physionet]
+
+`startTime` signal start time
+
+`recordFreq` recording frecuency
+
+`signalLength` recording length
+
+`binSize` window bin size
+
+`binOverlap` overlap
+
+"""
+function annotationCalibrator(annotations::Vector{Tuple{Second, Second}}; startTime::Time, recordFreq::Array{Int16, 1}, signalLength::Int64, binSize::Int64, binOverlap::Int64)
+  @info "Calibrating annotations..."
+  # collect recording frecuency
+  recFreq = begin
+    recAv = (sum(recordFreq)) / (length(recordFreq))
+    recAv |> p -> convert(Int64, p)
+  end
+
+  # generate signal holder
+  signalVec = zeros(signalLength)
+
+  # collect annotations
+  for an in annotations
+    emSt = an[1].value * recFreq
+    emEn = (an[2].value * recFreq) + recFreq
+    signalVec[emSt:emEn, :] .= 1
+  end
+
+  # binned signal
+  binVec = begin
+    binVec = extractChannelSignalBin(signalVec, binSize = binSize, binOverlap = binOverlap)
+    binVec = sum(binVec, dims = 2)
+    replace!(r -> r >= 1 ? 1 : 0, binVec)
+    binVec = convert.(Int64, binVec)
+    binVec[:, 1]
+  end
+
+  return binVec
+end
+
+################################################################################
+
 """
 
     annotationCalibrator(xDf;
