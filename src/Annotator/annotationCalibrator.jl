@@ -5,19 +5,29 @@ using Dates
 
 ################################################################################
 
+"obtain seizure time [physionet]"
 function getSeizureSec(annot::String)
   annot |> p -> findfirst(':', p) |> p -> getindex(annot, p + 2:length(annot)) |> p -> replace(p, " seconds" => "") |> Second
 end
 
+"obtain number seizure events [physionet]"
 function getSeizureNo(annot::String)
   annot |> p -> replace(p, "Number of Seizures in File: " => "") |> p -> parse(Int64, p)
 end
 
+"obtain file name [physionet]"
 function getSeizureFile(annot::String)
   annot |> p -> replace(p, "File Name: " => "") |> p -> replace(p, ".edf" => "")
 end
 
-function annotationCalibrator(summaryFile::String)
+"""
+
+    annotationReader(summaryFile)
+
+Input
+
+"""
+function annotationReader(summaryFile::String)
 
   annotDc = Dict{String, Vector{Tuple{Second, Second}}}()
   lastFile = ""
@@ -62,6 +72,7 @@ function annotationCalibrator(summaryFile::String)
   return annotDc
 end
 
+################################################################################
 
 """
     annotationCalibrator(annotations;
@@ -120,7 +131,7 @@ end
     annotationCalibrator(xDf;
     startTime, recordFreq, signalLength, binSize = 256, binOverlap = 8)
 
-Input annotations from XLSX and incorporates them to neural network for training
+Input annotations from XLSX
 
 # Arguments
 `xDf` annotations from XLSX file
