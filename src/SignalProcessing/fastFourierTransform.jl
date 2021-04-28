@@ -9,12 +9,12 @@ import Flux
 """
 
     extractChannelFFT(channel;
-    binSize = 256, binOverlap = 2)
+    binSize, binOverlap)
 
 Apply fast fourier transform (FFT) to channel
 
 """
-function extractChannelFFT(channel; binSize = 256, binOverlap = 2)
+function extractChannelFFT(channel; binSize, binOverlap)
   # define variables
   stepSize = floor(Int32, binSize / binOverlap)
   signalSteps = 1:stepSize:length(channel)
@@ -60,12 +60,12 @@ end
 """
 
     extractChannelFFT(edfDf, electrodeID;
-    binSize = 256, binOverlap = 2)
+    binSize, binOverlap)
 
 Use extractChannelFFT on EDF file per channel
 
 """
-function extractChannelFFT(edfDf::DataFrames.DataFrame; binSize::Int64 = 256, binOverlap::Int64 = 2)
+function extractChannelFFT(edfDf::DataFrames.DataFrame; binSize::Int64, binOverlap::Int64)
   @info "Extracting channels frecuencies..."
   channelDc = Dict()
   freqAr = begin
@@ -95,12 +95,12 @@ end
 """
 
     extractFFT(edfDf;
-    binSize = 256, binOverlap = 2)
+    binSize, binOverlap)
 
 Use extractChannelFFT on EDF file
 
 """
-function extractFFT(edfDf::DataFrames.DataFrame; binSize = 256, binOverlap = 2)
+function extractFFT(edfDf::DataFrames.DataFrame; binSize, binOverlap)
   @info("Extracting frecuencies...")
   freqAr = begin
     stepSize = floor(Int32, binSize / binOverlap)
@@ -128,12 +128,12 @@ end
 """
 
     binChannelFFT(freqAr;
-    fftBin = 16)
+    fftBin)
 
 Bin FFT signals and collect sums
 
 """
-function binChannelFFT(freqAr::Array{Float64, 3}; fftBin::Int64 = 16)
+function binChannelFFT(freqAr::Array{Float64, 3}; fftBin::Int64)
   freqAr = Flux.flatten(freqAr)
   # if size(freqAr, 1) / fftBin != 0
   #   @error "Cannot compute binning. Array size is not divisible by bin size"

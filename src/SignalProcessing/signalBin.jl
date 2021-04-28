@@ -7,12 +7,12 @@ import DataFrames
 """
 
     extractChannelSignalBin(channel;
-    binSize = 256, binOverlap = 8)
+    binSize, binOverlap)
 
 Bins channel signal
 
 """
-function extractChannelSignalBin(channel::Array; binSize::Int64 = 256, binOverlap::Int64 = 8)
+function extractChannelSignalBin(channel::Array; binSize::Int64, binOverlap::Int64)
   # define variables
   stepSize = floor(Int64, binSize / binOverlap)
   signalSteps = 1:stepSize:length(channel)
@@ -47,12 +47,12 @@ end
 """
 
     extractChannelSignalBin(edfDf, electrodeID;
-    binSize = 256, binOverlap = 8)
+    binSize, binOverlap)
 
 Use extractChannelSignalBin on EDF file per channel
 
 """
-function extractChannelSignalBin(edfDf::DataFrames.DataFrame, electrodeID; binSize::Int64 = 256, binOverlap::Int64 = 8)
+function extractChannelSignalBin(edfDf::DataFrames.DataFrame; binSize::Int64, binOverlap::Int64)
   @info("Binning channels signals...")
   channelDc = Dict()
   signalAr = begin
@@ -67,7 +67,7 @@ function extractChannelSignalBin(edfDf::DataFrames.DataFrame, electrodeID; binSi
   end
 
   # iterate on dataframe channels
-  for (chl, elec) in enumerate(electrodeID)
+  for (chl, elec) in enumerate(names(edfDf))
     tmpAr = extractChannelSignalBin(edfDf[:, chl], binSize = binSize, binOverlap = binOverlap)
     for bn in 1:size(tmpAr, 1)
       signalAr[:, :, bn] = tmpAr[bn, :]
@@ -82,12 +82,12 @@ end
 """
 
     extractSignalBin(edfDf;
-    binSize = 256, binOverlap = 8)
+    binSize, binOverlap)
 
 Use extractChannelSignalBin on EDF file
 
 """
-function extractSignalBin(edfDf::DataFrames.DataFrame; binSize::Int64 = 256, binOverlap::Int64 = 8)
+function extractSignalBin(edfDf::DataFrames.DataFrame; binSize::Int64, binOverlap::Int64)
   @info("Binning signals...")
   signalAr = begin
     stepSize = floor(Int64, binSize / binOverlap)
