@@ -4,7 +4,7 @@ import Flux
 
 ################################################################################
 
-function buildDeepRecurrentAutoencoder(inputLayer::Integer, compressedLayer::Integer, σ, )
+function buildDeepRecurrentAutoencoder(inputLayer::Integer, compressedLayer::Integer, σ)
   @info("Building deep recurrent autoencoder...")
   return Flux.Chain(
     Flux.LSTM(inputLayer, convert(Int64, inputLayer - 20)),
@@ -22,7 +22,7 @@ end
 # three-layered autoencoder
 """
 
-    buildAutoencoder(inputLayer, compressedLayer, σ, )
+    buildAutoencoder(inputLayer, compressedLayer, σ)
 
 Build a three-layered autoencoder
 
@@ -34,7 +34,7 @@ Build a three-layered autoencoder
 `σ` layer identity
 
 """
-function buildAutoencoder(inputLayer::Integer, compressedLayer::Integer, σ, )
+function buildAutoencoder(inputLayer::Integer, compressedLayer::Integer, σ)
   @info("Building three-layered autoencoder...")
   return Flux.Chain(
     Flux.Dense(inputLayer, compressedLayer, σ),
@@ -47,7 +47,7 @@ end
 # four-layered assymetrical autoencoder
 """
 
-    buildAssymmetricalAutoencoder(inputLayer, assymetricalLayer1, assymetricalLayer2, σ, )
+    buildAssymmetricalAutoencoder(inputLayer, assymetricalLayer1, assymetricalLayer2, σ)
 
 Build a four-layered assymetrical autoencoder
 
@@ -61,7 +61,7 @@ Build a four-layered assymetrical autoencoder
 `σ` layer identity
 
 """
-function buildAssymmetricalAutoencoder(inputLayer::Integer, assymetricalLayer1::Integer, assymetricalLayer2::Integer, σ, )
+function buildAssymmetricalAutoencoder(inputLayer::Integer, assymetricalLayer1::Integer, assymetricalLayer2::Integer, σ)
   @info("Building four-layered assymetrical autoencoder...")
   return Flux.Chain(
     Flux.Dense(inputLayer, assymetricalLayer1, σ),
@@ -75,7 +75,7 @@ end
 # three-layered recurrent autoencoder
 """
 
-    buildRecurrentAutoencoder(inputLayer, compressedLayer, σ, )
+    buildRecurrentAutoencoder(inputLayer, compressedLayer, σ)
 
 Build a three-layered recurrent autoencoder
 
@@ -87,7 +87,7 @@ Build a three-layered recurrent autoencoder
 `σ` layer identity
 
 """
-function buildRecurrentAutoencoder(inputLayer::Integer, compressedLayer::Integer, σ, )
+function buildRecurrentAutoencoder(inputLayer::Integer, compressedLayer::Integer, σ)
   @info("Building three-layered recurrent autoencoder...")
   return Flux.Chain(
     Flux.LSTM(inputLayer, compressedLayer),
@@ -100,7 +100,7 @@ end
 # five-layered autoencoder
 """
 
-    buildAutoencoder(inputLayer, innerLayer1, compressedLayer, σ, )
+    buildAutoencoder(inputLayer, innerLayer1, compressedLayer, σ)
 
 Build a five-layered autoencoder
 
@@ -114,7 +114,7 @@ Build a five-layered autoencoder
 `σ` layer identity
 
 """
-function buildAutoencoder(inputLayer::Integer, innerLayer1::Integer, compressedLayer::Integer, σ, )
+function buildAutoencoder(inputLayer::Integer, innerLayer1::Integer, compressedLayer::Integer, σ)
   @info("Building five-layered autoencoder...")
   return Flux.Chain(
     Flux.Dense(inputLayer, innerLayer1, σ),
@@ -129,7 +129,7 @@ end
 # five-layered assymetrical autoencoder
 """
 
-    buildAssymmetricalAutoencoder(inputLayer, innerLayer1, compressedLayer, σ, )
+    buildAssymmetricalAutoencoder(inputLayer, innerLayer1, compressedLayer, σ)
 
 Build a five-layered assymetrical autoencoder
 
@@ -145,7 +145,7 @@ Build a five-layered assymetrical autoencoder
 `σ` layer identity
 
 """
-function buildAssymmetricalAutoencoder(inputLayer::Integer, assymetricalLayer1::Integer, assymetricalLayer2::Integer, assymetricalLayer3::Integer, σ, )
+function buildAssymmetricalAutoencoder(inputLayer::Integer, assymetricalLayer1::Integer, assymetricalLayer2::Integer, assymetricalLayer3::Integer, σ)
   @info("Building five-layered autoencoder...")
   return Flux.Chain(
     Flux.Dense(inputLayer, assymetricalLayer1, σ),
@@ -160,7 +160,7 @@ end
 # five-layered recurrent autoencoder
 """
 
-    buildRecurrentAutoencoder(inputLayer, innerLayer1, compressedLayer, σ, )
+    buildRecurrentAutoencoder(inputLayer, innerLayer1, compressedLayer, σ)
 
 Build a five-layered recurrent autoencoder
 
@@ -174,7 +174,7 @@ Build a five-layered recurrent autoencoder
 `σ` layer identity
 
 """
-function buildRecurrentAutoencoder(inputLayer::Integer, innerLayer1::Integer, compressedLayer::Integer, σ, )
+function buildRecurrentAutoencoder(inputLayer::Integer, innerLayer1::Integer, compressedLayer::Integer, σ)
   @info("Building five-layered recurrent autoencoder...")
   return Flux.Chain(
     Flux.LSTM(inputLayer, innerLayer1),
@@ -201,7 +201,7 @@ Build a two-layered simple perceptron
 arguments passed as `Params` with `Parameters::@with_kw`
 
 """
-function buildPerceptron(inputLayer::Integer, σ, Params, )
+function buildPerceptron(inputLayer::Integer, Params, σ)
   args = Params()
 
   @info("Building two-layered simple perceptron...")
@@ -229,7 +229,7 @@ Build a three-layered simple perceptron
 arguments passed as `Params` with `Parameters::@with_kw`
 
 """
-function buildPerceptron(inputLayer::Integer, perceptronLayer1::Integer, σ, Params, )
+function buildPerceptron(inputLayer::Integer, perceptronLayer1::Integer, Params, σ)
   args = Params()
 
   @info("Building three-layered simple perceptron...")
@@ -260,7 +260,7 @@ Build a four-layered simple perceptron
 arguments passed as `Params` with `Parameters::@with_kw`
 
 """
-function buildPerceptron(inputLayer::Integer, perceptronLayer1::Integer, perceptronLayer2::Integer, σ, Params, )
+function buildPerceptron(inputLayer::Integer, perceptronLayer1::Integer, perceptronLayer2::Integer, Params, σ)
   args = Params()
 
   @info("Building four-layered simple perceptron...")
@@ -294,7 +294,7 @@ Build a five-layered simple perceptron
 arguments passed as `Params` with `Parameters::@with_kw`
 
 """
-function buildPerceptron(inputLayer::Integer, perceptronLayer1::Integer, perceptronLayer2::Integer, perceptronLayer3::Integer, σ, Params, )
+function buildPerceptron(inputLayer::Integer, perceptronLayer1::Integer, perceptronLayer2::Integer, perceptronLayer3::Integer, Params, σ)
   args = Params()
 
   @info("Building five-layered simple perceptron...")

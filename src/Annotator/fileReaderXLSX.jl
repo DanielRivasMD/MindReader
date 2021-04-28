@@ -11,12 +11,6 @@ import XLSX
 # Description
 Read annotation XLSX file
 
-# Usage
-
-# Example
-```
-```
-
 """
 function xread(xlsxFile::String)
   # read xlsx file

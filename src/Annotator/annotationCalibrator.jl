@@ -20,6 +20,8 @@ function getSeizureFile(annot::String)
   annot |> p -> replace(p, "File Name: " => "") |> p -> replace(p, ".edf" => "")
 end
 
+################################################################################
+
 """
 
     annotationReader(summaryFile)
