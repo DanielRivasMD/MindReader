@@ -5,7 +5,8 @@ import DelimitedFiles
 
 ################################################################################
 
-function runHeatmap(inDc::Dict{String,Tuple{Array{Int64,1},Array{Array{Float64,1},1}}}, )
+""
+function runHeatmap(outimg::String, outsvg::String, outcsv::String, inDc::Dict{String, Tuple{Array{Int64, 1}, Array{Array{Float64, 1}, 1}}})
 
   @info "Plotting..."
   # create array to plot
@@ -13,7 +14,7 @@ function runHeatmap(inDc::Dict{String,Tuple{Array{Int64,1},Array{Array{Float64,1
 
   # collect stats & write
   stats = stateStats(toHeat)
-  DelimitedFiles.writedlm(string("csv/", outimg, ".csv"), stats, ", ") #  hardcoded csv directory
+  DelimitedFiles.writedlm( string(outcsv, outimg, "Raw.csv"), stats, ", " ) #  hardcoded csv directory
   #  DelimitedFiles.writedlm(string(outdir, "/", outimg, ".csv"), stats, ", ")
 
   # # add label tracks
@@ -22,13 +23,14 @@ function runHeatmap(inDc::Dict{String,Tuple{Array{Int64,1},Array{Array{Float64,1
   # end
 
   @info "Rendering..."
-  plotChannelsHeatmap(toHeat)
+  plotChannelsHeatmap(outimg, outsvg, toHeat)
 
 end
 
 ################################################################################
 
-function runHeatmap(inDc::Dict{String,Tuple{Array{Int64,1},Array{Array{Float64,1},1}}}, lbAr::Array{Int64, 2})
+""
+function runHeatmap(outimg::String, outsvg::String, outcsv::String, inDc::Dict{String, Tuple{Array{Int64, 1}, Array{Array{Float64, 1}, 1}}}, lbAr::Array{Int64, 2})
 
   @info "Plotting..."
   # create array to plot
@@ -39,7 +41,7 @@ function runHeatmap(inDc::Dict{String,Tuple{Array{Int64,1},Array{Array{Float64,1
 
   # collect stats & write
   stats = stateStats(toHeat)
-  DelimitedFiles.writedlm(string("csv/", outimg, ".csv"), stats, ", ") #  hardcoded csv directory
+  DelimitedFiles.writedlm( string(outcsv, outimg, "Lab.csv"), stats, ", " ) #  hardcoded csv directory
   #  DelimitedFiles.writedlm(string(outdir, "/", outimg, ".csv"), stats, ", ")
 
   # # add label tracks
@@ -48,14 +50,15 @@ function runHeatmap(inDc::Dict{String,Tuple{Array{Int64,1},Array{Array{Float64,1
   # end
 
   @info "Rendering..."
-  plotChannelsHeatmap(toHeat)
+  plotChannelsHeatmap(outimg, outsvg, toHeat)
 
 end
 
 ################################################################################
 
-function plotChannelsHeatmap(toHeat::Array{Float64, 2}, )
-
+""
+function plotChannelsHeatmap(outimg::String, outsvg::String, toHeat::Array{Float64, 2})
+#  TODO: add channel labels by passing vector to heatmap function
   # plot layout
   plotFig = CairoMakie.Figure()
   heatplot = plotFig[1, 1] = CairoMakie.Axis(plotFig, title = "States Heatmap")
@@ -63,7 +66,7 @@ function plotChannelsHeatmap(toHeat::Array{Float64, 2}, )
   # axis labels
   heatplot.xlabel = "Recording Time"
   heatplot.ylabel = "Channels"
-  heatplot.yticks = 1:22
+  # heatplot.yticks = 1:22
 
   # heatmap plot & color range
   hm = CairoMakie.heatmap!(heatplot, toHeat')
@@ -74,10 +77,10 @@ function plotChannelsHeatmap(toHeat::Array{Float64, 2}, )
   cbar.vertical = false
   cbar.height = 10
   cbar.width = CairoMakie.Relative(2 / 3)
-  cbar.ticks = 0:1:5
+  cbar.ticks = 1:1:5
 
   # save rendering
-  CairoMakie.save(string(outdir, "/", outimg, ".svg"), plotFig, )
+  CairoMakie.save( string(outsvg, outimg, ".svg"), plotFig )
 
 end
 
