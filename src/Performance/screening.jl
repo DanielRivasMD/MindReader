@@ -31,7 +31,7 @@ function sensspec(data_loader, model)
   d = data_loader.data[1] |> model |> onecold
   l = data_loader.data[2] |> onecold
 
-  outNamedArray = [( d[l .== 2] |> freqtable |> reverse ) ( d[l .== 1] |> freqtable |> reverse )]
+  outNamedArray = [( d[l .== 2] |> freqtable |> p -> sort(p, rev = true)) ( d[l .== 1] |> freqtable |> reverse )]
   if size(outNamedArray, 1) == 1
     added = copy(outNamedArray)
     NamedArrays.setnames!(added, [2], 1)
@@ -57,8 +57,8 @@ function sensspec(tbVc::Array{Int64, 1}, labelVec::Array{Int64, 2})
   tbVec[findall(tbVec .> 1)] .= 2
   tbVec[findall(tbVec .== 1)] .= 1
   # adjust & concatenate frecuency tables
-  positives = tbVec[labelVec[:, 1] .== 1] |> freqtable |> reverse |> stFreqTb
-  negatives = tbVec[labelVec[:, 1] .== 0] |> freqtable |> reverse |> stFreqTb
+  positives = tbVec[labelVec[:, 1] .== 1] |> freqtable |> p -> sort(p, rev = true) |> stFreqTb
+  negatives = tbVec[labelVec[:, 1] .== 0] |> freqtable |> p -> sort(p, rev = true) |> stFreqTb
   outNamedArray = [positives negatives]
   return ss(outNamedArray)
 end
