@@ -1,6 +1,7 @@
 ################################################################################
 
 module MindReader
+#  TODO: update function docs & purge for MindReader
 
 ################################################################################
 
@@ -13,12 +14,12 @@ import Parameters: @with_kw
 
 # set hyperparameters
 @with_kw mutable struct Params
-  η::Float64 = 1e-3                               # learning rate
-  epochs::Int = 10                                # number of epochs
-  batchsize::Int = 1000                           # batch size for training
-  throttle::Int = 5                               # throttle timeout
-  device::Function = gpu                          # set as gpu, if gpu available
-end
+  η::Float64                   = 1e-3     # learning rate
+  epochs::Int                  = 10       # number of epochs
+  batchsize::Int               = 1000     # batch size for training
+  throttle::Int                = 5        # throttle timeout
+  device::Function             = gpu      # set as gpu, if gpu available
+end;
 
 ################################################################################
 
@@ -27,13 +28,14 @@ include( "Utilities/argParser.jl" );
 
 ################################################################################
 
-#  function main(file::String; outdir = "./", fftBin = 16, winBin = 128, overlap = 4)
+#  function main()
 
 ################################################################################
 
 #  declare tool directories
 begin
   utilDir    = "Utilities/"
+  montageDir = "Montage/"
   annotDir   = "Annotator/"
   signalDir  = "SignalProcessing/"
   arqDir     = "Architect/"
@@ -41,6 +43,7 @@ begin
   pcaDir     = "PrincipalComponentAnalysis/"
   imgDir     = "ImageProcessing/"
   graphDir   = "Graphics/"
+  performDir = "Performance/"
 end;
 
 ################################################################################
@@ -49,8 +52,8 @@ end;
 begin
   @info("Loading modules...")
   include( string(utilDir,    "fileReaderEDF.jl") )
-  include( string(utilDir,    "electrodeID.jl") )
-  include( string(utilDir,    "stateStats.jl") )
+  include( string(montageDir, "electrodeID.jl") )
+  include( string(performDir, "stateStats.jl") )
   include( string(annotDir,   "fileReaderXLSX.jl") )
   include( string(annotDir,   "annotationCalibrator.jl") )
   include( string(signalDir,  "signalBin.jl") )
@@ -61,8 +64,8 @@ begin
   include( string(arqDir,     "autoencoder.jl") )
   # include( string(arqDir,     "SMPerceptron.jl") )
   include( string(graphDir,   "statesHeatMap.jl") )
-  include( string(utilDir,    "screening.jl") )
-  include( string(utilDir,    "permutations.jl") )
+  include( string(performDir, "screening.jl") )
+  include( string(performDir, "permutations.jl") )
 end;
 
 ################################################################################
