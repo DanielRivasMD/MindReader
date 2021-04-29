@@ -30,7 +30,7 @@ end
 ################################################################################
 
 ""
-function runHeatmap(outimg::String, outsvg::String, outcsv::String, inDc::Dict{String, Tuple{Array{Int64, 1}, Array{Array{Float64, 1}, 1}}}, lbAr::Array{Int64, 2})
+function runHeatmap(outimg::String, outsvg::String, outcsv::String, inDc::Dict{String, Tuple{Array{Int64, 1}, Array{Array{Float64, 1}, 1}}}, lbAr::Vector{Int64})
 
   @info "Plotting..."
   # create array to plot
