@@ -47,9 +47,19 @@ function sensspec(data_loader, model)
 function convertFqDf(fq::NamedVector{Int64, Vector{Int64}, Tuple{OrderedDict{Int64, Int64}}}; colnames::Vector{String} = ["Value", "Frecuency"])
   return DataFrames.DataFrame([names(fq)[1] fq.array], colnames)
 end
-  end
-  return ss(outNamedArray)
 
+"transform freqtable => dataframe template"
+function convertFqDfTempl(fq::NamedVector{Int64, Vector{Int64}, Tuple{OrderedDict{Int64, Int64}}}; colnames::Vector{String} = ["Value", "Frecuency"], templ::Vector{Int64})
+
+  fq = convertFqDf(fq)
+
+  outDf = DataFrames.DataFrame([templ zeros(Int64, length(templ))], colnames)
+
+  for ix in 1:size(fq, 1)
+    outDf[findall(fq[ix, 1] .== outDf[:, 1]), 2] .= fq[ix, 2]
+  end
+
+  return outDf
 end
 
 ################################################################################
