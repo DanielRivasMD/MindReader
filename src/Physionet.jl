@@ -209,28 +209,31 @@ for file in fileList
 
   if haskey(annotFile, outimg)
 
-    scree = sensspec(errDc, labelAr)
+    scr = sensspec(errDc, labelAr)
 
     # permut = rdPerm(errDc, labelAr, weighted = false)
     # perWeg = rdPerm(errDc, labelAr, weighted = true)
 
-    # function toArray(stDc::Dict{String, Array{Float64, 2}})
-      # outAr = Array{Float64, 2}(undef, length(stDc), 2)
-      # ct = 0
-      # for (_, v) in stDc
-        # ct += 1
-        # outAr[ct, :] = v
-      # end
-      # return outAr
-    # end
+    function toArray(stDc::Dict{String, Array{Float64, 2}})
+      outAr = Array{Any, 2}(undef, length(stDc) + 1, 3)
+      ct = 1
+      outAr[1, :] .= ["Electrode", "Sensitivity", "Specificity"]
+      for (k, v) in stDc
+        ct += 1
+        outAr[ct, :] = [k v]
+      end
+      return outAr
+    end
 
-    DelimitedFiles.writedlm( string(outscreen, outimg, ".csv"), toArray(scree), ", " )
+    DelimitedFiles.writedlm( string(outscreen, outimg, ".csv"), toArray(scr), ", " )
+
     # DelimitedFiles.writedlm(string("permutation/U", outimg, ".csv"), toArray(permut), ", ")
     # DelimitedFiles.writedlm(string("permutation/W", outimg, ".csv"), toArray(perWeg), ", ")
 
     ################################################################################
 
     # runHeatmap(errDc)
+
     runHeatmap(outimg, outsvg, outcsv, errDc, labelAr)
 
   else
