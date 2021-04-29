@@ -66,13 +66,13 @@ end
 
 """
 
-    sensspec(tbVec, labelVec)
+    sensspec(tbVc::Array{Int64, 1}, labelVec::Vector{Int64})
 
 Calculate sensitivity and specificity from a HMM
 
 """
-function sensspec(tbVc::Array{Int64, 1}, labelVec::Array{Int64, 2})
   # reassign frecuency labels
+function sensspec(tbVc::Array{Int64, 1}, labelVec::Vector{Int64})
   tbVec = copy(tbVc)
   tbVec[findall(tbVec .> 1)] .= 2
   tbVec[findall(tbVec .== 1)] .= 1
@@ -85,7 +85,14 @@ end
 
 ################################################################################
 
-function sensspec(ssDc::Dict{String, Tuple{Array{Int64, 1}, Array{Array{Float64, 1}, 1}}}, labelVec::Array{Int64, 2})
+"""
+
+    sensspec(ssDc::Dict{String, Tuple{Array{Int64, 1}, Array{Array{Float64, 1}, 1}}}, labelVec::Vector{Int64})
+
+Iterate on Dictionary and calculate sensitivity and specificity from a HMM
+
+"""
+function sensspec(ssDc::Dict{String, Tuple{Array{Int64, 1}, Array{Array{Float64, 1}, 1}}}, labelVec::Vector{Int64})
 
   outDc = Dict{String, Array{Float64, 2}}()
   for (k, v) in ssDc
