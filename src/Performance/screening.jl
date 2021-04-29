@@ -71,15 +71,17 @@ end
 Calculate sensitivity and specificity from a HMM
 
 """
-  # reassign frecuency labels
 function sensspec(tbVc::Array{Int64, 1}, labelVec::Vector{Int64})
   tbVec = copy(tbVc)
+
+  # reassign frecuency labels
+  labels = [1, 2]
   tbVec[findall(tbVec .> 1)] .= 2
-  tbVec[findall(tbVec .== 1)] .= 1
+
   # adjust & concatenate frecuency tables
-  positives = tbVec[labelVec[:, 1] .== 1] |> freqtable |> p -> sort(p, rev = true) |> stFreqTb
-  negatives = tbVec[labelVec[:, 1] .== 0] |> freqtable |> p -> sort(p, rev = true) |> stFreqTb
-  outNamedArray = [positives negatives]
+  positives = tbVec[labelVec[:, 1] .== 1] |> freqtable |> p -> convertFqDfTempl(p, templ = labels) |> p -> sort(p, rev = true)
+  negatives = tbVec[labelVec[:, 1] .== 0] |> freqtable |> p -> convertFqDfTempl(p, templ = labels) |> p -> sort(p, rev = true)
+  outNamedArray = [positives[:, 2] negatives[:, 2]]
   return ss(outNamedArray)
 end
 
@@ -96,9 +98,9 @@ function sensspec(ssDc::Dict{String, Tuple{Array{Int64, 1}, Array{Array{Float64,
 
   outDc = Dict{String, Array{Float64, 2}}()
   for (k, v) in ssDc
-    tmp = zeros(1, 2)
-    (tmp[1, 1], tmp[1, 2]) = sensspec(ssDc[k][1], labelVec)
-    outDc[k] = tmp
+    outSensSpec = zeros(1, 2)
+    (outSensSpec[1, 1], outSensSpec[1, 2]) = sensspec(ssDc[k][1], labelVec)
+    outDc[k] = outSensSpec
   end
 
   return outDc
