@@ -41,6 +41,12 @@ function sensspec(data_loader, model)
     NamedArrays.setnames!(added, [2], 1)
     added[1, :] .= 0
     outNamedArray = [outNamedArray; added]
+################################################################################
+
+"transform freqtable => dataframe"
+function convertFqDf(fq::NamedVector{Int64, Vector{Int64}, Tuple{OrderedDict{Int64, Int64}}}; colnames::Vector{String} = ["Value", "Frecuency"])
+  return DataFrames.DataFrame([names(fq)[1] fq.array], colnames)
+end
   end
   return ss(outNamedArray)
 
