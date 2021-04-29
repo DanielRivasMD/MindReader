@@ -13,8 +13,12 @@ using OrderedCollections
 Calculate sensitivity and specificity from 2 x 2 array
 
 """
-function ss(ar)
-  return (sensitivity = ar[1, 1] / ( ar[1, 1] + ar[2, 1] ), specificity = ar[2, 2] / ( ar[2, 2] + ar[1, 2] ))
+function ss(ar::Matrix{Int64})
+  if size(ar) == (2, 2)
+    return (sensitivity = ar[1, 1] / ( ar[1, 1] + ar[2, 1] ), specificity = ar[2, 2] / ( ar[2, 2] + ar[1, 2] ))
+  else
+    @error "Matrix does not have the proper size"
+  end
 end
 
 ################################################################################
