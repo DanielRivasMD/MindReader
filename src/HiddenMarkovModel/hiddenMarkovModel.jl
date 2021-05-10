@@ -175,10 +175,27 @@ function process(self::HMM, d::Array{Float64, 2}, pen::Float64, splitSw::Bool)
   pp = StructArrays.StructArray{ScorePair}(undef, 0)
 
   # @info "Update model"
+  mdist = zeros(Float64, size(self.dataM))
+  mcount = zeros(Float64, size(self.dataM))
+
+  # TODO: Added code
+  # svec<double> mdist;
+  # svec<double> mcount;
+
+  # mdist.resize(m_data.isize(), 0.);
+  # mcount.resize(m_data.isize(), 0);
+
   for ix in axes(d, 1)
     self.dataM[tb[ix]] .+= d[ix, :]
     divider[tb[ix]] += 1
     pair = ScorePair(distance(orig[tb[ix]], d[ix, :]), ix)
+    mdist[tb[ix]] += pair.score
+    mcount[tb[ix]] += 1
+
+    # TODO: Added code
+    # mdist[tb[i]] += pair.score;
+    # mcount[tb[i]]++;
+
     push!(pp, pair)
   end
 
