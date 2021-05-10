@@ -17,7 +17,8 @@ end
 ################################################################################
 
 function setup(v::Array{Float64, 2})
-  mPen = 5000.
+  # mPen = 5000.
+  mPen = 200. #  TODO: Added code. change penalty
   noIter = 1
   hmm = HMM([zeros(size(v, 2)) for i in 1:noIter], [zeros(size(v, 1) + 1) for i in 1:noIter])
   reset!(hmm)
