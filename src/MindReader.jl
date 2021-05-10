@@ -138,10 +138,12 @@ begin
 
     # setup
     mPen, hmm = setup(aErr)
+
     # process
-    for i in 1:5
-      errDc[k] = process(hmm, aErr, mPen)
+    for i in 1:4
+      errDc[k] = process(hmm, aErr, mPen, true)
     end
+    errDc[k] = process(hmm, aErr, mPen, false)
 
     # # calculate sensitivity & specificity
     # ssDc[k]['E'] = sensspec(errDc[k][1], labelAr)

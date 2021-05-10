@@ -156,7 +156,7 @@ end
 
 ################################################################################
 
-function process(self::HMM, d::Array{Float64, 2}, pen::Float64)
+function process(self::HMM, d::Array{Float64, 2}, pen::Float64, splitSw::Bool)
 
   # @info "Reset"
   reset!(self)
@@ -195,7 +195,12 @@ function process(self::HMM, d::Array{Float64, 2}, pen::Float64)
   #     @info self.dataM[jx][ix]
   #   end
   # end
+  if !splitSw
+    return
+  end
 
+  # if (!bSplit)
+    # return;
   extra = fill(0, size(self.dataM[1], 1))
 
   # @info("Split")
