@@ -54,6 +54,15 @@ end
     # return d;
   # }
 
+  # double Amplitude() const {
+    # int i;
+    # double d = 0.;
+    # for (i=0; i<m_data.isize(); i++) {
+      # d += (m_data[i]*m_data[i]);
+    # }
+    # return sqrt(d);
+  # }
+
 "Bhattacharyya distance"
 function bhattDist(arr::Array{Float64, 1}, h::Array{Float64, 1})
   dis = 0.
@@ -70,6 +79,16 @@ function bhattDist(arr::Array{Float64, 1}, h::Array{Float64, 1})
   dis = -log(dis + 1.)
   return dis
 end
+
+function amplitude(arr::Array{Float64, 1})
+  dis = 0.
+  for ix in eachindex(arr)
+    dis += arr[ix] ^ 2
+  end
+  dis = sqrt(dis)
+  return dis
+end
+
 ################################################################################
 
 function reset!(self::HMM)
