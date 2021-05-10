@@ -189,7 +189,9 @@ function process(self::HMM, d::Array{Float64, 2}, pen::Float64, splitSw::Bool)
   for ix in axes(d, 1)
     self.dataM[tb[ix]] .+= d[ix, :]
     divider[tb[ix]] += 1
-    pair = ScorePair(distance(orig[tb[ix]], d[ix, :]), ix)
+    pair = ScorePair(bhattDist(orig[tb[ix]], d[ix, :]), ix) # use Bhattacharyya distance
+    # pair = ScorePair(distance(orig[tb[ix]], d[ix, :]), ix)
+
     mdist[tb[ix]] += pair.score
     mcount[tb[ix]] += 1
 
