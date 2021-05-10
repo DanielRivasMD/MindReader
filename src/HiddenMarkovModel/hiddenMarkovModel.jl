@@ -44,6 +44,32 @@ function distance(arr::Array{Float64, 1}, h::Array{Float64, 1})
   return dis
 end
 
+  # // Bhattacharyya distance
+  # double BhattDist(const HMMVec & h) const {
+    # double d = 0.;
+    # for (int i=0; i<m_data.isize(); i++) {
+      # d += sqrt(m_data[i]*h[i]);
+    # }
+    # d = -log(d+1.);
+    # return d;
+  # }
+
+"Bhattacharyya distance"
+function bhattDist(arr::Array{Float64, 1}, h::Array{Float64, 1})
+  dis = 0.
+  for ix in eachindex(arr)
+    # TODO: this product should be positive
+    product = arr[ix] * h[ix]
+    if product >= 0
+      dis += sqrt(product)
+    else
+      @error("Product $product is less than zero")
+    end
+    # dis += sqrt(Complex(arr[ix] - h[ix])).re
+  end
+  dis = -log(dis + 1.)
+  return dis
+end
 ################################################################################
 
 function reset!(self::HMM)
