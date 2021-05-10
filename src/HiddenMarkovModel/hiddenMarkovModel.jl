@@ -19,7 +19,7 @@ end
 function setup(v::Array{Float64, 2})
   mPen = 5000.
   noIter = 1
-  hmm = HMM([zeros(size(v, 1)) for i in 1:noIter], [zeros(size(v, 2) + 1) for i in 1:noIter])
+  hmm = HMM([zeros(size(v, 2)) for i in 1:noIter], [zeros(size(v, 1) + 1) for i in 1:noIter])
   reset!(hmm)
   return (mPen, hmm)
 end
@@ -55,7 +55,7 @@ end
 
 function feed(self::HMM, frame::Int64, d::Array{Float64, 2}, pen::Float64)
   for ix in eachindex(self.tbM)
-    plus = distance(self, ix, d[:, frame])
+    plus = distance(self, ix, d[frame, :])
     for jx in eachindex(self.tbM)
       lpen = copy(pen)
       if (jx == ix) lpen = 0 end
@@ -116,8 +116,8 @@ function process(self::HMM, d::Array{Float64, 2}, pen::Float64)
   # @info "Reset"
   reset!(self)
 
-  for ix in axes(d, 2)
     # @info "Feed frame $(ix)"
+  for ix in axes(d, 1)
     feed(self, ix, d, pen)
   end
 
@@ -129,10 +129,10 @@ function process(self::HMM, d::Array{Float64, 2}, pen::Float64)
   pp = StructArrays.StructArray{ScorePair}(undef, 0)
 
   # @info "Update model"
-  for ix in axes(d, 2)
-    self.dataM[tb[ix]] .+= d[:, ix]
+  for ix in axes(d, 1)
+    self.dataM[tb[ix]] .+= d[ix, :]
     divider[tb[ix]] += 1
-    pair = ScorePair(distance(orig[tb[ix]], d[:, ix]), ix)
+    pair = ScorePair(distance(orig[tb[ix]], d[ix, :]), ix)
     push!(pp, pair)
   end
 
@@ -156,7 +156,7 @@ function process(self::HMM, d::Array{Float64, 2}, pen::Float64)
   # @info("Split")
   co = 0
   for ix in 1:floor(Int64, (5 + size(pp, 1) / 50))
-    extra += d[:, pp.index[ix]]
+    extra += d[pp.index[ix], :]
     co += 1
   end
 
