@@ -1,6 +1,6 @@
 ################################################################################
 
-import StructArrays
+using StructArrays
 
 ################################################################################
 
@@ -45,6 +45,7 @@ function distance(arr::Array{Float64, 1}, h::Array{Float64, 1})
   return dis
 end
 
+#  TODO: Added code
   # // Bhattacharyya distance
   # double BhattDist(const HMMVec & h) const {
     # double d = 0.;
@@ -213,6 +214,13 @@ function process(self::HMM, d::Array{Float64, 2}, pen::Float64, splitSw::Bool)
   #     @info self.dataM[jx][ix]
   #   end
   # end
+  #  TODO: Added code
+
+# @info self.dataM
+
+  sort!(self.dataM)
+  # Sort(m_data);
+
   if !splitSw
     return
   end
