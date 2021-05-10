@@ -219,16 +219,95 @@ function process(self::HMM, d::Array{Float64, 2}, pen::Float64, splitSw::Bool)
 
   # if (!bSplit)
     # return;
-  extra = fill(0, size(self.dataM[1], 1))
+  max = 0.
+  toSplit = 0
+  minFreq = 20
 
-  # @info("Split")
-  co = 0
-  for ix in 1:floor(Int64, (5 + size(pp, 1) / 50))
-    extra += d[pp.index[ix], :]
-    co += 1
+  # double max = 0.;
+  # int toSplit = 0;
+  # int minFreq = 20; // HARD CODED!!!!
+
+  for ix in eachindex(mdist)
+    if mcount[ix] > minFreq
+      avdist = mdist[ix] / mcount[ix]
+      # @info("Model $ix")
+      # @info("Model $ix score $avdist count: $(mcount[ix]) raw: $(mdist[ix])")
+      @info("amplitude: $(amplitude(self.dataM))")
+      if avdist > max
+        max = d
+        toSplit = ix
+      end
+    end
   end
 
-  extra ./= co
+  # for (i=0; i<mdist.isize(); i++) {
+    # if (mcount[i] > minFreq) {
+      # double d = mdist[i]/(double)mcount[i];
+      # cout << "Model " << i << " score: " << d << " count: " << mcount[i] << " raw: " << mdist[i];
+      # cout << " amplitude: " << m_data[i].Amplitude() << endl;
+      # if (d > max) {
+	# max = d;
+	# toSplit = i;
+      # }
+    # }
+  # }
+
+  toSplit = 1
+  half = 1 + mcount[toSplit] / 4
+  @info("Splitting: $toSplit using $half frames")
+
+  # //toSplit = 0;
+
+  # int half = 1 + mcount[toSplit]/4;
+
+  # cout << "Splitting: " << toSplit << " using " << half << " frames" << endl;
+
+  # //for (i=0; i<pp.isize(); i++)
+  # // cout << "DIST " << pp[i].index << " " << pp[i].score << endl;
+
+
+
+  extra = fill(0, size(self.dataM[1], 1))
+
+  @info("Split")
+
+  count = 1
+  for ix in eachindex(pp)
+    @info ix
+    if tb[pp[ix].index] != toSplit
+      continue
+    end
+    @info("DIST $(pp[ix].index) $(pp[ix].score) -> $(tb[pp[ix].index])")
+    extra += d[pp[ix].index, :]
+    count += 1
+    if count >= half
+      break
+    end
+  end
+
+  #  TODO: Added code
+  # for (i=0; i<pp.isize(); i++) {
+    # if (tb[pp[i].index] != toSplit) // Only count frames from toSplit
+      # continue;
+    # cout << "DIST " << pp[i].index << " " << pp[i].score << " -> " << tb[pp[i].index] << endl;
+    # extra += d[pp[i].index];
+    # count += 1.;
+    # if (count >= half)
+      # break;
+
+  # co = 0
+  # for ix in 1:floor(Int64, (5 + size(pp, 1) / 50))
+  #   extra += d[pp.index[ix], :]
+  #   co += 1
+  # end
+
+  @info "Extra"
+  @info extra
+
+  extra ./= (count - 1)
+
+  @info extra
+
   push!(self.dataM, extra)
 
   push!(self.tbM, fill(0, size(self.tbM[1], 1)))
