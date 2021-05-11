@@ -101,12 +101,7 @@ function bhattDist(arr::Array{Float64, 1}, h::Array{Float64, 1})
 end
 
 function amplitude(arr::Array{Float64, 1})
-  dis = 0.
-  for ix in eachindex(arr)
-    dis += arr[ix] ^ 2
-  end
-  dis = sqrt(dis)
-  return dis
+  return arr .^ 2 |> sum |> sqrt
 end
 
 ################################################################################
@@ -259,8 +254,7 @@ function process(self::HMM, d::Array{Float64, 2}, pen::Float64, splitSw::Bool)
     if mcount[ix] > minFreq
       avdist = mdist[ix] / mcount[ix]
       # @info("Model $ix")
-      # @info("Model $ix score $avdist count: $(mcount[ix]) raw: $(mdist[ix])")
-      @info("amplitude: $(amplitude(self.dataM))")
+      @info("Model $ix score $avdist count: $(mcount[ix]) raw: $(mdist[ix]) amplitude: $(amplitude(self.dataM[ix]))")
       if avdist > max
         max = d
         toSplit = ix
