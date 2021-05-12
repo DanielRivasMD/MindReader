@@ -228,8 +228,7 @@ function process(self::HMM, d::Array{Float64, 2}, pen::Float64, splitSw::Bool)
 
 # @info self.dataM
 
-  sort!(self.dataM)
-  # Sort(m_data);
+  sortHMM!(self)
 
   if !splitSw
     return
