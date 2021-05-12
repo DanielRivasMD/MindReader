@@ -16,10 +16,18 @@ function shArgParser(args)
         arg_type            = String
         required            = false
         help                = "output directory"
-      "--outimg", "-i"
+      "--outsvg", "-s"
+        arg_type            = String
+        required            = false
+        help                = "output directory svg"
+      "--outcsv", "-c"
+        arg_type            = String
+        required            = false
+        help                = "output directory csv"
+     "--outimg", "-i"
         arg_type             = String
         #  required             = true
-        default              = "img"
+        # default              = "img"
         help                 = "image heatmap output"
       "--fft", "-t"
         nargs               = '?'
@@ -29,7 +37,7 @@ function shArgParser(args)
       "--window-size", "-w"
         nargs               = '?'
         arg_type            = Int
-        default             = 128
+        default             = 256
         help                = "window size along raw signal"
       "--bin-overlap", "-b"
         nargs               = '?'
@@ -49,6 +57,8 @@ shArgs = shArgParser(ARGS)
 begin
   file    = shArgs["file"]
   outdir  = shArgs["outdir"]
+  outsvg  = shArgs["outsvg"]
+  outcsv  = shArgs["outcsv"]
   outimg  = shArgs["outimg"]
   fftBin  = shArgs["fft"]
   winBin  = shArgs["window-size"]
