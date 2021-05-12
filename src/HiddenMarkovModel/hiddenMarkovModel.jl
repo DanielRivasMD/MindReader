@@ -231,7 +231,7 @@ function process(self::HMM, d::Array{Float64, 2}, pen::Float64, splitSw::Bool)
   sortHMM!(self)
 
   if !splitSw
-    return
+    return tb, self.dataM
   end
 
   # if (!bSplit)
