@@ -171,15 +171,25 @@ for file in fileList
 
       ################################################################################
 
-      # error
+      begin
+        @info "Creating Hidden Markov Model..."
+        # error
         aErr = reshifter(postAr - freqAr) |> p -> Flux.flatten(p) |> permutedims
 
-      # setup
-      mPen, hmm = setup(aErr)
-      # process
-      for i in 1:5
-        errDc[k] = process(hmm, aErr, mPen)
-      end
+        # setup
+        mPen, hmm = setup(aErr)
+
+        # process
+        for i in 1:4
+          errDc[k] = process(hmm, aErr, mPen, true)
+        end
+
+        # final
+        for i in 1:2
+          errDc[k] = process(hmm, aErr, mPen, false)
+        end
+      end;
+
 
       # # calculate sensitivity & specificity
       # ssDc[k]['E'] = sensspec(errDc[k][1], labelAr)
