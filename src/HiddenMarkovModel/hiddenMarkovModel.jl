@@ -55,12 +55,7 @@ function distance(self::HMM, j::Int64, h::Array{Float64, 1})
 end
 
 function distance(arr::Array{Float64, 1}, h::Array{Float64, 1})
-  dis = 0.
-  for ix in eachindex(arr)
-    dis += (arr[ix] - h[ix]) ^ 2
-  end
-  dis = sqrt(dis)
-  return dis
+  return (arr .- h) .^ 2  |> sum  |> sqrt
 end
 
 #  TODO: Added code
