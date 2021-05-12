@@ -54,7 +54,7 @@ function distance(self::HMM, j::Int64, h::Array{Float64, 1})
   return dis
 end
 
-function distance(arr::Array{Float64, 1}, h::Array{Float64, 1})
+function distance(arr::Array{T, 1}, h::Array{T, 1}) where T <: Number
   return (arr .- h) .^ 2  |> sum  |> sqrt
 end
 
