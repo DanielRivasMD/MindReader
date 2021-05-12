@@ -250,7 +250,7 @@ function process(self::HMM, d::Array{Float64, 2}, pen::Float64, splitSw::Bool)
       # @info("Model $ix")
       @info("Model $ix score $avdist count: $(mcount[ix]) raw: $(mdist[ix]) amplitude: $(amplitude(self.dataM[ix]))")
       if avdist > max
-        max = d
+        max = avdist
         toSplit = ix
       end
     end
