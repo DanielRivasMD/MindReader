@@ -134,7 +134,7 @@ begin
     ################################################################################
 
     # error
-    aErr = reshifter(postAr - freqAr) |> p -> Flux.flatten(p)
+    aErr = reshifter(postAr - freqAr) |> p -> Flux.flatten(p) |> permutedims
 
     # setup
     mPen, hmm = setup(aErr)
