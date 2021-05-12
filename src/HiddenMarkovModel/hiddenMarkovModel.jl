@@ -237,7 +237,7 @@ function process(self::HMM, d::Array{Float64, 2}, pen::Float64, splitSw::Bool)
   # if (!bSplit)
     # return;
   max = 0.
-  toSplit = 0
+  toSplit = 1
   minFreq = 20
 
   # double max = 0.;
@@ -268,7 +268,6 @@ function process(self::HMM, d::Array{Float64, 2}, pen::Float64, splitSw::Bool)
     # }
   # }
 
-  toSplit = 1
   half = 1 + mcount[toSplit] / 4
   @info("Splitting: $toSplit using $half frames")
 
