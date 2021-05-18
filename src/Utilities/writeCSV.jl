@@ -43,3 +43,15 @@ end
 
 ################################################################################
 
+function writePerformance(stDc::Dict{String, Array{Float64, 2}})
+  outAr = Array{Any, 2}(undef, length(stDc) + 1, 3)
+  ct = 1
+  outAr[1, :] .= ["Electrode", "Sensitivity", "Specificity"]
+  for (k, v) in stDc
+    ct += 1
+    outAr[ct, :] = [k v]
+  end
+  return outAr
+end
+
+################################################################################
