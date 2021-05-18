@@ -8,7 +8,7 @@ import CSV
 function writeHMM(filePrefix::String, modelHMM::Dict{String, Tuple{Vector{Int64}, Vector{Vector{Float64}}}})
   for (k, v) in modelHMM
     filename = string( filePrefix, string(k))
-    writeHMM( string(filename, "_states", ".csv"), v[1])
+    writeHMM( string(filename, "_states", ".csv"), v[1], k)
     writeHMM( string(filename, "_traceb", ".csv"), v[2])
   end
 end
@@ -16,8 +16,8 @@ end
 ################################################################################
 
 "write hidden markov model states wrapper"
-function writeHMM(filename::String, statesHMM::Vector{Int64})
-  CSV.write(filename, shiftHMM(statesHMM))
+function writeHMM(filename::String, statesHMM::Vector{Int64}, channel::String)
+  CSV.write(filename, shiftHMM(statesHMM, channel))
 end
 
 "write hidden markov model traceback wrapper"
@@ -28,8 +28,8 @@ end
 ################################################################################
 
 "reorder hidden markov model states into table to write"
-function shiftHMM(statesHMM::Vector{Int64})
-  return Tables.table(reshape(statesHMM, (length(statesHMM), 1)))
+function shiftHMM(statesHMM::Vector{Int64}, channel::String)
+  return Tables.table(reshape(statesHMM, (length(statesHMM), 1)), header = [channel])
 end
 
 "reorder hidden markov model traceback vectors into table to write"
