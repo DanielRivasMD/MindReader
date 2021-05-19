@@ -85,3 +85,14 @@ function plotChannelsHeatmap(outimg::String, outsvg::String, toHeat::Array{Float
 end
 
 ################################################################################
+
+function writePerformance(stDc::Dict{String, Array{Float64, 2}})
+  outAr = Array{Any, 2}(undef, length(stDc) + 1, 3)
+  outAr[1, :] .= ["Electrode", "Sensitivity", "Specificity"]
+  for (c, (k, v)) in enumerate(stDc)
+    outAr[c + 1, :] = [k v]
+  end
+  return outAr
+end
+
+################################################################################
