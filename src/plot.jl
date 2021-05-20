@@ -85,6 +85,7 @@ end;
 
 ################################################################################
 
+# load modules
 utilDir    = "/Users/drivas/Factorem/MindReader/src/Utilities/"
 include( string(utilDir,    "fileReaderEDF.jl") )
 
@@ -96,38 +97,39 @@ include( string(annotDir,   "annotationCalibrator.jl") )
 
 ################################################################################
 
+# edf binning settings
 winBin = 256
 overlap = 4
 
 ################################################################################
 
-# annotSJTime = [
-           # "00:09:50"
-           # "00:15:40"
-           # "00:28:30"
-           # "00:32:35"
-           # "01:07:43"
-          # ]
+# manual annoations. file chb04_28
+annotSJTime = [
+           "00:09:50"
+           "00:15:40"
+           "00:28:30"
+           "00:32:35"
+           "01:07:43"
+          ]
 
-# annotSJSec = Dates.Time.(annotSJTime) .- Dates.Time("0") |> p -> convert.(Second, p)
-# annotSJ = [(annotSJSec[i], annotSJSec[i] + Second(60)) for i = eachindex(annotSJTime)]
+annotSJSec = Dates.Time.(annotSJTime) .- Dates.Time("0") |> p -> convert.(Second, p)
+annotSJ = [(annotSJSec[i], annotSJSec[i] + Second(60)) for i = eachindex(annotSJTime)]
 
-# labelSJ= annotationCalibrator(
-  # annotSJ,
-  # startTime = startTime,
-  # recordFreq = recordFreq,
-  # signalLength = size(edfDf, 1),
-  # binSize = winBin,
-  # binOverlap = overlap
-# )
+labelSJ= annotationCalibrator(
+  annotSJ,
+  startTime = startTime,
+  recordFreq = recordFreq,
+  signalLength = size(edfDf, 1),
+  binSize = winBin,
+  binOverlap = overlap
+)
 
 ################################################################################
 
+# declare paths
 dir = "/Users/drivas/Factorem/EEG/data/physionet.org/files/chbmit/1.0.0/chb04/"
 xfile = "chb04-summary.txt"
 annotFile = annotationReader( string(dir, xfile) )
-
-# file = "chb04_28.edf"
 
 patient = readdir(dir)
 patientRecords = patient |> p -> match.(r"edf$", p) |> p -> findall(!isnothing, p) |> p -> getindex(patient, p)
@@ -137,18 +139,17 @@ d = readdir("/Users/drivas/Factorem/MindReader/data/hmm")
 hmRec = Vector{Plots.Plot}()
 hmMas = Vector{Plots.Plot}()
 
+# read files
 for file ∈ patientRecords
 
-  # load data
+  # define state files
   prefix = replace(file, ".edf" => "")
   files = d |> p -> match.(Regex( string(prefix, "_(.*)states") ), p) |> p -> findall(!isnothing, p) |> p -> getindex(d, p)
 
-  # smp = 57692
-  # pt = Matrix{Int64}(undef, 22, 57692)
-  # lx = 1:smp |> collect
-
+  # electrode labels
   ly = Vector{String}()
 
+  # load data
   for (c, f) ∈ enumerate(files)
     k = f |> p -> replace(p, string(prefix, "_") => "") |> p -> replace(p, "_states.csv" => "")
     @info k
@@ -161,21 +162,24 @@ for file ∈ patientRecords
     pt[c, :] .= mod[2:end, 1] |> p -> convert.(Int64, p)
   end
 
+  # read edf
   edfDf, startTime, recordFreq = getSignals( string(dir, file) )
 
-  # if haskey(annotFile, outimg)
-  #
-  #   labelAr = annotationCalibrator(
-  #     annotFile[prefix],
-  #     startTime = startTime,
-  #     recordFreq = recordFreq,
-  #     signalLength = size(edfDf, 1),
-  #     binSize = winBin,
-  #     binOverlap = overlap
-  #   )
-  #
-  # end
+  # load & parse annoations
+  if haskey(annotFile, prefix)
 
+    labelAr = annotationCalibrator(
+      annotFile[prefix],
+      startTime = startTime,
+      recordFreq = recordFreq,
+      signalLength = size(edfDf, 1),
+      binSize = winBin,
+      binOverlap = overlap
+    )
+
+  end
+
+  # loop over channels & identify peaks
   frThres = 120
   ct = 0
   for r ∈ eachrow(pt)
@@ -205,120 +209,120 @@ for file ∈ patientRecords
 
   end
 
+  # create mask
   ms = ones(Int64, size(pt))
 
   for r ∈ eachrow(pgDf)
     ms[r.channel, convert(Int64, r.lower_lim_ix):convert.(Int64, r.upper_lim_ix)] .= 2
   end
 
-  push!(hmRec, heatmap(lx, ly, pt, framestyle = :semi, leg = :none, ytickfontsize = 4, yticks = ([0.5:length(ly) - 0.5...], ly)))
-  push!(hmMas, heatmap(lx, ly, ms, framestyle = :semi, leg = :none, ytickfontsize = 4, yticks = ([0.5:length(ly) - 0.5...], ly)))
+  # push!(hmRec, heatmap(lx, ly, pt, framestyle = :semi, leg = :none, ytickfontsize = 4, yticks = ([0.5:length(ly) - 0.5...], ly)))
+  # push!(hmMas, heatmap(lx, ly, ms, framestyle = :semi, leg = :none, ytickfontsize = 4, yticks = ([0.5:length(ly) - 0.5...], ly)))
 
 end
 
-plot(
-  # hmRec[1],
-  # hmRec[2],
-  # hmRec[3],
-  # hmRec[4],
-  # hmRec[5],
-  hmRec[6],
-  hmRec[7],
-  hmRec[8],
-  hmRec[9],
-  hmRec[10],
-  # hmRec[11],
-  # hmRec[12],
-  # hmRec[13],
-  # hmRec[14],
-  # hmRec[15],
-  # hmRec[16],
-  # hmRec[17],
-  # hmRec[18],
-  # hmRec[19],
-  # hmRec[20],
-  # hmRec[21],
-  # hmRec[22],
-  # hmRec[23],
-  # hmRec[24],
-  # hmRec[25],
-  # hmRec[26],
-  # hmRec[27],
-  # hmRec[28],
-  # hmRec[29],
-  # hmRec[30],
-  # hmRec[31],
-  # hmRec[32],
-  # hmRec[33],
-  # hmRec[34],
-  # hmRec[35],
-  # hmRec[36],
-  # hmRec[37],
-  # hmRec[38],
-  # hmRec[39],
-  # hmRec[40],
-  # hmRec[41],
-  # hmRec[42],
-  layout = grid(5, 1)
-)
-
-
-
-plot(
-  # hmMas[1],
-  # hmMas[2],
-  # hmMas[3],
-  # hmMas[4],
-  # hmMas[5],
-  hmMas[6],
-  hmMas[7],
-  hmMas[8],
-  hmMas[9],
-  hmMas[10],
-  # hmMas[11],
-  # hmMas[12],
-  # hmMas[13],
-  # hmMas[14],
-  # hmMas[15],
-  # hmMas[16],
-  # hmMas[17],
-  # hmMas[18],
-  # hmMas[19],
-  # hmMas[20],
-  # hmMas[21],
-  # hmMas[22],
-  # hmMas[23],
-  # hmMas[24],
-  # hmMas[25],
-  # hmMas[26],
-  # hmMas[27],
-  # hmMas[28],
-  # hmMas[29],
-  # hmMas[30],
-  # hmMas[31],
-  # hmMas[32],
-  # hmMas[33],
-  # hmMas[34],
-  # hmMas[35],
-  # hmMas[36],
-  # hmMas[37],
-  # hmMas[38],
-  # hmMas[39],
-  # hmMas[40],
-  # hmMas[41],
-  # hmMas[42],
-  layout = grid(5, 1)
-)
-
-
-
-
-# hmASJ = heatmap(labelSJ |> permutedims, framestyle = :none, leg = :none, title = "SanJuan / Angel Annotations")
-# hmAPh = heatmap(labelAr |> permutedims, framestyle = :none, leg = :none, title = "Physionet Annotations")
-# hmRec = heatmap(lx, ly, pt, framestyle = :semi, leg = :none, ytickfontsize = 4, yticks = ([0.5:length(ly) - 0.5...], ly))
-# hmMas = heatmap(lx, ly, ms, framestyle = :semi, leg = :none, ytickfontsize = 4, yticks = ([0.5:length(ly) - 0.5...], ly))
-# plot(hmASJ, hmAPh, hmRec, hmMas, layout = grid(4, 1, heights = [0.05, 0.05, 0.45, 0.45]), dpi = 300)
+# plot(
+#   # hmRec[1],
+#   # hmRec[2],
+#   # hmRec[3],
+#   # hmRec[4],
+#   # hmRec[5],
+#   hmRec[6],
+#   hmRec[7],
+#   hmRec[8],
+#   hmRec[9],
+#   hmRec[10],
+#   # hmRec[11],
+#   # hmRec[12],
+#   # hmRec[13],
+#   # hmRec[14],
+#   # hmRec[15],
+#   # hmRec[16],
+#   # hmRec[17],
+#   # hmRec[18],
+#   # hmRec[19],
+#   # hmRec[20],
+#   # hmRec[21],
+#   # hmRec[22],
+#   # hmRec[23],
+#   # hmRec[24],
+#   # hmRec[25],
+#   # hmRec[26],
+#   # hmRec[27],
+#   # hmRec[28],
+#   # hmRec[29],
+#   # hmRec[30],
+#   # hmRec[31],
+#   # hmRec[32],
+#   # hmRec[33],
+#   # hmRec[34],
+#   # hmRec[35],
+#   # hmRec[36],
+#   # hmRec[37],
+#   # hmRec[38],
+#   # hmRec[39],
+#   # hmRec[40],
+#   # hmRec[41],
+#   # hmRec[42],
+#   layout = grid(5, 1)
+# )
 #
 #
 #
-# df |> p -> sort(p, :peak_length_ix, rev = true) |> p -> bar(p[:, :peak_length_ix], leg = :none, dpi = 300)
+# plot(
+#   # hmMas[1],
+#   # hmMas[2],
+#   # hmMas[3],
+#   # hmMas[4],
+#   # hmMas[5],
+#   hmMas[6],
+#   hmMas[7],
+#   hmMas[8],
+#   hmMas[9],
+#   hmMas[10],
+#   # hmMas[11],
+#   # hmMas[12],
+#   # hmMas[13],
+#   # hmMas[14],
+#   # hmMas[15],
+#   # hmMas[16],
+#   # hmMas[17],
+#   # hmMas[18],
+#   # hmMas[19],
+#   # hmMas[20],
+#   # hmMas[21],
+#   # hmMas[22],
+#   # hmMas[23],
+#   # hmMas[24],
+#   # hmMas[25],
+#   # hmMas[26],
+#   # hmMas[27],
+#   # hmMas[28],
+#   # hmMas[29],
+#   # hmMas[30],
+#   # hmMas[31],
+#   # hmMas[32],
+#   # hmMas[33],
+#   # hmMas[34],
+#   # hmMas[35],
+#   # hmMas[36],
+#   # hmMas[37],
+#   # hmMas[38],
+#   # hmMas[39],
+#   # hmMas[40],
+#   # hmMas[41],
+#   # hmMas[42],
+#   layout = grid(5, 1)
+# )
+
+
+
+hmASJ = heatmap(labelSJ |> permutedims, framestyle = :none, leg = :none, ytickfontsize = 4, yticks = ([1], ["SanJuan / Angel"]))
+hmAPh = heatmap(labelAr |> permutedims, framestyle = :none, leg = :none, ytickfontsize = 4, yticks = ([1], ["Physionet"]))
+hmRec = heatmap(lx, ly, pt, framestyle = :semi, leg = :none, ytickfontsize = 4, yticks = ([0.5:length(ly) - 0.5...], ly))
+hmMas = heatmap(lx, ly, ms, framestyle = :semi, leg = :none, ytickfontsize = 4, yticks = ([0.5:length(ly) - 0.5...], ly))
+plot(hmASJ, hmAPh, hmRec, hmMas, layout = grid(4, 1, heights = [0.05, 0.05, 0.45, 0.45]), dpi = 300)
+
+
+
+df |> p -> sort(p, :peak_length_ix, rev = true) |> p -> bar(p[:, :peak_length_ix], leg = :none, dpi = 300)
