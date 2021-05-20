@@ -191,6 +191,18 @@ for file ∈ patientRecords
       df = [df; tmp]
       pgDf = [pgDf; pgTmp]
     end
+
+    # calculate sensitivity & specificity (event-based)
+    if haskey(annotFile, prefix)
+
+      R"
+      lab <- peak_iden($labelAr)
+      matchesRaw <- shared_coor(lab[, 2:3], tmp[, 2:3], 'Annoation', 'Model')
+      matchesPur <- shared_coor(lab[, 2:3], $pgTmp[, 2:3], 'Annoation', 'Model')
+      "
+
+    end
+
   end
 
   ms = ones(Int64, size(pt))
