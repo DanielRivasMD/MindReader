@@ -7,7 +7,9 @@ using RCall
 
 ################################################################################
 
+# import R functions
 begin
+
   # declare peak identification function
   R"
   peak_iden <- function(
@@ -27,6 +29,58 @@ begin
     return(peak_feat)
   }
   "
+
+  # declare range assembler function
+  R"
+  range_assembler <- function(
+
+    f_data,
+    b_genom = TRUE
+  ) {
+
+    f_data <- as.data.frame(f_data)
+    if ( b_genom ) {
+      f_out <- GenomicRanges::GRanges(
+        seqnames = f_data[, 3],
+        ranges = IRanges::IRanges(
+          start = f_data[, 1],
+          end = f_data[, 2]
+        )
+      )
+    } else {
+      f_out <- IRanges::IRanges(
+        start = f_data[, 1],
+        end = f_data[, 2]
+      )
+    }
+
+    return(f_out)
+  }
+  "
+
+  # declare share coordinate function
+  R"
+  shared_coor <- function(
+
+    f_query,
+    f_subj,
+    query,
+    subj,
+    d_genomic = FALSE
+  ) {
+
+    f_query_ranges <- range_assembler(f_query, b_genom = d_genomic)
+    f_subj_ranges <- range_assembler(f_subj, b_genom = d_genomic)
+
+    f_query_subj <- as.data.frame(IRanges::findOverlaps(f_query_ranges, f_subj_ranges))
+    colnames(f_query_subj) <- c(query, subj)
+    shared_pos_ls <- list(f_query[f_query_subj[, query], ], f_subj[f_query_subj[, subj], ])
+    names(shared_pos_ls) <- c(query, subj)
+
+    return(shared_pos_ls)
+  }
+  "
+
 end;
 
 ################################################################################
