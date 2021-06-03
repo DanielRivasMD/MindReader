@@ -43,7 +43,7 @@ end
 Calculate loss during training
 
 """
-function loss_all(dataloader, model)
+function lossAll(dataloader, model)
   l = 0f0
   for (x ,y) in dataloader
     l += Flux.logitcrossentropy(model(x), y)
@@ -100,7 +100,7 @@ function modelTrain(inputAr, labelAr, model, Params)
   loss(x, y) = Flux.logitcrossentropy(model(x), y)
 
   # training
-  evalcb = () -> @show(loss_all(trainAr, model))
+  evalcb = () -> @show(lossAll(trainAr, model))
   opt = Flux.ADAM(args.η)
 
   Flux.@epochs args.epochs Flux.train!(loss, Flux.params(model), trainAr, opt, cb = evalcb)
