@@ -31,8 +31,30 @@ using StatsBase
 
 ################################################################################
 
+# exports
+export getsignals, getedfStart, getedfRecordFreq         # fileReaderEDF
 
+export xread                                        # fileReaderXLSX
 
+export annotationReader, annotationCalibrator, labelParser # annotationCalibrator
+
+export extractChannelSignalBin, extractSignalBin # signalBin
+
+export extractChannelFFT, extractFFT, binChannelFFT # fastFourierTransform
+
+export buildAutoencoder, buildAssymmetricalAutoencoder, buildRecurrentAutoencoder, buildDeepRecurrentAutoencoder, buildPerceptron # architect
+
+export shifter, reshifter # shapeShifter
+
+export modelTrain, modelTest, modelSS, accuracy, lossAll, loadData # autoencoder, SMPerceptron
+
+export runHeatmap, plotChannelsHeatmap, writePerformance # statesHeatMap
+
+export collectState, stateStats, summarizeStats, groundStateRatio, plotStatesHeatmap # stateStats
+
+export ss, convertFqDf, convertFqDfTempl, sensspec # screening
+
+# export rdPerm # permutations
 
 ################################################################################
 
@@ -43,7 +65,7 @@ begin
   annotDir   = "Annotator/"
   signalDir  = "SignalProcessing/"
   arqDir     = "Architect/"
-  hmmDir     = "HiddenMarkovModel/"
+  # hmmDir     = "HiddenMarkovModel/"
   pcaDir     = "PrincipalComponentAnalysis/"
   imgDir     = "ImageProcessing/"
   graphDir   = "Graphics/"
@@ -60,7 +82,7 @@ begin
   include( string(annotDir,   "annotationCalibrator.jl") )
   include( string(signalDir,  "signalBin.jl") )
   include( string(signalDir,  "fastFourierTransform.jl") )
-  include( string(hmmDir,     "hiddenMarkovModel.jl") )
+  # include( string(hmmDir,     "hiddenMarkovModel.jl") )
   include( string(arqDir,     "architect.jl") )
   include( string(arqDir,     "shapeShifter.jl") )
   include( string(arqDir,     "autoencoder.jl") )
@@ -68,7 +90,7 @@ begin
   include( string(graphDir,   "statesHeatMap.jl") )
   include( string(performDir, "stateStats.jl") )
   include( string(performDir, "screening.jl") )
-  include( string(performDir, "permutations.jl") )
+  # include( string(performDir, "permutations.jl") )
 end;
 
 ################################################################################
