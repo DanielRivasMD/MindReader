@@ -1,10 +1,5 @@
 ################################################################################
 
-using DataFrames
-using Dates
-
-################################################################################
-
 "obtain seizure time [physionet]"
 function getSeizureSec(annot::String)
   annot |> p -> findfirst(':', p) |> p -> getindex(annot, p + 2:length(annot)) |> p -> replace(p, " seconds" => "") |> Second

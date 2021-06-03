@@ -1,10 +1,5 @@
 ################################################################################
 
-import CairoMakie
-import DelimitedFiles
-
-################################################################################
-
 ""
 function runHeatmap(outimg::String, outsvg::String, outcsv::String, inDc::Dict{String, Tuple{Array{Int64, 1}, Array{Array{Float64, 1}, 1}}})
 

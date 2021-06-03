@@ -7,10 +7,18 @@ module MindReader
 
 import Pkg: activate
 activate("../")
+# dependencies
+using DataFrames
+using Dates
+using EDF
 
 ################################################################################
+using FreqTables
+using DelimitedFiles
+# using CairoMakie
 
 import Parameters: @with_kw
+using XLSX
 
 # set hyperparameters
 @with_kw mutable struct Params
@@ -20,6 +28,19 @@ import Parameters: @with_kw
   throttle::Int                = 5        # throttle timeout
   device::Function             = gpu      # set as gpu, if gpu available
 end;
+using FFTW
+using Flux
+
+import Flux: mse, throttle, ADAM
+using Flux.Data: DataLoader
+using Flux: onehotbatch, onecold, logitcrossentropy, throttle, @epochs
+using Parameters: @with_kw
+# using CUDAapi
+
+using NamedArrays
+using OrderedCollections
+
+using StatsBase
 
 ################################################################################
 

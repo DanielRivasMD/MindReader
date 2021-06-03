@@ -1,9 +1,5 @@
 ################################################################################
 
-import Flux
-
-################################################################################
-
 function buildDeepRecurrentAutoencoder(inputLayer::Integer, compressedLayer::Integer, σ)
   @info("Building deep recurrent autoencoder...")
   return Flux.Chain(
