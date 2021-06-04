@@ -29,6 +29,8 @@ using OrderedCollections
 
 using StatsBase
 
+using CSV
+
 ################################################################################
 
 # exports
@@ -55,6 +57,8 @@ export collectState, stateStats, summarizeStats, groundStateRatio, plotStatesHea
 export ss, convertFqDf, convertFqDfTempl, sensspec # screening
 
 # export rdPerm # permutations
+
+export writeHMM, shiftHMM, writePerformance
 
 ################################################################################
 
@@ -91,6 +95,7 @@ begin
   include( string(performDir, "stateStats.jl") )
   include( string(performDir, "screening.jl") )
   # include( string(performDir, "permutations.jl") )
+  include( string(utilDir,    "writeCSV.jl") )
 end;
 
 ################################################################################
