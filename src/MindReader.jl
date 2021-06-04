@@ -19,9 +19,9 @@ using FFTW
 using Flux
 
 import Flux: mse, throttle, ADAM
-using Flux.Data: DataLoader
-using Flux: onehotbatch, onecold, logitcrossentropy, throttle, @epochs
-using Parameters: @with_kw
+import Flux.Data: DataLoader
+import Flux: onehotbatch, onecold, logitcrossentropy, throttle, @epochs
+# using Parameters: @with_kw
 # using CUDAapi
 
 using NamedArrays
