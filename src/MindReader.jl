@@ -33,30 +33,44 @@ using CSV
 
 ################################################################################
 
-# exports
-export getsignals, getedfStart, getedfRecordFreq         # fileReaderEDF
+# fileReaderEDF
+export getSignals, getedfStart, getedfRecordFreq
 
-export xread                                        # fileReaderXLSX
+# fileReaderXLSX
+export xread
 
-export annotationReader, annotationCalibrator, labelParser # annotationCalibrator
+# annotationCalibrator
+export annotationReader, annotationCalibrator, labelParser
 
-export extractChannelSignalBin, extractSignalBin # signalBin
+# signalBin
+export extractChannelSignalBin, extractSignalBin
 
-export extractChannelFFT, extractFFT, binChannelFFT # fastFourierTransform
+# fastFourierTransform
+export extractChannelFFT, extractFFT, binChannelFFT
 
-export buildAutoencoder, buildAssymmetricalAutoencoder, buildRecurrentAutoencoder, buildDeepRecurrentAutoencoder, buildPerceptron # architect
+# architect
+export buildAutoencoder, buildAssymmetricalAutoencoder, buildRecurrentAutoencoder, buildDeepRecurrentAutoencoder, buildPerceptron
 
-export shifter, reshifter # shapeShifter
+# shapeShifter
+export shifter, reshifter
 
-export modelTrain, modelTest, modelSS, accuracy, lossAll, loadData # autoencoder, SMPerceptron
+# autoencoder
+export modelTrain
 
-export runHeatmap, plotChannelsHeatmap, writePerformance # statesHeatMap
+# # SMPerceptron
+# export modelTest, modelSS, accuracy, lossAll, loadData
 
-export collectState, stateStats, summarizeStats, groundStateRatio, plotStatesHeatmap # stateStats
+# statesHeatMap
+export runHeatmap, plotChannelsHeatmap, writePerformance
 
-export ss, convertFqDf, convertFqDfTempl, sensspec # screening
+# stateStats
+export collectState, stateStats, summarizeStats, groundStateRatio, plotStatesHeatmap
 
-# export rdPerm # permutations
+# screening
+export ss, convertFqDf, convertFqDfTempl, sensspec
+
+# # permutations
+# export rdPerm
 
 export writeHMM, shiftHMM, writePerformance
 
@@ -97,6 +111,8 @@ begin
   # include( string(performDir, "permutations.jl") )
   include( string(utilDir,    "writeCSV.jl") )
 end;
+
+# TODO: fix perceptron functions
 
 ################################################################################
 
