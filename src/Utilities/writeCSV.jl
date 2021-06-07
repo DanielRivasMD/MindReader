@@ -1,9 +1,5 @@
 ################################################################################
 
-import CSV
-
-################################################################################
-
 "write hidden markov model states & traceback wrapper"
 function writeHMM(filePrefix::String, modelHMM::Dict{String, Tuple{Vector{Int64}, Vector{Vector{Float64}}}})
   for (k, v) in modelHMM

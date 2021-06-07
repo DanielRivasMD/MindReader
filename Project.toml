@@ -4,11 +4,10 @@ authors = ["DanielRivasMD <danielrivasmd@gmail.com> and contributors"]
 version = "0.2.0"
 
 [deps]
-AbstractPlotting = "537997a7-5e4e-5d89-9595-2241ea00577e"
-ArgParse = "c7e460c6-2fb9-53a9-8c5b-16f535851c63"
-CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
+CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
+DelimitedFiles = "8bb1440f-4735-579b-a4ab-409b98df4dab"
 EDF = "ccffbfc1-f56e-50fb-a33b-53d1781b2825"
 FFTW = "7a1cc6ca-52ef-59f5-83cd-3a7055c09341"
 Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
@@ -18,3 +17,16 @@ StructArrays = "09ab397b-f2b6-538f-b94a-2f83cf4a842a"
 
 [compat]
 FFTW = "1"
+FreqTables = "da1fdf0e-e0ff-5433-a45f-9bb5ff651cb1"
+NamedArrays = "86f7a689-2022-50b4-a561-43c23ac3c673"
+OrderedCollections = "bac558e1-5e72-5ebc-8fee-abe8a469f55d"
+StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
+XLSX = "fdbf4ff8-1666-58a4-91e7-1b58723a45e0"
+
+[compat]
+StatsBase = "0.33"
+FreqTables = "0.4"
+NamedArrays = "0.9"
+CSV = "0.8"
+OrderedCollections = "1"
+XLSX = "0.7"

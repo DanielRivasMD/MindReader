@@ -1,9 +1,5 @@
 ################################################################################
 
-import Flux
-
-################################################################################
-
 function buildDeepRecurrentAutoencoder(inputLayer::Integer, compressedLayer::Integer, σ)
   @info("Building deep recurrent autoencoder...")
   return Flux.Chain(
@@ -34,11 +30,12 @@ Build a three-layered autoencoder
 `σ` layer identity
 
 """
-function buildAutoencoder(inputLayer::Integer, compressedLayer::Integer, σ)
+function buildAutoencoder(inputLayer::Integer, compressedLayer::Integer, Params)
   @info("Building three-layered autoencoder...")
+  args = Params()
   return Flux.Chain(
-    Flux.Dense(inputLayer, compressedLayer, σ),
-    Flux.Dense(compressedLayer, inputLayer, σ),
+    Flux.Dense(inputLayer, compressedLayer, args.σ),
+    Flux.Dense(compressedLayer, inputLayer, args.σ),
   )
 end
 
