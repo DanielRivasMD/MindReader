@@ -1,11 +1,5 @@
 ################################################################################
 
-import Flux: mse, throttle, ADAM
-import Parameters: @with_kw
-# import CUDAapi
-
-################################################################################
-
 # if CUDAapi.has_cuda()
   # # @info "CUDA is on"
   # import CuArrays
@@ -39,7 +33,7 @@ function modelTrain(inputAr, model, Params)
   loss(x) = Flux.mse(model(x), x)
 
   # training
-  evalcb = Flux.throttle(() -> @show(Flux.loss(trainAr[1])), args.throttle)
+  evalcb = Flux.throttle(() -> @show(loss(trainAr[1])), args.throttle)
   opt = Flux.ADAM(args.η)
 
   # @epochs args.epochs Flux.train!(loss, params(model), zip(trainAr), opt, cb = evalcb)

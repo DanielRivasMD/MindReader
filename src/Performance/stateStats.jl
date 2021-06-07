@@ -1,11 +1,5 @@
 ################################################################################
 
-import FreqTables
-import DelimitedFiles
-import CairoMakie
-
-################################################################################
-
 function collectState(inDc::Dict{String, Tuple{Array{Int64, 1}, Array{Array{Float64, 1}, 1}}})
 
   keyString = inDc[convert.(String, keys(inDc))[1]][1]

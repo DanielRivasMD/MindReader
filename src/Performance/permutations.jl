@@ -1,10 +1,5 @@
 ################################################################################
 
-using StatsBase
-using FreqTables
-
-################################################################################
-
 function rdPerm(errDc::Dict{String, Tuple{Array{Int64, 1}, Array{Array{Float64, 1}, 1}}}, labelAr::Array{Int64, 2}; nIter::Int64 = 1000, weighted::Bool)
 
   permDc = Dict{String, Array{Float64, 2}}()
@@ -29,4 +24,3 @@ function rdPerm(errDc::Dict{String, Tuple{Array{Int64, 1}, Array{Array{Float64, 
 end
 
 ################################################################################
-
