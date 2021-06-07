@@ -1,10 +1,5 @@
 ################################################################################
 
-import CairoMakie
-import DelimitedFiles
-
-################################################################################
-
 ""
 function runHeatmap(outimg::String, outsvg::String, outcsv::String, inDc::Dict{String, Tuple{Array{Int64, 1}, Array{Array{Float64, 1}, 1}}})
 
@@ -82,17 +77,6 @@ function plotChannelsHeatmap(outimg::String, outsvg::String, toHeat::Array{Float
   # save rendering
   CairoMakie.save( string(outsvg, outimg, ".svg"), plotFig )
 
-end
-
-################################################################################
-
-function writePerformance(stDc::Dict{String, Array{Float64, 2}})
-  outAr = Array{Any, 2}(undef, length(stDc) + 1, 3)
-  outAr[1, :] .= ["Electrode", "Sensitivity", "Specificity"]
-  for (c, (k, v)) in enumerate(stDc)
-    outAr[c + 1, :] = [k v]
-  end
-  return outAr
 end
 
 ################################################################################
