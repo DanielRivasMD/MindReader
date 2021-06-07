@@ -18,6 +18,7 @@ StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
 XLSX = "fdbf4ff8-1666-58a4-91e7-1b58723a45e0"
 
 [compat]
+StatsBase = "0.33"
 FreqTables = "0.4"
 NamedArrays = "0.9"
 CSV = "0.8"
