@@ -36,7 +36,7 @@ function modelTrain(inputAr, model, Params)
   evalcb = Flux.throttle(() -> @show(loss(trainAr[1])), args.throttle)
   opt = Flux.ADAM(args.η)
 
-  # @epochs args.epochs Flux.train!(loss, params(model), zip(trainAr), opt, cb = evalcb)
+  @epochs args.epochs Flux.train!(loss, params(model), zip(trainAr), opt, cb = evalcb)
 
   return model
 end
