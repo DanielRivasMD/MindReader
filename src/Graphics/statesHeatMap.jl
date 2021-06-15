@@ -76,7 +76,14 @@ function plotChannelsHeatmap(outimg::String, outsvg::String, toHeat::Array{Float
 
   # save rendering
   CairoMakie.save( string(outsvg, outimg, ".svg"), plotFig )
+################################################################################
 
+function shChecker(shArgs, ky, suffix)
+  if haskey(shArgs, ky)
+    return shArgs[ky]
+  else
+    return replace(shArgs["file"], "edf" => suffix)
+  end
 end
 
 ################################################################################
