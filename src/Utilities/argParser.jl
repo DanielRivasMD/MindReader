@@ -49,6 +49,12 @@ end
 #  parse shell arguments
 shArgs = shArgParser(ARGS)
 
+################################################################################
+
+# create directory if does not exist
+if !isdir(shArgs["outdir"]) && shArgs["outdir"] != "."
+  @info "Creating directory `$(shArgs["outdir"])`"
+  mkdir(shArgs["outdir"])
 end
 
 ################################################################################
