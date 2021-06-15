@@ -6,34 +6,29 @@ import ArgParse: ArgParseSettings, @add_arg_table!, parse_args
 
 function shArgParser(args)
   # minimal argument parsing
-  s = ArgParseSettings(description = "mind reader")
+  s = ArgParseSettings(description = "MindReader command line utility.")
   @add_arg_table! s begin
       "--file", "-f"
         arg_type            = String
-        #  required            = true
+        required            = true
         help                = "`edf` file to read"
+      "--indir", "-i"
+        arg_type            = String
+        required            = true
+        help                = "`edf` file directory"
       "--outdir", "-o"
         arg_type            = String
         required            = false
+        default             = "."
         help                = "output directory"
       "--outsvg", "-s"
         arg_type            = String
         required            = false
-        help                = "output directory svg"
+        help                = "output directory svg. Defined as `file`.svg at `outdir` if not specified"
       "--outcsv", "-c"
         arg_type            = String
         required            = false
-        help                = "output directory csv"
-     "--outimg", "-i"
-        arg_type             = String
-        #  required             = true
-        # default              = "img"
-        help                 = "image heatmap output"
-      "--fft", "-t"
-        nargs               = '?'
-        arg_type            = Int
-        default             = 16
-        help                = "number of frequencies for Fourier transform"
+        help                = "output directory csv. Defined as `file`.csv at `outdir` if not specified"
       "--window-size", "-w"
         nargs               = '?'
         arg_type            = Int
@@ -54,15 +49,6 @@ end
 #  parse shell arguments
 shArgs = shArgParser(ARGS)
 
-begin
-  file    = shArgs["file"]
-  outdir  = shArgs["outdir"]
-  outsvg  = shArgs["outsvg"]
-  outcsv  = shArgs["outcsv"]
-  outimg  = shArgs["outimg"]
-  fftBin  = shArgs["fft"]
-  winBin  = shArgs["window-size"]
-  overlap = shArgs["bin-overlap"]
 end
 
 ################################################################################
