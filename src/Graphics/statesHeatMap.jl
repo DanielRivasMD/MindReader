@@ -82,7 +82,7 @@ end
 ################################################################################
 
 function shChecker(shArgs, ky, suffix)
-  if haskey(shArgs, ky)
+  if shArgs[ky] != nothing
     return shArgs[ky]
   else
     return replace(shArgs["file"], "edf" => suffix)
