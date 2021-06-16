@@ -31,6 +31,8 @@ using StatsBase
 
 using CSV
 
+using CairoMakie
+
 ################################################################################
 
 # fileReaderEDF
