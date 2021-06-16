@@ -3,7 +3,7 @@
 import Parameters: @with_kw
 
 # set hyperparameters
-@with_kw mutable struct Params
+@with_kw mutable struct NNParams
   η::Float64                   = 1e-3             # learning rate
   epochs::Int                  = 10               # number of epochs
   batchsize::Int               = 1000             # batch size for training
