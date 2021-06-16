@@ -73,11 +73,12 @@ end;
 
 ################################################################################
 
-# runHeatmap(outimg, outsvg, outcsv, errDc)
-# runHeatmap(shArgs, errDc)
+# graphic rendering
+runHeatmap(shArgs, errDc)
 
 ################################################################################
 
+# write traceback & states
 writeHMM( string(shArgs["outdir"], replace(shArgs["file"], ".edf" => "_")), errDc)
 
 ################################################################################
