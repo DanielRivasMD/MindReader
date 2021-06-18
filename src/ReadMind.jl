@@ -37,7 +37,7 @@ begin
 
     #  build & train autoencoder
     freqAr = shifter(f)
-    model = buildAutoencoder(length(freqAr[1]), 100, NNParams)
+    model = buildAutoencoder(length(freqAr[1]), convert(Int64, length(freqAr[1] / 4)), NNParams)
     model = modelTrain(freqAr, model, NNParams)
 
     ################################################################################
