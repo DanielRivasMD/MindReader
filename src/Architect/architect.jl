@@ -14,6 +14,7 @@ function buildDeepRecurrentAutoencoder(inputLayer::Integer, compressedLayer::Int
   )
 end
 
+################################################################################
 
 # three-layered autoencoder
 """
@@ -30,7 +31,7 @@ Build a three-layered autoencoder
 `σ` layer identity
 
 """
-function buildAutoencoder(inputLayer::Integer, compressedLayer::Integer, Params)
+function buildAutoencoder(inputLayer::T, compressedLayer::T, Params) where T <: Integer
   @info("Building three-layered autoencoder...")
   args = Params()
   return Flux.Chain(
