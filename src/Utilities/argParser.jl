@@ -9,36 +9,36 @@ function shArgParser(args)
   s = ArgParseSettings(description = "MindReader command line utility.")
   @add_arg_table! s begin
       "--file", "-f"
-        arg_type            = String
-        required            = true
-        help                = "`edf` file to read"
+        arg_type             = String
+        required             = true
+        help                 = "`edf` file to read"
       "--indir", "-i"
-        arg_type            = String
-        required            = true
-        help                = "`edf` file directory"
+        arg_type             = String
+        required             = true
+        help                 = "`edf` file directory"
       "--outdir", "-o"
-        arg_type            = String
-        required            = false
-        default             = "."
-        help                = "output directory"
+        arg_type             = String
+        required             = false
+        default              = "."
+        help                 = "output directory"
       "--outsvg", "-s"
-        arg_type            = String
-        required            = false
-        help                = "output directory svg. Defined as `file`.svg at `outdir` if not specified"
+        arg_type             = String
+        required             = false
+        help                 = "output directory svg. Defined as `file`.svg at `outdir` if not specified"
       "--outcsv", "-c"
-        arg_type            = String
-        required            = false
-        help                = "output directory csv. Defined as `file`.csv at `outdir` if not specified"
+        arg_type             = String
+        required             = false
+        help                 = "output directory csv. Defined as `file`.csv at `outdir` if not specified"
       "--window-size", "-w"
-        nargs               = '?'
-        arg_type            = Int
-        default             = 256
-        help                = "window size along raw signal"
+        nargs                = '?'
+        arg_type             = Int
+        default              = 256
+        help                 = "window size along raw signal"
       "--bin-overlap", "-b"
-        nargs               = '?'
-        arg_type            = Int
-        default             = 4
-        help                = "bin overlap along raw signal"
+        nargs                = '?'
+        arg_type             = Int
+        default              = 4
+        help                 = "bin overlap along raw signal"
   end
   parsed_args = parse_args(s)
   return parsed_args
