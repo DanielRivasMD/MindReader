@@ -52,7 +52,7 @@ begin
       aErr = reshifter(postAr - freqAr) |> p -> Flux.flatten(p) |> permutedims
 
       # setup
-      hmm = setup!(aErr)
+      hmm = setup(aErr)
 
       # process
       for i in 1:4
