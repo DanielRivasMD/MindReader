@@ -18,6 +18,11 @@ end;
 import HiddenMarkovModelReaders: HMMParams
 
 # hidden Markov model parameters
-hmmParams = HMMParams(pen = 200., distance = euclDist)
+hmmParams = HMMParams(
+  penalty = 200,
+  distance = euclDist,
+  minimumFrequency = 20,
+  verbosity = false,
+)
 
 ################################################################################
