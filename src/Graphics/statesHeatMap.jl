@@ -42,10 +42,10 @@ function runHeatmap(shArgs, inDc::Dict{String, Tuple{Array{Int64, 1}, Array{Arra
 
   # collect stats & write
   stats = stateStats(toHeat)
-  DelimitedFiles.writedlm( string(outdir, "Labeled", outcsv), stats, ", " )
+  DelimitedFiles.writedlm( string(shArgs["outdir"], "Labeled", outcsv), stats, ", " )
 
   @info "Rendering..."
-  plotChannelsHeatmap(outdir, outsvg, toHeat)
+  plotChannelsHeatmap(shArgs["outdir"], outsvg, toHeat)
 
 end
 
