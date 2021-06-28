@@ -31,7 +31,7 @@ function xread(xlsxFile::String)
     else
       xar = [xar ["ADDITIONAL"; repeat([missing], size(xar, 1) - 1)]]
     end
-    xAr = xar[2:end, :] |> DataFrame
+    xAr = DataFrame(xar[2:end, :], :auto)
     for ix in 1:size(xar, 2)
       rename!(xAr, [ix => xar[1, ix]])
     end
