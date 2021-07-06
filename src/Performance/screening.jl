@@ -156,13 +156,13 @@ end
 
 """
 
-    sensitivitySpecifiity(ssDc::Dict{String, Tuple{Array{T, 1}, Array{Array{Float64, 1}, 1}}}, labelVec::Vector{T}) where T <: Number
+    sensitivitySpecifiity(ssDc::Dict{String, Tuple{Array{T, 1}, Array{Array{Float64, 1}, 1}}}, labelVec) where T <: Number
 
 # Description
 Iterate on Dictionary and calculate sensitivity and specificity from a `Hidden Markov model` struct
 
 """
-function sensitivitySpecifiity(ssDc::Dict{String, Tuple{Array{T, 1}, Array{Array{Float64, 1}, 1}}}, labelVec::Vector{T}) where T <: Number
+function sensitivitySpecifiity(ssDc::Dict{String, Tuple{Array{T, 1}, Array{Array{Float64, 1}, 1}}}, labelVec) where T <: Number
 
   outDc = Dict{String, Array{Float64, 2}}()
   for (k, v) in ssDc
