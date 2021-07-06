@@ -25,7 +25,7 @@ end
 ################################################################################
 
 ""
-function runHeatmap(shArgs, inDc::Dict{String, Tuple{Array{Int64, 1}, Array{Array{Float64, 1}, 1}}}, lbAr::Vector{Int64})
+function runHeatmap(shArgs, inDc::Dict{String, Tuple{Array{Int64, 1}, Array{Array{Float64, 1}, 1}}}, lbAr)
 
   ts = [:svg, :csv]
   for (s, t) ∈ zip([Symbol("out", i) for i = ts], ts)
