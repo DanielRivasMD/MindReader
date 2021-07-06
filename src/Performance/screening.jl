@@ -2,7 +2,7 @@
 
 """
 
-    sensitivitySpecifiity(ar::Matrix{T}) where T <: Number
+    sensitivitySpecificity(ar::Matrix{T}) where T <: Number
 
 # Description
 Calculate sensitivity and specificity from 2 x 2 array.
@@ -10,18 +10,18 @@ Calculate sensitivity and specificity from 2 x 2 array.
 # Examples
 ```jldoctest
 julia> χ = [10 40; 5 45]
-julia> sensitivitySpecifiity(χ)
+julia> sensitivitySpecificity(χ)
 (sensitivity = 0.6666666666666666, specificity = 0.5294117647058824)
 
 julia> χ = [20 33; 10 37]
-julia> sensitivitySpecifiity(χ)
+julia> sensitivitySpecificity(χ)
 (sensitivity = 0.6666666666666666, specificity = 0.5285714285714286)
 ```
 
 See also: [`predictiveValue`](@ref)
 
 """
-function sensitivitySpecifiity(ar::Matrix{T}) where T <: Number
+function sensitivitySpecificity(ar::Matrix{T}) where T <: Number
   if size(ar) == (2, 2)
     return (sensitivity = ar[1, 1] / ( ar[1, 1] + ar[2, 1] ), specificity = ar[2, 2] / ( ar[2, 2] + ar[1, 2] ))
   else
@@ -49,7 +49,7 @@ julia> predictiveValue(χ)
 (positive = 0.37735849056603776, negative = 0.7872340425531915)
 ```
 
-See also: [`sensitivitySpecifiity`](@ref)
+See also: [`sensitivitySpecificity`](@ref)
 """
 function predictiveValue(ar::Matrix{T}) where T <: Number
   if size(ar) == (2, 2)
@@ -105,13 +105,13 @@ end
 
 """
 
-    sensitivitySpecifiity(tbVc::Array{T, 1}, labelVec::Vector{T}) where T <: Number
+    sensitivitySpecificity(tbVc::Array{T, 1}, labelVec::Vector{T}) where T <: Number
 
 # Description
 Calculate sensitivity and specificity from a `Hidden Markov model` struct
 
 """
-function sensitivitySpecifiity(tbVc::Array{T, 1}, labelVec::Vector{T}) where T <: Number
+function sensitivitySpecificity(tbVc::Array{T, 1}, labelVec::Vector{T}) where T <: Number
   tbVec = copy(tbVc)
 
   # reassign frecuency labels
@@ -122,20 +122,20 @@ function sensitivitySpecifiity(tbVc::Array{T, 1}, labelVec::Vector{T}) where T <
   positives = tbVec[labelVec[:, 1] .== 1] |> freqtable |> p -> convertFqDfTempl(p, templ = labels) |> p -> sort(p, rev = true)
   negatives = tbVec[labelVec[:, 1] .== 0] |> freqtable |> p -> convertFqDfTempl(p, templ = labels) |> p -> sort(p, rev = true)
   outNamedArray = [positives[:, 2] negatives[:, 2]]
-  return sensitivitySpecifiity(outNamedArray)
+  return sensitivitySpecificity(outNamedArray)
 end
 
 ################################################################################
 
 """
 
-    sensitivitySpecifiity(tbVc::Array{T, 1}, labelMat::Matrix{T}) where T <: Number
+    sensitivitySpecificity(tbVc::Array{T, 1}, labelMat::Matrix{T}) where T <: Number
 
 # Description
 Calculate sensitivity and specificity from a `Hidden Markov model` struct
 
 """
-function sensitivitySpecifiity(tbVc::Array{T, 1}, labelMat::Matrix{T}) where T <: Number
+function sensitivitySpecificity(tbVc::Array{T, 1}, labelMat::Matrix{T}) where T <: Number
   tbVec = copy(tbVc)
 
   # reassign frecuency labels
@@ -149,25 +149,25 @@ function sensitivitySpecifiity(tbVc::Array{T, 1}, labelMat::Matrix{T}) where T <
   positives = tbVec[labelVec[:, 1] .== 1] |> freqtable |> p -> convertFqDfTempl(p, templ = labels) |> p -> sort(p, rev = true)
   negatives = tbVec[labelVec[:, 1] .== 0] |> freqtable |> p -> convertFqDfTempl(p, templ = labels) |> p -> sort(p, rev = true)
   outNamedArray = [positives[:, 2] negatives[:, 2]]
-  return sensitivitySpecifiity(outNamedArray)
+  return sensitivitySpecificity(outNamedArray)
 end
 
 ################################################################################
 
 """
 
-    sensitivitySpecifiity(ssDc::Dict{String, Tuple{Array{T, 1}, Array{Array{Float64, 1}, 1}}}, labelVec) where T <: Number
+    sensitivitySpecificity(ssDc::Dict{String, Tuple{Array{T, 1}, Array{Array{Float64, 1}, 1}}}, labelVec) where T <: Number
 
 # Description
 Iterate on Dictionary and calculate sensitivity and specificity from a `Hidden Markov model` struct
 
 """
-function sensitivitySpecifiity(ssDc::Dict{String, Tuple{Array{T, 1}, Array{Array{Float64, 1}, 1}}}, labelVec) where T <: Number
+function sensitivitySpecificity(ssDc::Dict{String, Tuple{Array{T, 1}, Array{Array{Float64, 1}, 1}}}, labelVec) where T <: Number
 
   outDc = Dict{String, Array{Float64, 2}}()
   for (k, v) in ssDc
     outSensSpec = zeros(1, 2)
-    (outSensSpec[1, 1], outSensSpec[1, 2]) = sensitivitySpecifiity(ssDc[k][1], labelVec)
+    (outSensSpec[1, 1], outSensSpec[1, 2]) = sensitivitySpecificity(ssDc[k][1], labelVec)
     outDc[k] = outSensSpec
   end
 

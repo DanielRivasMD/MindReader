@@ -71,7 +71,7 @@ export runHeatmap, plotChannelsHeatmap, writePerformance
 export collectState, stateStats, summarizeStats, groundStateRatio, plotStatesHeatmap
 
 # screening
-export sensitivitySpecifiity, predictiveValue, convertFqDf, convertFqDfTempl
+export sensitivitySpecificity, predictiveValue, convertFqDf, convertFqDfTempl
 
 # # permutations
 # export rdPerm
