@@ -1,6 +1,26 @@
+################################################################################
+
 using MindReader
 using Test
 
-@testset "MindReader.jl" begin
-    # Write your tests here.
+################################################################################
+
+tests = [
+
+  # private functions
+
+  # export functions
+  "screening.jl",
+
+]
+
+################################################################################
+
+@testset verbose = true "MindReader" begin
+
+  for τ ∈ tests
+    include(τ)
+  end
 end
+
+################################################################################
