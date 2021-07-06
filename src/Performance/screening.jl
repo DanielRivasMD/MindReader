@@ -18,6 +18,8 @@ julia> sensitivitySpecifiity(χ)
 (sensitivity = 0.6666666666666666, specificity = 0.5285714285714286)
 ```
 
+See also: [`predictiveValue`](@ref)
+
 """
 function sensitivitySpecifiity(ar::Matrix{T}) where T <: Number
   if size(ar) == (2, 2)
@@ -31,22 +33,53 @@ end
 
 """
 
-    sensspec(data_loader, model)
+    predictiveValue(ar::Matrix{T}) where T <: Number
 
-Calculate sensitivity and specificity from a DataLoader object
+# Description
+Calculate positive and negative predictive values from 2 x 2 array.
 
+# Examples
+```jldoctest
+julia> χ = [10 40; 5 45]
+julia> predictiveValue(χ)
+(positive = 0.2, negative = 0.9)
+
+julia> χ = [20 33; 10 37]
+julia> predictiveValue(χ)
+(positive = 0.37735849056603776, negative = 0.7872340425531915)
+```
+
+See also: [`sensitivitySpecifiity`](@ref)
 """
-function sensspec(data_loader, model)
-  d, l = data_loader
-  d = data_loader.data[1] |> model |> onecold
-  l = data_loader.data[2] |> onecold
+function predictiveValue(ar::Matrix{T}) where T <: Number
+  if size(ar) == (2, 2)
+    return (positive = ar[1, 1] / ( ar[1, 1] + ar[1, 2] ), negative = ar[2, 2] / ( ar[2, 2] + ar[2, 1] ))
+  else
+    @error "Matrix does not have the proper size"
+  end
+end
 
-  outNamedArray = [( d[l .== 2] |> freqtable |> p -> sort(p, rev = true)) ( d[l .== 1] |> freqtable |> reverse )]
-  if size(outNamedArray, 1) == 1
-    added = copy(outNamedArray)
-    NamedArrays.setnames!(added, [2], 1)
-    added[1, :] .= 0
-    outNamedArray = [outNamedArray; added]
+################################################################################
+
+# """
+#
+#     sensspec(data_loader, model)
+#
+# Calculate sensitivity and specificity from a DataLoader object
+#
+# """
+# function sensspec(data_loader, model)
+#   d, l = data_loader
+#   d = data_loader.data[1] |> model |> onecold
+#   l = data_loader.data[2] |> onecold
+#
+#   outNamedArray = [( d[l .== 2] |> freqtable |> p -> sort(p, rev = true)) ( d[l .== 1] |> freqtable |> reverse )]
+#   if size(outNamedArray, 1) == 1
+#     added = copy(outNamedArray)
+#     NamedArrays.setnames!(added, [2], 1)
+#     added[1, :] .= 0
+#     outNamedArray = [outNamedArray; added]
+
 ################################################################################
 
 "transform freqtable => dataframe"
