@@ -181,7 +181,7 @@ function annotationCalibrator(xDf; startTime::Time, recordFreq::Array{Int16, 1},
     for ix in 1:size(xDf[fk], 1)
       if !ismissing(xDf[fk][ix, :START]) & !ismissing(xDf[fk][ix, :END])
         emSt = xDf[fk][ix, :START] - startTime |> p -> convert(Dates.Second, p) |> p -> p.value * recFreq
-        emEn = xDf[fk][ix, :END] - startTime |> p -> convert(Dates.Second, p) |> (p -> p.value * recFreq) + recFreq
+        emEn = xDf[fk][ix, :END] - startTime |> p -> convert(Dates.Second, p) |> (p -> p.value * recFreq) |> p -> p + recFreq
         signalVec[emSt:emEn, :] .= 1
       else
         @warn "Annotation is not formatted properly & is not reliable"
