@@ -4,7 +4,19 @@
 
     sensitivitySpecifiity(ar::Matrix{T}) where T <: Number
 
-Calculate sensitivity and specificity from 2 x 2 array
+# Description
+Calculate sensitivity and specificity from 2 x 2 array.
+
+# Examples
+```jldoctest
+julia> χ = [10 40; 5 45]
+julia> sensitivitySpecifiity(χ)
+(sensitivity = 0.6666666666666666, specificity = 0.5294117647058824)
+
+julia> χ = [20 33; 10 37]
+julia> sensitivitySpecifiity(χ)
+(sensitivity = 0.6666666666666666, specificity = 0.5285714285714286)
+```
 
 """
 function sensitivitySpecifiity(ar::Matrix{T}) where T <: Number
@@ -62,7 +74,8 @@ end
 
     sensitivitySpecifiity(tbVc::Array{T, 1}, labelVec::Vector{T}) where T <: Number
 
-Calculate sensitivity and specificity from a HMM
+# Description
+Calculate sensitivity and specificity from a `Hidden Markov model` struct
 
 """
 function sensitivitySpecifiity(tbVc::Array{T, 1}, labelVec::Vector{T}) where T <: Number
@@ -85,7 +98,8 @@ end
 
     sensitivitySpecifiity(ssDc::Dict{String, Tuple{Array{T, 1}, Array{Array{Float64, 1}, 1}}}, labelVec::Vector{T}) where T <: Number
 
-Iterate on Dictionary and calculate sensitivity and specificity from a HMM
+# Description
+Iterate on Dictionary and calculate sensitivity and specificity from a `Hidden Markov model` struct
 
 """
 function sensitivitySpecifiity(ssDc::Dict{String, Tuple{Array{T, 1}, Array{Array{Float64, 1}, 1}}}, labelVec::Vector{T}) where T <: Number
@@ -106,6 +120,7 @@ end
 
     stFreqTb(fTb::NamedArray{Int64, 1})
 
+# Description
 Adjust frecuency tables for concatenation
 
 """
