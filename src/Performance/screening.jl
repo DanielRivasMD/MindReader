@@ -129,6 +129,33 @@ end
 
 """
 
+    sensitivitySpecifiity(tbVc::Array{T, 1}, labelMat::Matrix{T}) where T <: Number
+
+# Description
+Calculate sensitivity and specificity from a `Hidden Markov model` struct
+
+"""
+function sensitivitySpecifiity(tbVc::Array{T, 1}, labelMat::Matrix{T}) where T <: Number
+  tbVec = copy(tbVc)
+
+  # reassign frecuency labels
+  labels = [1, 2]
+  tbVec[findall(tbVec .> 1)] .= 2
+
+  # add label columns
+  labelVec = sum(labelMat, dims = 2)
+
+  # adjust & concatenate frecuency tables
+  positives = tbVec[labelVec[:, 1] .== 1] |> freqtable |> p -> convertFqDfTempl(p, templ = labels) |> p -> sort(p, rev = true)
+  negatives = tbVec[labelVec[:, 1] .== 0] |> freqtable |> p -> convertFqDfTempl(p, templ = labels) |> p -> sort(p, rev = true)
+  outNamedArray = [positives[:, 2] negatives[:, 2]]
+  return sensitivitySpecifiity(outNamedArray)
+end
+
+################################################################################
+
+"""
+
     sensitivitySpecifiity(ssDc::Dict{String, Tuple{Array{T, 1}, Array{Array{Float64, 1}, 1}}}, labelVec::Vector{T}) where T <: Number
 
 # Description
