@@ -20,13 +20,13 @@ end
 
 """
 
-    getSignals(edfFile::String)
+    getSignals(edfFile::S) where S <: String
 
 # Description
 Read EDF file. Return dataframe of signals.
 
 """
-function getSignals(edfFile::String)
+function getSignals(edfFile::S) where S <: String
   # read edf file
   @info "Reading EDF file..."
   edfRecord = EDF.read(edfFile)
@@ -79,7 +79,8 @@ function getedfRecordFreq(edfRecord)
       # no catch
     end
   end
-  return recordFreq
+  # explicit type conversion
+  return convert.(Int64, recordFreq)
 end
 
 ################################################################################
