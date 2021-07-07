@@ -74,36 +74,3 @@ function extractChannelSignalBin(edfDf::DataFrames.DataFrame; binSize::Int64, bi
 end
 
 ################################################################################
-
-"""
-
-    extractSignalBin(edfDf;
-    binSize, binOverlap)
-
-Use extractChannelSignalBin on EDF file
-
-"""
-function extractSignalBin(edfDf::DataFrames.DataFrame; binSize::Int64, binOverlap::Int64)
-  @info("Binning signals...")
-  signalAr = begin
-    stepSize = floor(Int64, binSize / binOverlap)
-    signalSteps = 1:stepSize:size(edfDf, 1)
-    Array{Float64}(
-      undef,
-      size(edfDf, 2),
-      binSize,
-      length(signalSteps)
-    )
-  end
-
-  # iterate on dataframe channels
-  for chl in 1:size(signalAr, 1)
-    tmpAr = extractChannelSignalBin(edfDf[:, chl], binSize = binSize, binOverlap = binOverlap)
-    for bn in 1:size(tmpAr, 1)
-      signalAr[chl, :, bn] = tmpAr[bn, :]
-    end
-  end
-  return signalAr
-end
-
-################################################################################
