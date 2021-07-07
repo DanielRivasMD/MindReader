@@ -2,15 +2,16 @@
 
 """
 
-    xread(xlsxFile::S) where S <: String
+    xread(shParams::Dict)
 
 # Description
 Read annotation XLSX file.
 
 """
-function xread(xlsxFile::S) where S <: String
+function xread(shParams::Dict)
   # read xlsx file
   @info "Reading XLSX file..."
+  xlsxFile = string(shParams["indir"], replace(shParams["file"], "edf" => "xlsx"))
   xtmp = XLSX.readxlsx(xlsxFile)
 
   if xtmp |> XLSX.sheetcount != 3
