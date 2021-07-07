@@ -47,10 +47,10 @@ export xread
 export annotationReader, annotationCalibrator, labelParser
 
 # signalBin
-export extractChannelSignalBin, extractSignalBin
+export extractSignalBin
 
 # fastFourierTransform
-export extractChannelFFT, extractFFT, binChannelFFT
+export extractFFT
 
 # architect
 export buildAutoencoder, buildAssymmetricalAutoencoder, buildRecurrentAutoencoder, buildDeepRecurrentAutoencoder, buildPerceptron
