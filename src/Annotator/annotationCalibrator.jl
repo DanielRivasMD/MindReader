@@ -1,64 +1,67 @@
 ################################################################################
 
 "obtain seizure time [physionet]"
-function getSeizureSec(annot::String)
-  annot |> p -> findfirst(':', p) |> p -> getindex(annot, p + 2:length(annot)) |> p -> replace(p, " seconds" => "") |> Second
+function getSeizureSec(annot::S) where S <: String
+  annot |> π -> findfirst(':', π) |> π -> getindex(annot, π + 2:length(annot)) |> π -> replace(π, " seconds" => "") |> Second
 end
 
 "obtain number seizure events [physionet]"
-function getSeizureNo(annot::String)
-  annot |> p -> replace(p, "Number of Seizures in File: " => "") |> p -> parse(Int64, p)
+function getSeizureNo(annot::S) where S <: String
+  annot |> π -> replace(π, "Number of Seizures in File: " => "") |> π -> parse(Int64, π)
 end
 
 "obtain file name [physionet]"
-function getSeizureFile(annot::String)
-  annot |> p -> replace(p, "File Name: " => "") |> p -> replace(p, ".edf" => "")
+function getSeizureFile(annot::S) where S <: String
+  annot |> π -> replace(π, "File Name: " => "") |> π -> replace(π, ".edf" => "")
 end
 
 ################################################################################
 
 """
 
-    annotationReader(summaryFile)
+    annotationReader(summaryFile::S) where S <: String
 
-Input
+# Description
+Extract anomaly events from summary file [physionet]. Return a dictionary with files as keys.
 
+
+See also: [`annotationCalibrator`](@ref), [`labelParser`](@ref)
 """
-function annotationReader(summaryFile::String)
-
+function annotationReader(summaryFile::S) where S <: String
+  @info "Reading annotations..."
   annotDc = Dict{String, Vector{Tuple{Second, Second}}}()
   lastFile = ""
   startTime = Second(0)
   endTime = Second(0)
   timeVc = [(startTime, endTime)]
-  sno = 0
-  fl = false
-  sw = false
+  ν = 0
+  ω = false
+  ζ = false
 
-  open(summaryFile) do f
+  open(summaryFile) do Φ
     line = 0
 
-    while !eof(f)
+    while !eof(Φ)
 
       line += 1
-      z = readline(f)
-      if contains(z, "File Name")
-        lastFile = getSeizureFile(z)
-        fl = true
-      elseif contains(z, "Number of Seizures")
-        sno = getSeizureNo(z)
-      elseif contains(z, "Seizure") & contains(z, "Start Time")
-        startTime = getSeizureSec(z)
-      elseif contains(z, "Seizure") & contains(z, "End Time")
-        endTime = getSeizureSec(z)
+      φ = readline(Φ)
+      if contains(φ, "File Name")
+        lastFile = getSeizureFile(φ)
+        ω = true
+      elseif contains(φ, "Number of Seizures")
+        ν = getSeizureNo(φ)
+      elseif contains(φ, "Seizure") && contains(φ, "Start Time")
+        startTime = getSeizureSec(φ)
+      elseif contains(φ, "Seizure") && contains(φ, "End Time")
+        endTime = getSeizureSec(φ)
         push!(timeVc, (startTime, endTime))
-        if length(timeVc) == sno + 1
-          sw = true
+        if length(timeVc) == ν + 1
+          ζ = true
         end
       end
 
-      if fl & sw
-        sw = false
+      if ω && ζ
+        ζ = false
         annotDc[lastFile] = timeVc[2:end]
         timeVc = [(startTime, endTime)]
       end
@@ -72,48 +75,50 @@ end
 ################################################################################
 
 """
-    annotationCalibrator(annotations;
-    startTime, recordFreq, signalLength, binSize, binOverlap)
 
-Input annotations from summary file [physionet]
+    annotationCalibrator(annotations::Vector{Tuple{S, S}};
+    startTime::Time, recordFreq::Array{T, 1}, signalLength::T, shParams::Dict) where T <: Number where S <: Second
+
+# Description
+Calibrate timestamp from summary file [physionet].
 
 # Arguments
-`annotations` annotations summary [physionet]
+`annotations` annotations summary [physionet].
 
-`startTime` signal start time
+`startTime` signal start time.
 
-`recordFreq` recording frecuency
+`recordFreq` recording frecuency.
 
-`signalLength` recording length
+`signalLength` recording length.
 
-`binSize` window bin size
+`shParams` dictionary with command line arguments to extract: `binSize` window bin size and `binOverlap` overlap.
 
-`binOverlap` overlap
 
+See also: [`annotationReader`](@ref), [`labelParser`](@ref)
 """
-function annotationCalibrator(annotations::Vector{Tuple{Second, Second}}; startTime::Time, recordFreq::Array{Int16, 1}, signalLength::Int64, binSize::Int64, binOverlap::Int64)
+function annotationCalibrator(annotations::Vector{Tuple{S, S}}; startTime::Time, recordFreq::Array{T, 1}, signalLength::T, shParams::Dict) where T <: Number where S <: Second
   @info "Calibrating annotations..."
   # collect recording frecuency
   recFreq = begin
     recAv = (sum(recordFreq)) / (length(recordFreq))
-    recAv |> p -> convert(Int64, p)
+    recAv |> π -> convert(Int64, π)
   end
 
   # generate signal holder
   signalVec = zeros(signalLength)
 
   # collect annotations
-  for an in annotations
-    emSt = an[1].value * recFreq
-    emEn = (an[2].value * recFreq) + recFreq
+  for α ∈ annotations
+    emSt = α[1].value * recFreq
+    emEn = (α[2].value * recFreq) + recFreq
     signalVec[emSt:emEn, :] .= 1
   end
 
   # binned signal
   binVec = begin
-    binVec = extractChannelSignalBin(signalVec, binSize = binSize, binOverlap = binOverlap)
+    binVec = extractSignalBin(signalVec, binSize = shParams["window-size"], binOverlap = shParams["bin-overlap"])
     binVec = sum(binVec, dims = 2)
-    replace!(r -> r >= 1 ? 1 : 0, binVec)
+    replace!(ρ -> ρ >= 1 ? 1 : 0, binVec)
     binVec = convert.(Int64, binVec)
     binVec[:, 1]
   end
@@ -126,62 +131,59 @@ end
 """
 
     annotationCalibrator(xDf;
-    startTime, recordFreq, signalLength, binSize = 256, binOverlap = 8)
+    startTime::Time, recordFreq::Array{T, 1}, signalLength::T, shParams::Dict) where T <: Number
 
-Input annotations from XLSX
+# Description
+Calibrate annotations from XLSX.
 
 # Arguments
-`xDf` annotations from XLSX file
+`xDf` annotations from XLSX file.
 
-`startTime` signal start time
+`startTime` signal start time.
 
-`recordFreq` recording frecuency
+`recordFreq` recording frecuency.
 
-`signalLength` recording length
+`signalLength` recording length.
 
-`binSize` window bin size
+`shParams` dictionary with command line arguments to extract: `binSize` window bin size and `binOverlap` overlap.
 
-`binOverlap` overlap
 
+See also: [`annotationReader`](@ref), [`labelParser`](@ref)
 """
-function annotationCalibrator(xDf; startTime::Time, recordFreq::Array{Int16, 1}, signalLength::Int64, binSize::Int64, binOverlap::Int64)
-
+function annotationCalibrator(xDf; startTime::Time, recordFreq::Array{T, 1}, signalLength::T, shParams::Dict) where T <: Number
   @info "Calibrating annotations..."
   # collect recording frecuency
   recFreq = begin
     recAv = (sum(recordFreq)) / (length(recordFreq))
-    recAv |> p -> convert(Int64, p)
+    recAv |> π -> convert(Int64, π)
   end
-
 
   # fields to check
   fields = ["ST", "MA", "EM"]
-  stepSize = floor(Int64, binSize / binOverlap)
+  stepSize = floor(Int64, shParams["window-size"] / shParams["bin-overlap"])
   signalSteps = 1:stepSize:signalLength
   binArr = zeros(Int64, length(signalSteps), length(fields))
 
-  # binArr = [0 for i in eachindex(fields)]
-  # binArr = [zeros(length(signalSteps)) for i in eachindex(fields)]
-  for fx in eachindex(fields)
-    fk = fields[fx]
+  for ο ∈ eachindex(fields)
+    κ = fields[ο]
 
     # purge missing records on all columns
     toSupress = begin
-      [ismissing(xDf[fk][j, i]) for j in 1:size(xDf[fk], 1) for i in 1:size(xDf[fk], 2)] |>
-      p -> reshape(p, size(xDf[fk], 2), size(xDf[fk], 1)) |>
-      p -> sum(p, dims = 1)
+      [ismissing(xDf[κ][j, i]) for j ∈ 1:size(xDf[κ], 1) for i ∈ 1:size(xDf[κ], 2)] |>
+      π -> reshape(π, size(xDf[κ], 2), size(xDf[κ], 1)) |>
+      π -> sum(π, dims = 1)
     end
 
-    delete!(xDf[fk], (toSupress' .== size(xDf[fk], 2))[:, 1])
+    delete!(xDf[κ], (toSupress' .== size(xDf[κ], 2))[:, 1])
 
     # generate signal holder
     signalVec = zeros(signalLength)
 
     # collect annotations
-    for ix in 1:size(xDf[fk], 1)
-      if !ismissing(xDf[fk][ix, :START]) & !ismissing(xDf[fk][ix, :END])
-        emSt = xDf[fk][ix, :START] - startTime |> p -> convert(Dates.Second, p) |> p -> p.value * recFreq
-        emEn = xDf[fk][ix, :END] - startTime |> p -> convert(Dates.Second, p) |> (p -> p.value * recFreq) |> p -> p + recFreq
+    for ι ∈ 1:size(xDf[κ], 1)
+      if !ismissing(xDf[κ][ι, :START]) & !ismissing(xDf[κ][ι, :END])
+        emSt = xDf[κ][ι, :START] - startTime |> p -> convert(Dates.Second, p) |> p -> p.value * recFreq
+        emEn = xDf[κ][ι, :END] - startTime |> p -> convert(Dates.Second, p) |> (p -> p.value * recFreq) |> p -> p + recFreq
         signalVec[emSt:emEn, :] .= 1
       else
         @warn "Annotation is not formatted properly & is not reliable"
@@ -190,13 +192,13 @@ function annotationCalibrator(xDf; startTime::Time, recordFreq::Array{Int16, 1},
 
     # binned signal
     binVec = begin
-      binVec = extractChannelSignalBin(signalVec, binSize = binSize, binOverlap = binOverlap)
+      binVec = extractSignalBin(signalVec, binSize = shParams["window-size"], binOverlap = shParams["bin-overlap"])
       binVec = sum(binVec, dims = 2)
-      replace!(r -> r >= 1 ? 1 : 0, binVec)
+      replace!(ρ -> ρ >= 1 ? 1 : 0, binVec)
       binVec = convert.(Int64, binVec)
       binVec[:, 1]
     end
-    binArr[:, fx] = binVec
+    binArr[:, ο] = binVec
   end
 
   return binArr
@@ -206,17 +208,20 @@ end
 
 """
 
-    labelParser(lbAr)
+    labelParser(lbAr::Array{T, 2}) where T <: Number
 
+# Description
 Parse three-column array into binary encoding
 
+
+See also: [`annotationReader`](@ref), See also: [`annotationCalibrator`](@ref)
 """
-function labelParser(lbAr::Matrix{Int64})
+function labelParser(lbAr::Array{T, 2}) where T <: Number
   @info "Parsing annotations..."
   lbSz = size(lbAr, 1)
   tmpAr = Array{String}(undef, lbSz, 1)
-  for ix in 1:lbSz
-    tmpAr[ix, 1] = string(lbAr[ix,  1], lbAr[ix, 2], lbAr[ix, 3], )
+  for ι ∈ 1:lbSz
+    tmpAr[ι, 1] = string(lbAr[ι,  1], lbAr[ι, 2], lbAr[ι, 3], )
   end
   outAr = parse.(Int64, tmpAr, base = 2)
   outAr = reshape(outAr, (size(outAr, 1), ))
