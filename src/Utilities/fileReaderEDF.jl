@@ -2,14 +2,11 @@
 
 """
 
-    getSignals(edfFile)
     getSignals(shParams::Dict)
 
 # Description
-Read EDF file & Return dataframe of signals
 Read EDF file from shell arguments. Return dataframe of signals.
 
-```
 """
 function getSignals(shParams::Dict)
   if haskey(shParams, "indir") && haskey(shParams, "file")
@@ -20,8 +17,16 @@ function getSignals(shParams::Dict)
 end
 
 ################################################################################
+
 """
-function getSignals(edfFile)
+
+    getSignals(edfFile::String)
+
+# Description
+Read EDF file. Return dataframe of signals.
+
+"""
+function getSignals(edfFile::String)
   # read edf file
   @info "Reading EDF file..."
   edfRecord = EDF.read(edfFile)
@@ -30,10 +35,10 @@ function getSignals(edfFile)
   edfDf = DataFrames.DataFrame()
   signalLength = length(edfRecord.signals)
 
-  for i in 1:signalLength
+  for ι ∈ 1:signalLength
     try
-      if edfRecord.signals[i].header.label ∉ ["A", "MK", "ECG", "EKG"]
-        edfDf[!, edfRecord.signals[i].header.label] = EDF.decode(edfRecord.signals[i])
+      if edfRecord.signals[ι].header.label ∉ ["A", "MK", "ECG", "EKG"]
+        edfDf[!, edfRecord.signals[ι].header.label] = EDF.decode(edfRecord.signals[ι])
       end
     catch
       # no catch
@@ -65,10 +70,10 @@ function getedfRecordFreq(edfRecord)
   signalLength = length(edfRecord.signals)
 
   recordFreq = [edfRecord.signals[1].header.samples_per_record]
-  for i in 2:signalLength
+  for ι ∈ 2:signalLength
     try
-      if edfRecord.signals[i].header.label ∉ ["A", "MK", "ECG", "EKG"]
-        recordFreq = [recordFreq; edfRecord.signals[i].header.samples_per_record]
+      if edfRecord.signals[ι].header.label ∉ ["A", "MK", "ECG", "EKG"]
+        recordFreq = [recordFreq; edfRecord.signals[ι].header.samples_per_record]
       end
     catch
       # no catch
