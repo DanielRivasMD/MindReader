@@ -2,7 +2,7 @@
 
 """
 
-    sensitivitySpecificity(ar::Matrix{T}) where T <: Number
+    sensitivitySpecificity(ar::Array{T, 2}) where T <: Number
 
 # Description
 Calculate sensitivity and specificity from 2 x 2 array.
@@ -21,7 +21,7 @@ julia> sensitivitySpecificity(χ)
 See also: [`predictiveValue`](@ref)
 
 """
-function sensitivitySpecificity(ar::Matrix{T}) where T <: Number
+function sensitivitySpecificity(ar::Array{T, 2}) where T <: Number
   if size(ar) == (2, 2)
     return (sensitivity = ar[1, 1] / ( ar[1, 1] + ar[2, 1] ), specificity = ar[2, 2] / ( ar[2, 2] + ar[1, 2] ))
   else
@@ -33,7 +33,7 @@ end
 
 """
 
-    predictiveValue(ar::Matrix{T}) where T <: Number
+    predictiveValue(ar::Array{T, 2}) where T <: Number
 
 # Description
 Calculate positive and negative predictive values from 2 x 2 array.
@@ -51,7 +51,7 @@ julia> predictiveValue(χ)
 
 See also: [`sensitivitySpecificity`](@ref)
 """
-function predictiveValue(ar::Matrix{T}) where T <: Number
+function predictiveValue(ar::Array{T, 2}) where T <: Number
   if size(ar) == (2, 2)
     return (positive = ar[1, 1] / ( ar[1, 1] + ar[1, 2] ), negative = ar[2, 2] / ( ar[2, 2] + ar[2, 1] ))
   else
@@ -83,12 +83,12 @@ end
 ################################################################################
 
 "transform freqtable => dataframe"
-function convertFqDf(fq::NamedVector{T, Vector{T}, Tuple{OrderedDict{T, T}}}; colnames::Vector{String} = ["Value", "Frecuency"]) where T <: Number
+function convertFqDf(fq::NamedVector{T, Vector{T}, Tuple{OrderedDict{T, T}}}; colnames::Vector{S} = ["Value", "Frecuency"]) where T <: Number where S <: String
   return DataFrames.DataFrame([names(fq)[1] fq.array], colnames)
 end
 
 "transform freqtable => dataframe template"
-function convertFqDfTempl(fq::NamedVector{T, Vector{T}, Tuple{OrderedDict{T, T}}}; colnames::Vector{String} = ["Value", "Frecuency"], templ::Vector{T}) where T <: Number
+function convertFqDfTempl(fq::NamedVector{T, Vector{T}, Tuple{OrderedDict{T, T}}}; colnames::Vector{S} = ["Value", "Frecuency"], templ::Vector{T}) where T <: Number where S <: String
 
   fq = convertFqDf(fq)
 
@@ -156,15 +156,15 @@ end
 
 """
 
-    sensitivitySpecificity(ssDc::Dict{String, Tuple{Array{T, 1}, Array{Array{Float64, 1}, 1}}}, labelVec) where T <: Number
+    sensitivitySpecificity(ssDc::Dict{S, Tuple{Array{T, 1}, Array{Array{Float64, 1}, 1}}}, labelVec) where T <: Number where S <: String
 
 # Description
 Iterate on Dictionary and calculate sensitivity and specificity from a `Hidden Markov model` struct
 
 """
-function sensitivitySpecificity(ssDc::Dict{String, Tuple{Array{T, 1}, Array{Array{Float64, 1}, 1}}}, labelVec) where T <: Number
+function sensitivitySpecificity(ssDc::Dict{S, Tuple{Array{T, 1}, Array{Array{Float64, 1}, 1}}}, labelVec) where T <: Number where S <: String
 
-  outDc = Dict{String, Array{Float64, 2}}()
+  outDc = Dict{S, Array{Float64, 2}}() where S <: String
   for (k, v) in ssDc
     outSensSpec = zeros(1, 2)
     (outSensSpec[1, 1], outSensSpec[1, 2]) = sensitivitySpecificity(ssDc[k][1], labelVec)
