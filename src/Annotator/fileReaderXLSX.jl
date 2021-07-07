@@ -2,13 +2,13 @@
 
 """
 
-    xread(xlsxFile)
+    xread(xlsxFile::S) where S <: String
 
 # Description
-Read annotation XLSX file
+Read annotation XLSX file.
 
 """
-function xread(xlsxFile::String)
+function xread(xlsxFile::S) where S <: String
   # read xlsx file
   @info "Reading XLSX file..."
   xtmp = XLSX.readxlsx(xlsxFile)
@@ -19,12 +19,12 @@ function xread(xlsxFile::String)
 
   # load sheets on dataframes
   outDc = Dict{String, DataFrame}()
-  kys = ["PD" 7; "SA" 6; "EM" 4]
-  for (k, s) in eachrow(kys)
-    j = (match.(Regex(k), xtmp |> XLSX.sheetnames) .|> !isnothing |> findall)[1]
-    xar = xtmp[j][:]
-    if size(xar, 2) == s + 1
-      if k == "EM" && ismissing(xar[1, end - 1])
+  Κ = ["PD" 7; "SA" 6; "EM" 4]
+  for (κ, υ) ∈ eachrow(Κ)
+    ξ = (match.(Regex(κ), xtmp |> XLSX.sheetnames) .|> !isnothing |> findall)[1]
+    xar = xtmp[ξ][:]
+    if size(xar, 2) == υ + 1
+      if κ == "EM" && ismissing(xar[1, end - 1])
         xar[1, end - 1] = xar[1, end]
       end
       xar[1, end] = "ADDITIONAL"
@@ -32,19 +32,19 @@ function xread(xlsxFile::String)
       xar = [xar ["ADDITIONAL"; repeat([missing], size(xar, 1) - 1)]]
     end
     xAr = DataFrame(xar[2:end, :], :auto)
-    for ix in 1:size(xar, 2)
-      rename!(xAr, [ix => xar[1, ix]])
+    for ι ∈ 1:size(xar, 2)
+      rename!(xAr, [ι => xar[1, ι]])
     end
-    if k == "SA"
+    if κ == "SA"
       outDc["ST"] = xAr[:, 1:3]
       outDc["MA"] = xAr[:, 4:end]
-      for kx in ["ST", "MA"]
-        for ix in 2:3
-          rename!(outDc[kx], [ix => replace.(names(outDc[kx])[ix], r"\S " => "")])
+      for ο ∈ ["ST", "MA"]
+        for ι ∈ 2:3
+          rename!(outDc[ο], [ι => replace.(names(outDc[ο])[ι], r"\S " => "")])
         end
       end
     else
-      outDc[k] = xAr
+      outDc[κ] = xAr
     end
   end
 
