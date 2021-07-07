@@ -85,27 +85,3 @@ function extractChannelFFT(edfDf::DataFrames.DataFrame; binSize::Int64, binOverl
 end
 
 ################################################################################
-
-"""
-
-    binChannelFFT(freqAr;
-    fftBin)
-
-Bin FFT signals and collect sums
-
-"""
-function binChannelFFT(freqAr::Array{Float64, 3}; fftBin::Int64)
-  freqAr = Flux.flatten(freqAr)
-  # if size(freqAr, 1) / fftBin != 0
-  #   @error "Cannot compute binning. Array size is not divisible by bin size"
-  # end
-
-  iterVc = 1:fftBin:size(freqAr, 1)
-  outAr = Array{Float64, 2}(undef, fftBin, size(freqAr, 2))
-  for (ix, st) in enumerate(iterVc)
-    outAr[ix, :] = freqAr[st:floor(Int64, st + (size(freqAr, 1) / fftBin) - 1), :] |> p -> sum(p, dims = 1)
-  end
-  return outAr
-end
-
-################################################################################
