@@ -4,11 +4,25 @@
 
     extractChannelSignalBin(channel;
     binSize, binOverlap)
+    extractSignalBin(edfDf::DataFrames.DataFrame, params::Dict)
 
 Bins channel signal
+# Description
+Use `extractSignalBin` on EDF file per channel from shell arguments. Returns a dictionary with channel names as keys.
 
+
+See also: [`extractFFT`](@ref)
 """
 function extractChannelSignalBin(channel::Array; binSize::Int64, binOverlap::Int64)
+function extractSignalBin(edfDf::DataFrames.DataFrame, params::Dict)
+  if haskey(params, "window-size") && haskey(params, "bin-overlap")
+    return extractSignalBin(edfDf, binSize = params["window-size"], binOverlap = params["bin-overlap"])
+  else
+    @error "Variables are not defined in dictionary"
+  end
+end
+
+################################################################################
   # define variables
   stepSize = floor(Int64, binSize / binOverlap)
   signalSteps = 1:stepSize:length(channel)
