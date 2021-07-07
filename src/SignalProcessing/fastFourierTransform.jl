@@ -4,11 +4,25 @@
 
     extractChannelFFT(channel;
     binSize, binOverlap)
+    extractFFT(edfDf::DataFrames.DataFrame, params::Dict)
 
 Apply fast fourier transform (FFT) to channel
+# Description
+Use `extractFFT` on EDF file per channel from shell arguments. Returns a dictionary with channel names as keys.
 
+
+See also: [`extractSignalBin`](@ref)
 """
 function extractChannelFFT(channel; binSize, binOverlap)
+function extractFFT(edfDf::DataFrames.DataFrame, params::Dict)
+  if haskey(params, "window-size") && haskey(params, "bin-overlap")
+    return extractFFT(edfDf, binSize = params["window-size"], binOverlap = params["bin-overlap"])
+  else
+    @error "Variables are not defined in dictionary"
+  end
+end
+
+################################################################################
   # define variables
   stepSize = floor(Int32, binSize / binOverlap)
   signalSteps = 1:stepSize:length(channel)
