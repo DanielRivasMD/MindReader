@@ -38,7 +38,7 @@ using CairoMakie
 ################################################################################
 
 # fileReaderEDF
-export getSignals, getedfStart, getedfRecordFreq
+export getSignals
 
 # fileReaderXLSX
 export xread
