@@ -5,8 +5,12 @@ using HiddenMarkovModelReaders
 
 ################################################################################
 
-# argument parser
-include( "Utilities/argParser.jl" );
+import Flux: cpu, gpu, flatten, leakyrelu
+using DelimitedFiles
+
+################################################################################
+
+import Parameters: @with_kw
 
 ################################################################################
 
@@ -15,13 +19,18 @@ include( "Parameters.jl");
 
 ################################################################################
 
+# argument parser
+include( "Utilities/argParser.jl" );
+
+################################################################################
+
 # read data
 begin
   # read edf file
-  edfDf, startTime, recordFreq = getSignals( string(shArgs["indir"], shArgs["file"]) )
+  edfDf, startTime, recordFreq = getSignals(shArgs)
 
   # calculate fft
-  freqDc = extractChannelFFT(edfDf, binSize = shArgs["window-size"], binOverlap = shArgs["bin-overlap"])
+  freqDc = extractFFT(edfDf, shArgs)
 end;
 
 ################################################################################
@@ -42,14 +51,14 @@ begin
 
     ################################################################################
 
-    postAr = Flux.cpu(model).(freqAr)
+    postAr = cpu(model).(freqAr)
 
     ################################################################################
 
     begin
       @info "Creating Hidden Markov Model..."
       # error
-      aErr = reshifter(postAr - freqAr) |> p -> Flux.flatten(p) |> permutedims
+      aErr = reshifter(postAr - freqAr) |> p -> flatten(p) |> permutedims
 
       # setup
       hmm = setup(aErr)
