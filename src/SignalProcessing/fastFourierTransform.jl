@@ -88,39 +88,6 @@ end
 
 """
 
-    extractFFT(edfDf;
-    binSize, binOverlap)
-
-Use extractChannelFFT on EDF file
-
-"""
-function extractFFT(edfDf::DataFrames.DataFrame; binSize, binOverlap)
-  @info("Extracting frecuencies...")
-  freqAr = begin
-    stepSize = floor(Int32, binSize / binOverlap)
-    signalSteps = 1:stepSize:size(edfDf)[1]
-    Array{Float64}(
-      undef,
-      size(edfDf, 2),
-      binSize,
-      length(signalSteps)
-    )
-  end
-
-  # iterate on dataframe channels
-  for chl in 1:size(edfDf, 2)
-    tmpAr = extractChannelFFT(edfDf[:, chl], binSize = binSize, binOverlap = binOverlap)
-    for bn in 1:size(tmpAr, 1)
-      freqAr[chl, :, bn] = tmpAr[bn, :]
-    end
-    end
-  return freqAr
-end
-
-################################################################################
-
-"""
-
     binChannelFFT(freqAr;
     fftBin)
 
