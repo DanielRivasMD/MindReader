@@ -3,12 +3,23 @@
 """
 
     getSignals(edfFile)
+    getSignals(shParams::Dict)
 
 # Description
 Read EDF file & Return dataframe of signals
+Read EDF file from shell arguments. Return dataframe of signals.
 
 ```
+"""
+function getSignals(shParams::Dict)
+  if haskey(shParams, "indir") && haskey(shParams, "file")
+    return getSignals( string(shParams["indir"], shParams["file"]) )
+  else
+    @error "Variables are not defined in dictionary"
+  end
+end
 
+################################################################################
 """
 function getSignals(edfFile)
   # read edf file
