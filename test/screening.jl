@@ -6,8 +6,8 @@
 
   # testing
   @testset "Sensitivity & Specificity" begin
-    @test sensitivitySpecifiity([10 40; 5 45]) == (sensitivity = 0.6666666666666666, specificity = 0.5294117647058824)
-    @test sensitivitySpecifiity([20 33; 10 37]) == (sensitivity = 0.6666666666666666, specificity = 0.5285714285714286)
+    @test sensitivitySpecificity([10 40; 5 45]) == (sensitivity = 0.6666666666666666, specificity = 0.5294117647058824)
+    @test sensitivitySpecificity([20 33; 10 37]) == (sensitivity = 0.6666666666666666, specificity = 0.5285714285714286)
   end
 
   ################################################################################
