@@ -4,8 +4,11 @@
 
     shifter(inputAr)
 
-Reshape signals for autoencoder
+# Description
+Reshape signals for autoencoder.
 
+
+See also: [`reshifter`](@ref)
 """
 function shifter(inputAr)
   outAr = [
@@ -13,10 +16,10 @@ function shifter(inputAr)
       undef,
       prod(size(inputAr)[1:2])
     )
-    for i in 1:size(inputAr, 3)
+    for _ ∈ 1:size(inputAr, 3)
   ]
-  for ix in 1:size(inputAr, 3)
-    outAr[ix] = vec(inputAr[:, :, ix])
+  for ι ∈ 1:size(inputAr, 3)
+    outAr[ι] = vec(inputAr[:, :, ι])
   end
   return outAr
 end
@@ -26,22 +29,25 @@ end
 """
 
     reshifter(inputAr;
-    binSize = 256)
+    outSize = length(inputAr[1]))
 
-Reshape signals from autoencoder
+# Description
+Reshape signals from autoencoder.
 
+
+See also: [`shifter`](@ref)
 """
-function reshifter(inputAr, binSize = length(inputAr[1]))
-  ch = length(inputAr[1]) / binSize |> p -> convert(Int64, p)
+function reshifter(inputAr; outSize = length(inputAr[1]))
+  ψ = length(inputAr[1]) / outSize |> π -> convert(Int64, π)
   outAr  = Array{Float64}(
     undef,
-    ch,
-    binSize,
+    ψ,
+    outSize,
     length(inputAr)
   )
 
-  for ix in 1:length(inputAr)
-    outAr[:, :, ix] = inputAr[ix] |> p -> reshape(p, ch, binSize)
+  for ι ∈ 1:length(inputAr)
+    outAr[:, :, ι] = inputAr[ι] |> π -> reshape(π, ψ, outSize)
   end
 
   return outAr

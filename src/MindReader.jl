@@ -53,10 +53,10 @@ export buildAutoencoder
 export shifter, reshifter
 
 # autoencoder
-export modelTrain
 
 # # SMPerceptron
 # export modelTest, modelSS, accuracy, lossAll, loadData
+export modelTrain
 
 # statesHeatMap
 export runHeatmap, plotChannelsHeatmap, writePerformance
