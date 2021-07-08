@@ -53,9 +53,6 @@ export buildAutoencoder
 export shifter, reshifter
 
 # autoencoder
-
-# # SMPerceptron
-# export modelTest, modelSS, accuracy, lossAll, loadData
 export modelTrain!
 
 # statesHeatMap
@@ -98,15 +95,12 @@ begin
   include( string(arqDir,     "architect.jl") )
   include( string(arqDir,     "shapeShifter.jl") )
   include( string(arqDir,     "autoencoder.jl") )
-  # include( string(arqDir,     "SMPerceptron.jl") )
   include( string(graphDir,   "statesHeatMap.jl") )
   include( string(performDir, "stateStats.jl") )
   include( string(performDir, "screening.jl") )
   # include( string(performDir, "permutations.jl") )
   include( string(utilDir,    "writeCSV.jl") )
 end;
-
-# TODO: fix perceptron functions
 
 ################################################################################
 
