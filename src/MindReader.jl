@@ -37,7 +37,7 @@ using CairoMakie
 
 ################################################################################
 
-# fileReaderEDF
+# readEDF
 export getSignals
 
 # fileReaderXLSX
@@ -98,7 +98,7 @@ end;
 
 # load functions
 begin
-  include( string(utilDir,    "fileReaderEDF.jl") )
+  include( string(utilDir,    "readEDF.jl") )
   include( string(montageDir, "electrodeID.jl") )
   include( string(annotDir,   "fileReaderXLSX.jl") )
   include( string(annotDir,   "annotationCalibrator.jl") )
