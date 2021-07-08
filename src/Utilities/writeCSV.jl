@@ -66,19 +66,18 @@ end
 
 """
 
-    writePerformance(stDc::Dict{S, Array{T, 2}}) where S <: String where T <: Number
+    writePerformance(performanceDc::Dict{S, Array{T, 2}}) where S <: String where T <: Number
 
 # Description
-Write model performance to CSV file.
+Transform model performance to table to write.
 
 
 See also: [`writeHMM`](@ref)
 """
-
-function writePerformance(stDc::Dict{S, Array{T, 2}}) where S <: String where T <: Number
-  outAr = Array{Any, 2}(undef, length(stDc) + 1, 3)
+function writePerformance(performanceDc::Dict{S, Array{T, 2}}) where S <: String where T <: Number
+  outAr = Array{Any, 2}(undef, length(performanceDc) + 1, 3)
   outAr[1, :] .= ["Electrode", "Sensitivity", "Specificity"]
-  for (ζ, (κ, υ)) ∈ enumerate(stDc)
+  for (ζ, (κ, υ)) ∈ enumerate(performanceDc)
     outAr[ζ + 1, :] = [κ υ]
   end
   return outAr
