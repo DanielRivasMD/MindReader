@@ -40,12 +40,6 @@ using CairoMakie
 # readEDF
 export getSignals
 
-# fileReaderXLSX
-export xread
-
-# annotationCalibrator
-export annotationReader, annotationCalibrator, labelParser
-
 # signalBin
 export extractSignalBin
 
@@ -84,7 +78,6 @@ export writeHMM, shiftHMM, writePerformance
 begin
   utilDir    = "Utilities/"
   montageDir = "Montage/"
-  annotDir   = "Annotator/"
   signalDir  = "SignalProcessing/"
   arqDir     = "Architect/"
   # hmmDir     = "HiddenMarkovModel/"
@@ -100,8 +93,6 @@ end;
 begin
   include( string(utilDir,    "readEDF.jl") )
   include( string(montageDir, "electrodeID.jl") )
-  include( string(annotDir,   "fileReaderXLSX.jl") )
-  include( string(annotDir,   "annotationCalibrator.jl") )
   include( string(signalDir,  "signalBin.jl") )
   include( string(signalDir,  "fastFourierTransform.jl") )
   # include( string(hmmDir,     "hiddenMarkovModel.jl") )
