@@ -19,24 +19,24 @@ end
 # three-layered autoencoder
 """
 
-    buildAutoencoder(inputLayer, compressedLayer, σ)
+    buildAutoencoder(inputLayer::T;
+    nnParams) where T <: Integer
 
+# Description
 Build a three-layered autoencoder
 
 # Arguments
-`inputLayer` number of neurons on input
+`inputLayer` number of neurons on input.
 
-`compressedLayer` number of neurons on inner compression layer
+`nnParams` neural network hyperparameters.
 
-`σ` layer identity
 
+See also: [`modelTrain!`](@ref)
 """
-function buildAutoencoder(inputLayer::T, compressedLayer::T, Params) where T <: Integer
+function buildAutoencoder(inputLayer::T; nnParams) where T <: Integer
   @info("Building three-layered autoencoder...")
-  args = Params()
+  args = nnParams()
   return Flux.Chain(
-    Flux.Dense(inputLayer, compressedLayer, args.σ),
-    Flux.Dense(compressedLayer, inputLayer, args.σ),
   )
 end
 
@@ -301,6 +301,8 @@ function buildPerceptron(inputLayer::Integer, perceptronLayer1::Integer, percept
     Flux.Dense(perceptronLayer1, perceptronLayer2, σ),
     Flux.Dense(perceptronLayer2, perceptronLayer3, σ),
     Flux.Dense(perceptronLayer3, (args.labels |> length), σ),
+    Flux.Dense(inputLayer, args.λ, args.σ),
+    Flux.Dense(args.λ, inputLayer, args.σ),
   )
 end
 

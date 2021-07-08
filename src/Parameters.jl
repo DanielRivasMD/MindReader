@@ -8,7 +8,7 @@
   throttle::Int                = 5                # throttle timeout
   device::Function             = gpu              # set as gpu, if gpu available
   σ::Function                  = leakyrelu        # learning function
-  autoencoderHiddenLayer::Int  = 100              # hidden layer on autoencoder
+  λ::Int                       = 64               # hidden layer on autoencoder
 end;
 
 ################################################################################
