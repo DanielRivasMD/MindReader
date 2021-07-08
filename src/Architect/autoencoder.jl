@@ -10,27 +10,30 @@
 
 """
 
-    modelTrain(inputAr, model, Params;
-    kws...)
+    modelTrain!(model, inputAr;
+    nnParams)
 
-Train autoencoder
+# Description
+Train autoencoder.
 
 # Arguments
-`inputAr` array to train on
+`inputAr` array to train on.
 
-`model` neural network architecture
+`model` neural network architecture.
 
-arguments passed as `Params` with `Parameters::@with_kw`
+arguments passed as `nnParams` with `Parameters::@with_kw`
 
+
+See also: [`buildAutoencoder`](@ref)
 """
-function modelTrain(inputAr, model, Params)
-  args = Params()
+function modelTrain!(model, inputAr; nnParams)
+  args = nnParams()
 
   @info("Loading data...")
   trainAr = args.device.(inputAr)
 
   @info("Training model...")
-  loss(x) = Flux.mse(model(x), x)
+  loss(χ) = Flux.mse(model(χ), χ)
 
   # training
   evalcb = Flux.throttle(() -> @show(loss(trainAr[1])), args.throttle)

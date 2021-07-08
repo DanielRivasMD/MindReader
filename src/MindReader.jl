@@ -56,7 +56,7 @@ export shifter, reshifter
 
 # # SMPerceptron
 # export modelTest, modelSS, accuracy, lossAll, loadData
-export modelTrain
+export modelTrain!
 
 # statesHeatMap
 export runHeatmap, plotChannelsHeatmap, writePerformance
