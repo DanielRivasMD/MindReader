@@ -88,8 +88,10 @@ end
     sensitivitySpecificity(tbVc::Array{T, 1}, labelVec::Vector{T}) where T <: Number
 
 # Description
-Calculate sensitivity and specificity from a `Hidden Markov model` struct
+Calculate sensitivity and specificity from a `Hidden Markov model` struct.
 
+
+See also: [`predictiveValue`](@ref)
 """
 function sensitivitySpecificity(tbVc::Array{T, 1}, labelVec::Vector{T}) where T <: Number
   tbVec = copy(tbVc)
@@ -112,8 +114,10 @@ end
     sensitivitySpecificity(tbVc::Array{T, 1}, labelMat::Matrix{T}) where T <: Number
 
 # Description
-Calculate sensitivity and specificity from a `Hidden Markov model` struct
+Calculate sensitivity and specificity from a `Hidden Markov model` struct.
 
+
+See also: [`predictiveValue`](@ref)
 """
 function sensitivitySpecificity(tbVc::Array{T, 1}, labelMat::Matrix{T}) where T <: Number
   tbVec = copy(tbVc)
@@ -139,8 +143,10 @@ end
     sensitivitySpecificity(ssDc::Dict{S, Tuple{Array{T, 1}, Array{Array{Float64, 1}, 1}}}, labelVec) where T <: Number where S <: String
 
 # Description
-Iterate on Dictionary and calculate sensitivity and specificity from a `Hidden Markov model` struct
+Iterate on Dictionary and calculate sensitivity and specificity from a `Hidden Markov model` struct.
 
+
+See also: [`predictiveValue`](@ref)
 """
 function sensitivitySpecificity(ssDc::Dict{S, Tuple{Array{T, 1}, Array{Array{Float64, 1}, 1}}}, labelVec) where T <: Number where S <: String
 
@@ -156,16 +162,7 @@ end
 
 ################################################################################
 
-"""
-
-    stFreqTb(fTb::NamedArray{Int64, 1})
-
-# Description
-Adjust frecuency tables for concatenation
-
-
-See also: [`predictiveValue`](@ref)
-"""
+"adjust frecuency tables for concatenation"
 function stFreqTb(fTb::NamedArray{Int64, 1})
   sTb = size(fTb, 1)
   # de novo

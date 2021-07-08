@@ -62,7 +62,7 @@ export runHeatmap, plotChannelsHeatmap, writePerformance
 export collectState, stateStats, summarizeStats, groundStateRatio, plotStatesHeatmap
 
 # screening
-export sensitivitySpecificity, predictiveValue, convertFqDf, convertFqDfTempl
+export sensitivitySpecificity, predictiveValue
 
 # writeCSV
 export writeHMM, writePerformance
