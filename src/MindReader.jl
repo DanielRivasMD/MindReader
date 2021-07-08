@@ -64,9 +64,6 @@ export collectState, stateStats, summarizeStats, groundStateRatio, plotStatesHea
 # screening
 export sensitivitySpecificity, predictiveValue, convertFqDf, convertFqDfTempl
 
-# # permutations
-# export rdPerm
-
 # writeCSV
 export writeHMM, shiftHMM, writePerformance
 
@@ -98,7 +95,6 @@ begin
   include( string(graphDir,   "statesHeatMap.jl") )
   include( string(performDir, "stateStats.jl") )
   include( string(performDir, "screening.jl") )
-  # include( string(performDir, "permutations.jl") )
   include( string(utilDir,    "writeCSV.jl") )
 end;
 
