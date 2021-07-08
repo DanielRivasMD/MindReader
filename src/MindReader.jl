@@ -47,7 +47,7 @@ export extractSignalBin
 export extractFFT
 
 # architect
-export buildAutoencoder, buildAssymmetricalAutoencoder, buildRecurrentAutoencoder, buildDeepRecurrentAutoencoder, buildPerceptron
+export buildAutoencoder
 
 # shapeShifter
 export shifter, reshifter
