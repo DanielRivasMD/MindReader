@@ -2,6 +2,7 @@
 
 using MindReader
 using Test
+using DelimitedFiles
 
 ################################################################################
 
@@ -11,6 +12,7 @@ tests = [
 
   # export functions
   "screening.jl",
+  "writeCSV.jl",
 
 ]
 
