@@ -62,27 +62,6 @@ end
 
 ################################################################################
 
-# """
-#
-#     sensspec(data_loader, model)
-#
-# Calculate sensitivity and specificity from a DataLoader object
-#
-# """
-# function sensspec(data_loader, model)
-#   d, l = data_loader
-#   d = data_loader.data[1] |> model |> onecold
-#   l = data_loader.data[2] |> onecold
-#
-#   outNamedArray = [( d[l .== 2] |> freqtable |> p -> sort(p, rev = true)) ( d[l .== 1] |> freqtable |> reverse )]
-#   if size(outNamedArray, 1) == 1
-#     added = copy(outNamedArray)
-#     NamedArrays.setnames!(added, [2], 1)
-#     added[1, :] .= 0
-#     outNamedArray = [outNamedArray; added]
-
-################################################################################
-
 "transform freqtable => dataframe"
 function convertFqDf(fq::NamedVector{T, Vector{T}, Tuple{OrderedDict{T, T}}}; colnames::Vector{S} = ["Value", "Frecuency"]) where T <: Number where S <: String
   return DataFrames.DataFrame([names(fq)[1] fq.array], colnames)
