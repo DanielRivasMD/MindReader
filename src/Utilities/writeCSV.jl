@@ -2,7 +2,7 @@
 
 """
 
-    writeHMM(filePrefix::S, modelHMM::HMM) where S <: String
+    writeHMM(filePrefix::S, modelHMM::Dict{S, Tuple{Array{T, 1}, Array{Array{U, 1}, 1}}}) where S <: String where T <: Int64 where U <: Float64
 
 # Description
 Write hidden markov model states & traceback wrapper
@@ -10,7 +10,7 @@ Write hidden markov model states & traceback wrapper
 
 See also: [`writePerformance`](@ref)
 """
-function writeHMM(filePrefix::S, modelHMM::HMM) where S <: String
+function writeHMM(filePrefix::S, modelHMM::Dict{S, Tuple{Array{T, 1}, Array{Array{U, 1}, 1}}}) where S <: String where T <: Int64 where U <: Float64
   for (κ, υ) ∈ modelHMM
     filename = string( filePrefix, string(κ))
     writeHMM( string(filename, "_states", ".csv"), υ[1], κ)
