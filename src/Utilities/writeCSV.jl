@@ -84,3 +84,19 @@ function writePerformance(performanceDc::Dict{S, Array{T, 2}}) where S <: String
 end
 
 ################################################################################
+
+"""
+
+    writePerformance(filename::S, performanceDc::Dict{S, Array{T, 2}}, delim::S = ",") where S <: String where T <: Number
+
+# Description
+Write model performance to CSV file.
+
+
+See also: [`writeHMM`](@ref)
+"""
+function writePerformance(filename::S, performanceDc::Dict{S, Array{T, 2}}, delim::S = ",") where S <: String where T <: Number
+  writedlm(filename, writePerformance(performanceDc), delim)
+end
+
+################################################################################
