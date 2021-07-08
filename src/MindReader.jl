@@ -65,7 +65,7 @@ export collectState, stateStats, summarizeStats, groundStateRatio, plotStatesHea
 export sensitivitySpecificity, predictiveValue, convertFqDf, convertFqDfTempl
 
 # writeCSV
-export writeHMM, shiftHMM, writePerformance
+export writeHMM, writePerformance
 
 ################################################################################
 
