@@ -22,39 +22,39 @@ end
 
 """
 
-    writeHMM(filename::S, statesHMM::Vector{T}, channel::S) where S <: String where T <: Number
+    writeHMM(filename::S, statesHMM::Array{T, 1}, channel::S) where S <: String where T <: Number
 
 # Description
 Write hidden markov model states wrapper.
 
 
 """
-function writeHMM(filename::S, statesHMM::Vector{T}, channel::S) where S <: String where T <: Number
+function writeHMM(filename::S, statesHMM::Array{T, 1}, channel::S) where S <: String where T <: Number
   CSV.write(filename, shiftHMM(statesHMM, channel))
 end
 
 """
 
-    writeHMM(filename::S, tracebHMM::Vector{Vector{T}}) where S <: String where T <: Number
+    writeHMM(filename::S, tracebHMM::Array{Array{T, 1}, 1}) where S <: String where T <: Number
 
 # Description
 Write hidden markov model traceback wrapper
 
 
 """
-function writeHMM(filename::S, tracebHMM::Vector{Vector{T}}) where S <: String where T <: Number
+function writeHMM(filename::S, tracebHMM::Array{Array{T, 1}, 1}) where S <: String where T <: Number
   CSV.write(filename, shiftHMM(tracebHMM))
 end
 
 ################################################################################
 
 "reorder hidden markov model states into table to write"
-function shiftHMM(statesHMM::Vector{T}, channel::S) where S <: String where T <: Number
+function shiftHMM(statesHMM::Array{T, 1}, channel::S) where S <: String where T <: Number
   return Tables.table(reshape(statesHMM, (length(statesHMM), 1)), header = [channel])
 end
 
 "reorder hidden markov model traceback vectors into table to write"
-function shiftHMM(tracebHMM::Vector{Vector{T}}) where T <: Number
+function shiftHMM(tracebHMM::Array{Array{T, 1}, 1}) where T <: Number
   outMt = Array{Float64, 2}(undef, length(tracebHMM[1]), length(tracebHMM))
   for ι ∈ 1:length(tracebHMM)
     outMt[:, ι] = tracebHMM[ι]

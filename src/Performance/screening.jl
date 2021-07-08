@@ -63,12 +63,12 @@ end
 ################################################################################
 
 "transform freqtable => dataframe"
-function convertFqDf(fq::NamedVector{T, Vector{T}, Tuple{OrderedDict{T, T}}}; colnames::Vector{S} = ["Value", "Frecuency"]) where T <: Number where S <: String
+function convertFqDf(fq::NamedVector{T, Array{T, 1}, Tuple{OrderedDict{T, T}}}; colnames::Array{S, 1} = ["Value", "Frecuency"]) where T <: Number where S <: String
   return DataFrames.DataFrame([names(fq)[1] fq.array], colnames)
 end
 
 "transform freqtable => dataframe template"
-function convertFqDfTempl(fq::NamedVector{T, Vector{T}, Tuple{OrderedDict{T, T}}}; colnames::Vector{S} = ["Value", "Frecuency"], templ::Vector{T}) where T <: Number where S <: String
+function convertFqDfTempl(fq::NamedVector{T, Array{T, 1}, Tuple{OrderedDict{T, T}}}; colnames::Array{S, 1} = ["Value", "Frecuency"], templ::Array{T, 1}) where T <: Number where S <: String
 
   fq = convertFqDf(fq)
 
@@ -85,7 +85,7 @@ end
 
 """
 
-    sensitivitySpecificity(tbVc::Array{T, 1}, labelVec::Vector{T}) where T <: Number
+    sensitivitySpecificity(tbVc::Array{T, 1}, labelVec::Array{T, 1}) where T <: Number
 
 # Description
 Calculate sensitivity and specificity from a `Hidden Markov model` struct.
@@ -93,7 +93,7 @@ Calculate sensitivity and specificity from a `Hidden Markov model` struct.
 
 See also: [`predictiveValue`](@ref)
 """
-function sensitivitySpecificity(tbVc::Array{T, 1}, labelVec::Vector{T}) where T <: Number
+function sensitivitySpecificity(tbVc::Array{T, 1}, labelVec::Array{T, 1}) where T <: Number
   tbVec = copy(tbVc)
 
   # reassign frecuency labels
