@@ -18,8 +18,8 @@ julia> sensitivitySpecificity(χ)
 (sensitivity = 0.6666666666666666, specificity = 0.5285714285714286)
 ```
 
-See also: [`predictiveValue`](@ref)
 
+See also: [`predictiveValue`](@ref)
 """
 function sensitivitySpecificity(ar::Array{T, 2}) where T <: Number
   if size(ar) == (2, 2)
@@ -48,6 +48,7 @@ julia> χ = [20 33; 10 37]
 julia> predictiveValue(χ)
 (positive = 0.37735849056603776, negative = 0.7872340425531915)
 ```
+
 
 See also: [`sensitivitySpecificity`](@ref)
 """
@@ -183,6 +184,8 @@ end
 # Description
 Adjust frecuency tables for concatenation
 
+
+See also: [`predictiveValue`](@ref)
 """
 function stFreqTb(fTb::NamedArray{Int64, 1})
   sTb = size(fTb, 1)

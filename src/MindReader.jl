@@ -70,6 +70,7 @@ export sensitivitySpecificity, predictiveValue, convertFqDf, convertFqDfTempl
 # # permutations
 # export rdPerm
 
+# writeCSV
 export writeHMM, shiftHMM, writePerformance
 
 ################################################################################
@@ -80,7 +81,6 @@ begin
   montageDir = "Montage/"
   signalDir  = "SignalProcessing/"
   arqDir     = "Architect/"
-  # hmmDir     = "HiddenMarkovModel/"
   pcaDir     = "PrincipalComponentAnalysis/"
   imgDir     = "ImageProcessing/"
   graphDir   = "Graphics/"
@@ -95,7 +95,6 @@ begin
   include( string(montageDir, "electrodeID.jl") )
   include( string(signalDir,  "signalBin.jl") )
   include( string(signalDir,  "fastFourierTransform.jl") )
-  # include( string(hmmDir,     "hiddenMarkovModel.jl") )
   include( string(arqDir,     "architect.jl") )
   include( string(arqDir,     "shapeShifter.jl") )
   include( string(arqDir,     "autoencoder.jl") )
