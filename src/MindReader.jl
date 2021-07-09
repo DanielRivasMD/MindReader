@@ -24,7 +24,7 @@ import Flux: throttle, params, train!
 import Flux: @epochs
 import Flux.Data: DataLoader
 
-# using CairoMakie
+# CairoMakie
 import CairoMakie: Figure, Axis, Colorbar, Relative
 import CairoMakie: heatmap!, save
 
@@ -55,7 +55,7 @@ export shifter, reshifter
 export modelTrain!
 
 # graphics
-export renderGraphics
+export mindGraphics
 
 ################################################################################
 

@@ -50,8 +50,8 @@ function renderGraphics(filename::S, toHeat::Array{T, 2}) where S <: String wher
 
   #  TODO: add channel labels by passing vector to heatmap function
   # plot layout
-  plotFig = CairoMakie.Figure()
-  heatplot = plotFig[1, 1] = CairoMakie.Axis(plotFig, title = "States Heatmap")
+  plotFig = Figure()
+  heatplot = plotFig[1, 1] = Axis(plotFig, title = "States Heatmap")
 
   # axis labels
   heatplot.xlabel = "Recording Time"
@@ -59,30 +59,30 @@ function renderGraphics(filename::S, toHeat::Array{T, 2}) where S <: String wher
   # heatplot.yticks = 1:22
 
   # heatmap plot & color range
-  hm = CairoMakie.heatmap!(heatplot, toHeat')
+  hm = heatmap!(heatplot, toHeat')
   hm.colorrange = (0, 5)
 
   # color bar
-  cbar = plotFig[2, 1] = CairoMakie.Colorbar(plotFig, hm, label = "HMM states")
+  cbar = plotFig[2, 1] = Colorbar(plotFig, hm, label = "HMM states")
   cbar.vertical = false
   cbar.height = 10
-  cbar.width = CairoMakie.Relative(2 / 3)
+  cbar.width = Relative(2 / 3)
   cbar.ticks = 1:1:5
 
   # save rendering
-  CairoMakie.save( filename, plotFig )
+  save( filename, plotFig )
 
 end
 
 ################################################################################
 
 "iterate over known electrodes and collect states from Hidden Markov model"
-function collectState(modelHMM::Dict{S, Tuple{Array{T, 1}, Array{Array{U, 1}, 1}}}, electrodes::Array{S}) where S <: String where T <: Int64 where U <: Float64
+function collectState(modelHMM::Dict{S, Tuple{Array{T, 1}, Array{Array{U, 1}, 1}}}) where S <: String where T <: Int64 where U <: Float64
 
   keyString = modelHMM[convert.(String, keys(modelHMM))[1]][1]
   toHeat = zeros(length(modelHMM), length(keyString))
   ψ = size(toHeat, 1)
-  for ε ∈ electrodes
+  for ε ∈ elecID
     if haskey(modelHMM, ε)
       toHeat[ψ, :] = modelHMM[ε][1]
       ψ -= 1
