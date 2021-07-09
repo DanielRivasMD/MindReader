@@ -5,34 +5,24 @@ module MindReader
 ################################################################################
 
 # dependencies
+using Parameters
 using DataFrames
 using Dates
 using EDF
-
-using Parameters
-
 using FreqTables
 using DelimitedFiles
-
-using XLSX
-
+using NamedArrays
+using OrderedCollections
+using StatsBase
+using CSV
 using FFTW
-using Flux
 
+# using Flux
 import Flux: mse, throttle, ADAM
 import Flux.Data: DataLoader
 import Flux: onehotbatch, onecold, logitcrossentropy, throttle, @epochs
-# using Parameters: @with_kw
-# using CUDAapi
 
-using NamedArrays
-using OrderedCollections
-
-using StatsBase
-
-using CSV
-
-using CairoMakie
+# using CairoMakie
 import CairoMakie: Figure, Axis, Colorbar, Relative
 import CairoMakie: heatmap!, save
 
@@ -40,6 +30,12 @@ import CairoMakie: heatmap!, save
 
 # readEDF
 export getSignals
+
+# writeCSV
+export writeHMM, writePerformance
+
+# screening
+export sensitivitySpecificity, predictiveValue
 
 # signalBin
 export extractSignalBin
@@ -56,14 +52,6 @@ export shifter, reshifter
 # autoencoder
 export modelTrain!
 
-# stateStats
-export collectState, stateStats, summarizeStats, groundStateRatio, plotStatesHeatmap
-
-# screening
-export sensitivitySpecificity, predictiveValue
-
-# writeCSV
-export writeHMM, writePerformance
 # graphics
 export renderGraphics
 
@@ -71,31 +59,41 @@ export renderGraphics
 
 # declare tool directories
 begin
-  utilDir    = "Utilities/"
-  montageDir = "Montage/"
-  signalDir  = "SignalProcessing/"
-  arqDir     = "Architect/"
-  pcaDir     = "PrincipalComponentAnalysis/"
-  imgDir     = "ImageProcessing/"
-  graphDir   = "Graphics/"
-  performDir = "Performance/"
+  montageDir = "Montage/"                                  # EEG montage
+  utilDir    = "Utilities/"                                # IO utilities
+  performDir = "Performance/"                              # performance
+  signalDir  = "SignalProcessing/"                         # preprocessing
+  arqDir     = "Architect/"                                # neural network
+  graphDir   = "Graphics/"                                 # graphic rendering
 end;
 
 ################################################################################
 
 # load functions
 begin
-  include( string(utilDir,    "readEDF.jl") )
+
+  # EEG montage
   include( string(montageDir, "electrodeID.jl") )
+
+  # IO utilities
+  include( string(utilDir,    "readEDF.jl") )
+  include( string(utilDir,    "writeCSV.jl") )
+
+  # performance
+  include( string(performDir, "screening.jl") )
+
+  # preprocessing
   include( string(signalDir,  "signalBin.jl") )
   include( string(signalDir,  "fastFourierTransform.jl") )
+
+  # neural network
   include( string(arqDir,     "architect.jl") )
   include( string(arqDir,     "shapeShifter.jl") )
   include( string(arqDir,     "autoencoder.jl") )
+
+  # graphic rendering
   include( string(graphDir,   "statesHeatMap.jl") )
-  include( string(performDir, "stateStats.jl") )
-  include( string(performDir, "screening.jl") )
-  include( string(utilDir,    "writeCSV.jl") )
+
 end;
 
 ################################################################################
