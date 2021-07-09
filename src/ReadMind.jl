@@ -81,7 +81,7 @@ end;
 ################################################################################
 
 # write traceback & states
-writeHMM( string(shArgs["outdir"], replace(shArgs["file"], ".edf" => "_")), errDc)
+writeHMM(errDc, shArgs)
 
 ################################################################################
 

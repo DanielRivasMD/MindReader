@@ -2,6 +2,26 @@
 
 """
 
+    writeHMM(modelHMM::Dict{S, Tuple{Array{T, 1}, Array{Array{U, 1}, 1}}}, shParams::Dict) where S <: String where T <: Int64 where U <: Float64
+
+# Description
+Write hidden markov model states and traceback wrapper.
+
+
+See also: [`writePerformance`](@ref)
+"""
+function writeHMM(modelHMM::Dict{S, Tuple{Array{T, 1}, Array{Array{U, 1}, 1}}}, shParams::Dict) where S <: String where T <: Int64 where U <: Float64
+  if haskey(shParams, "outdir") && haskey(shParams, "file")
+    return writeHMM( string(shParams["outdir"], replace(shParams["file"], ".edf" => "_")), modelHMM )
+  else
+    @error "Variables are not defined in dictionary"
+  end
+end
+
+################################################################################
+
+"""
+
     writeHMM(filePrefix::S, modelHMM::Dict{S, Tuple{Array{T, 1}, Array{Array{U, 1}, 1}}}) where S <: String where T <: Int64 where U <: Float64
 
 # Description
