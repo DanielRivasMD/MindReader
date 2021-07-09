@@ -45,9 +45,10 @@ end
 
 ################################################################################
 
-""
-function plotChannelsHeatmap(outdir::String, outsvg::String, toHeat::Array{Float64, 2})
-#  TODO: add channel labels by passing vector to heatmap function
+"wrapper for model heatmap plotting"
+function renderGraphics(filename::S, toHeat::Array{T, 2}) where S <: String where T <: Number
+
+  #  TODO: add channel labels by passing vector to heatmap function
   # plot layout
   plotFig = CairoMakie.Figure()
   heatplot = plotFig[1, 1] = CairoMakie.Axis(plotFig, title = "States Heatmap")
@@ -69,7 +70,9 @@ function plotChannelsHeatmap(outdir::String, outsvg::String, toHeat::Array{Float
   cbar.ticks = 1:1:5
 
   # save rendering
-  CairoMakie.save( string(outdir, outsvg), plotFig )
+  CairoMakie.save( filename, plotFig )
+
+end
 
 ################################################################################
 
