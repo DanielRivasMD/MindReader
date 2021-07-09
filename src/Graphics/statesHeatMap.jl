@@ -1,51 +1,21 @@
 ################################################################################
 
-""
-function runHeatmap(shArgs, inDc::Dict{String, Tuple{Array{Int64, 1}, Array{Array{Float64, 1}, 1}}})
 
-  ts = [:svg, :csv]
-  for (s, t) ∈ zip([Symbol("out", i) for i = ts], ts)
-    tmp = shChecker(shArgs, string(s), string(t))
-    @eval $s = $tmp
+
+
+
+
+
+
+
   end
 
   @info "Plotting..."
   # create array to plot
-  toHeat, keyString = collectState(inDc)
 
-  # collect stats & write
-  stats = stateStats(toHeat)
-  DelimitedFiles.writedlm( string(shArgs["outdir"], "Unlabeld", outcsv), stats, ", " )
+
 
   @info "Rendering..."
-  plotChannelsHeatmap(shArgs["outdir"], outsvg, toHeat)
-
-end
-
-################################################################################
-
-""
-function runHeatmap(shArgs, inDc::Dict{String, Tuple{Array{Int64, 1}, Array{Array{Float64, 1}, 1}}}, lbAr)
-
-  ts = [:svg, :csv]
-  for (s, t) ∈ zip([Symbol("out", i) for i = ts], ts)
-    tmp = shChecker(shArgs, string(s), string(t))
-    @eval $s = $tmp
-  end
-
-  @info "Plotting..."
-  # create array to plot
-  toHeat, keyString = collectState(inDc)
-
-  # concatenate annotations
-  toHeat = [toHeat; lbAr' .+ 1]
-
-  # collect stats & write
-  stats = stateStats(toHeat)
-  DelimitedFiles.writedlm( string(shArgs["outdir"], "Labeled", outcsv), stats, ", " )
-
-  @info "Rendering..."
-  plotChannelsHeatmap(shArgs["outdir"], outsvg, toHeat)
 
 end
 
