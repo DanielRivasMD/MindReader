@@ -13,7 +13,6 @@ using Parameters
 
 using FreqTables
 using DelimitedFiles
-# using CairoMakie
 
 using XLSX
 
@@ -34,6 +33,8 @@ using StatsBase
 using CSV
 
 using CairoMakie
+import CairoMakie: Figure, Axis, Colorbar, Relative
+import CairoMakie: heatmap!, save
 
 ################################################################################
 
@@ -55,9 +56,6 @@ export shifter, reshifter
 # autoencoder
 export modelTrain!
 
-# statesHeatMap
-export runHeatmap, plotChannelsHeatmap, writePerformance
-
 # stateStats
 export collectState, stateStats, summarizeStats, groundStateRatio, plotStatesHeatmap
 
@@ -66,6 +64,8 @@ export sensitivitySpecificity, predictiveValue
 
 # writeCSV
 export writeHMM, writePerformance
+# graphics
+export renderGraphics
 
 ################################################################################
 
