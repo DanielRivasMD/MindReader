@@ -77,6 +77,23 @@ function plotChannelsHeatmap(outdir::String, outsvg::String, toHeat::Array{Float
   # save rendering
   CairoMakie.save( string(outdir, outsvg), plotFig )
 
+################################################################################
+
+"iterate over known electrodes and collect states from Hidden Markov model"
+function collectState(modelHMM::Dict{S, Tuple{Array{T, 1}, Array{Array{U, 1}, 1}}}, electrodes::Array{S}) where S <: String where T <: Int64 where U <: Float64
+
+  keyString = modelHMM[convert.(String, keys(modelHMM))[1]][1]
+  toHeat = zeros(length(modelHMM), length(keyString))
+  ψ = size(toHeat, 1)
+  for ε ∈ electrodes
+    if haskey(modelHMM, ε)
+      toHeat[ψ, :] = modelHMM[ε][1]
+      ψ -= 1
+    else
+      @debug ε
+    end
+  end
+  return toHeat, keyString
 end
 
 ################################################################################
