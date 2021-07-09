@@ -1,21 +1,45 @@
 ################################################################################
 
+"""
+
+  mindGraphics(modelHMM::Dict{S, Tuple{Array{T, 1}, Array{Array{U, 1}, 1}}}, shArgs::Dict;
+  labels = nothing) where S <: String where T <: Int64 where U <: Float64
+
+# Description
+Control graphic module of *MindReader*. Verifies arguments, builds heatmap, write to file and renders image.
+
+# Arguments
+`modelHMM` model to render by graphics module.
+
+`shArgs` shell arguments.
+
+if available `labels` are available, concatenate to rendering.
 
 
+"""
+function mindGraphics(modelHMM::Dict{S, Tuple{Array{T, 1}, Array{Array{U, 1}, 1}}}, shArgs::Dict; labels = nothing) where S <: String where T <: Int64 where U <: Float64
 
-
-
-
-
-
+  # check arguments | assign
+  κ = [:svg, :csv]
+  for (ζ, ξ) ∈ zip([Symbol("out", ι) for ι ∈ κ], κ)
+    τ = shChecker(shArgs, string(ζ), string(ξ))
+    @eval $ζ = $τ
   end
 
   @info "Plotting..."
   # create array to plot
+  toHeat, keyString = collectState(modelHMM)
 
+  if !isnothing(labels)
+    # concatenate annotations
+    toHeat = [toHeat; labels' .+ 1]
+  end
 
+  # write
+  writedlm( string(shArgs["outdir"], outcsv), toHeat, "," )
 
   @info "Rendering..."
+  renderGraphics( string(shArgs["outdir"], outsvg), toHeat )
 
 end
 
