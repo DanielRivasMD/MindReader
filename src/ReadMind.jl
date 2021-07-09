@@ -6,7 +6,6 @@ using HiddenMarkovModelReaders
 ################################################################################
 
 import Flux: cpu, gpu, flatten, leakyrelu
-using DelimitedFiles
 
 ################################################################################
 
@@ -27,7 +26,7 @@ include( "Utilities/argParser.jl" );
 # read data
 begin
   # read edf file
-  edfDf, startTime, recordFreq = getSignals(shArgs)
+  edfDf, _, _ = getSignals(shArgs)
 
   # calculate fft
   freqDc = extractFFT(edfDf, shArgs)
@@ -40,14 +39,14 @@ begin
 
   errDc = Dict{String, Tuple{Array{Int64, 1}, Array{Array{Float64, 1}, 1}}}()
 
-  for (k, f) in freqDc
+  for (κ, υ) ∈ freqDc
     println()
-    @info k
+    @info κ
 
     #  build & train autoencoder
-    freqAr = shifter(f)
-    model = buildAutoencoder(length(freqAr[1]), convert(Int64, length(freqAr[1] / 4)), NNParams)
-    model = modelTrain(freqAr, model, NNParams)
+    freqAr = shifter(υ)
+    model = buildAutoencoder(length(freqAr[1]), nnParams = NNParams)
+    model = modelTrain!(model, freqAr, nnParams = NNParams)
 
     ################################################################################
 
@@ -58,19 +57,19 @@ begin
     begin
       @info "Creating Hidden Markov Model..."
       # error
-      aErr = reshifter(postAr - freqAr) |> p -> flatten(p) |> permutedims
+      aErr = reshifter(postAr - freqAr) |> π -> flatten(π) |> permutedims
 
       # setup
       hmm = setup(aErr)
 
       # process
-      for i in 1:4
-        errDc[k] = process!(hmm, aErr, true, params = hmmParams)
+      for _ ∈ 1:4
+        errDc[κ] = process!(hmm, aErr, true, params = hmmParams)
       end
 
       # final
-      for i in 1:2
-        errDc[k] = process!(hmm, aErr, false, params = hmmParams)
+      for _ ∈ 1:2
+        errDc[κ] = process!(hmm, aErr, false, params = hmmParams)
       end
     end;
 
@@ -81,12 +80,12 @@ end;
 
 ################################################################################
 
-# graphic rendering
-runHeatmap(shArgs, errDc)
+# write traceback & states
+writeHMM( string(shArgs["outdir"], replace(shArgs["file"], ".edf" => "_")), errDc)
 
 ################################################################################
 
-# write traceback & states
-writeHMM( string(shArgs["outdir"], replace(shArgs["file"], ".edf" => "_")), errDc)
+# graphic rendering
+mindGraphics(errDc, shArgs)
 
 ################################################################################
