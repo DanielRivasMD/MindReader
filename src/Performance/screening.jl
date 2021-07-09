@@ -62,27 +62,6 @@ end
 
 ################################################################################
 
-"transform freqtable => dataframe"
-function convertFqDf(fq::NamedVector{T, Array{T, 1}, Tuple{OrderedDict{T, T}}}; colnames::Array{S, 1} = ["Value", "Frecuency"]) where T <: Number where S <: String
-  return DataFrames.DataFrame([names(fq)[1] fq.array], colnames)
-end
-
-"transform freqtable => dataframe template"
-function convertFqDfTempl(fq::NamedVector{T, Array{T, 1}, Tuple{OrderedDict{T, T}}}; colnames::Array{S, 1} = ["Value", "Frecuency"], templ::Array{T, 1}) where T <: Number where S <: String
-
-  fq = convertFqDf(fq)
-
-  outDf = DataFrames.DataFrame([templ zeros(Int64, length(templ))], colnames)
-
-  for ix in 1:size(fq, 1)
-    outDf[findall(fq[ix, 1] .== outDf[:, 1]), 2] .= fq[ix, 2]
-  end
-
-  return outDf
-end
-
-################################################################################
-
 """
 
     sensitivitySpecificity(tbVc::Array{T, 1}, labelVec::Array{T, 1}) where T <: Number
@@ -158,6 +137,27 @@ function sensitivitySpecificity(ssDc::Dict{S, Tuple{Array{T, 1}, Array{Array{Flo
   end
 
   return outDc
+end
+
+################################################################################
+
+"transform freqtable => dataframe"
+function convertFqDf(fq::NamedVector{T, Array{T, 1}, Tuple{OrderedDict{T, T}}}; colnames::Array{S, 1} = ["Value", "Frecuency"]) where T <: Number where S <: String
+  return DataFrames.DataFrame([names(fq)[1] fq.array], colnames)
+end
+
+"transform freqtable => dataframe template"
+function convertFqDfTempl(fq::NamedVector{T, Array{T, 1}, Tuple{OrderedDict{T, T}}}; colnames::Array{S, 1} = ["Value", "Frecuency"], templ::Array{T, 1}) where T <: Number where S <: String
+
+  fq = convertFqDf(fq)
+
+  outDf = DataFrames.DataFrame([templ zeros(Int64, length(templ))], colnames)
+
+  for ix in 1:size(fq, 1)
+    outDf[findall(fq[ix, 1] .== outDf[:, 1]), 2] .= fq[ix, 2]
+  end
+
+  return outDf
 end
 
 ################################################################################

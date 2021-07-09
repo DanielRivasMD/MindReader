@@ -2,7 +2,7 @@
 
 """
 
-    extractSignalBin(edfDf::DataFrames.DataFrame, params::Dict)
+    extractSignalBin(edfDf::DataFrame, params::Dict)
 
 # Description
 Use `extractSignalBin` on EDF file per channel from shell arguments. Returns a dictionary with channel names as keys.
@@ -10,7 +10,7 @@ Use `extractSignalBin` on EDF file per channel from shell arguments. Returns a d
 
 See also: [`extractFFT`](@ref)
 """
-function extractSignalBin(edfDf::DataFrames.DataFrame, params::Dict)
+function extractSignalBin(edfDf::DataFrame, params::Dict)
   if haskey(params, "window-size") && haskey(params, "bin-overlap")
     return extractSignalBin(edfDf, binSize = params["window-size"], binOverlap = params["bin-overlap"])
   else

@@ -15,7 +15,6 @@ Control graphic module of *MindReader*. Verifies arguments, builds heatmap, writ
 
 if available `labels` are available, concatenate to rendering.
 
-
 """
 function mindGraphics(modelHMM::Dict{S, Tuple{Array{T, 1}, Array{Array{U, 1}, 1}}}, shArgs::Dict; labels = nothing) where S <: String where T <: Int64 where U <: Float64
 

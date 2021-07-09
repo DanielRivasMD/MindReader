@@ -25,7 +25,7 @@ end
     writeHMM(filePrefix::S, modelHMM::Dict{S, Tuple{Array{T, 1}, Array{Array{U, 1}, 1}}}) where S <: String where T <: Int64 where U <: Float64
 
 # Description
-Write hidden markov model states & traceback wrapper
+Write hidden markov model states and traceback wrapper.
 
 
 See also: [`writePerformance`](@ref)
@@ -48,6 +48,7 @@ end
 Write hidden markov model states wrapper.
 
 
+See also: [`writePerformance`](@ref)
 """
 function writeHMM(filename::S, statesHMM::Array{T, 1}, channel::S) where S <: String where T <: Number
   CSV.write(filename, shiftHMM(statesHMM, channel))
@@ -58,28 +59,13 @@ end
     writeHMM(filename::S, tracebHMM::Array{Array{T, 1}, 1}) where S <: String where T <: Number
 
 # Description
-Write hidden markov model traceback wrapper
+Write hidden markov model traceback wrapper.
 
 
+See also: [`writePerformance`](@ref)
 """
 function writeHMM(filename::S, tracebHMM::Array{Array{T, 1}, 1}) where S <: String where T <: Number
   CSV.write(filename, shiftHMM(tracebHMM))
-end
-
-################################################################################
-
-"reorder hidden markov model states into table to write"
-function shiftHMM(statesHMM::Array{T, 1}, channel::S) where S <: String where T <: Number
-  return Tables.table(reshape(statesHMM, (length(statesHMM), 1)), header = [channel])
-end
-
-"reorder hidden markov model traceback vectors into table to write"
-function shiftHMM(tracebHMM::Array{Array{T, 1}, 1}) where T <: Number
-  outMt = Array{Float64, 2}(undef, length(tracebHMM[1]), length(tracebHMM))
-  for ι ∈ 1:length(tracebHMM)
-    outMt[:, ι] = tracebHMM[ι]
-  end
-  return Tables.table(outMt, header = [Symbol("S$i") for i = 1:size(outMt, 2)])
 end
 
 ################################################################################
@@ -117,6 +103,22 @@ See also: [`writeHMM`](@ref)
 """
 function writePerformance(filename::S, performanceDc::Dict{S, Array{T, 2}}, delim::S = ",") where S <: String where T <: Number
   writedlm(filename, writePerformance(performanceDc), delim)
+end
+
+################################################################################
+
+"reorder hidden markov model states into table to write"
+function shiftHMM(statesHMM::Array{T, 1}, channel::S) where S <: String where T <: Number
+  return Tables.table(reshape(statesHMM, (length(statesHMM), 1)), header = [channel])
+end
+
+"reorder hidden markov model traceback vectors into table to write"
+function shiftHMM(tracebHMM::Array{Array{T, 1}, 1}) where T <: Number
+  outMt = Array{Float64, 2}(undef, length(tracebHMM[1]), length(tracebHMM))
+  for ι ∈ 1:length(tracebHMM)
+    outMt[:, ι] = tracebHMM[ι]
+  end
+  return Tables.table(outMt, header = [Symbol("S$i") for i = 1:size(outMt, 2)])
 end
 
 ################################################################################

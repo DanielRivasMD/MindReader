@@ -74,7 +74,7 @@ end
 
 """
 
-    edfDf::DataFrames.DataFrame;
+    extractFFT(edfDf::DataFrames.DataFrame;
     binSize::T, binOverlap::T) where T <: Number
 
 # Description
