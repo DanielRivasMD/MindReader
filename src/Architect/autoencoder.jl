@@ -33,13 +33,13 @@ function modelTrain!(model, inputAr; nnParams)
   trainAr = args.device.(inputAr)
 
   @info("Training model...")
-  loss(χ) = Flux.mse(model(χ), χ)
+  loss(χ) = mse(model(χ), χ)
 
   # training
-  evalcb = Flux.throttle(() -> @show(loss(trainAr[1])), args.throttle)
-  opt = Flux.ADAM(args.η)
+  evalcb = throttle(() -> @show(loss(trainAr[1])), args.throttle)
+  opt = ADAM(args.η)
 
-  @epochs args.epochs Flux.train!(loss, params(model), zip(trainAr), opt, cb = evalcb)
+  @epochs args.epochs train!(loss, params(model), zip(trainAr), opt, cb = evalcb)
 
   return model
 end

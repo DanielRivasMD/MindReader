@@ -17,10 +17,12 @@ using StatsBase
 using CSV
 using FFTW
 
-# using Flux
+# Flux
+import Flux: Chain, Dense
 import Flux: mse, throttle, ADAM
+import Flux: throttle, params, train!
+import Flux: @epochs
 import Flux.Data: DataLoader
-import Flux: onehotbatch, onecold, logitcrossentropy, throttle, @epochs
 
 # using CairoMakie
 import CairoMakie: Figure, Axis, Colorbar, Relative

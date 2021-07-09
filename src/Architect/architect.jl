@@ -20,9 +20,9 @@ See also: [`modelTrain!`](@ref)
 function buildAutoencoder(inputLayer::T; nnParams) where T <: Integer
   @info("Building three-layered autoencoder...")
   args = nnParams()
-  return Flux.Chain(
-    Flux.Dense(inputLayer, args.λ, args.σ),
-    Flux.Dense(args.λ, inputLayer, args.σ),
+  return Chain(
+    Dense(inputLayer, args.λ, args.σ),
+    Dense(args.λ, inputLayer, args.σ),
   )
 end
 
