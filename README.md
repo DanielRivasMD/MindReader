@@ -1,4 +1,3 @@
-
 <!-- Title -->
 <h1 align="center">
   MindReader
@@ -54,33 +53,10 @@
 
 <!-- CI/CD badges -->
 <p align="center">
-  <!-- <a href="https://buildkite.com/clima/oceananigans">
-    <img alt="Buildkite CPU+GPU build status" src="https://img.shields.io/buildkite/4d921fc17b95341ea5477fb62df0e6d9364b61b154e050a123/master?logo=buildkite&label=Buildkite%20CPU%2BGPU&style=flat-square">
-  </a> -->
   <a href="https://hub.docker.com/r/eakkuratov/final_dummy">
     <img alt="Docker build status" src="https://img.shields.io/docker/cloud/build/eakkuratov/final_dummy?label=Docker&logo=docker&logoColor=white&style=flat-square">
   </a>
-  <a href="https://travis-ci.com/DanielRivasMD/MindReader.jl">
-    <img alt="Build Status" src="https://travis-ci.com/DanielRivasMD/MindReader.jl.svg?branch=master">
-  </a>
-  <a href="https://codecov.io/gh/DanielRivasMD/MindReader.jl">
-    <img alt="Coverage" src="https://codecov.io/gh/DanielRivasMD/MindReader.jl/branch/master/graph/badge.svg">
-  </a>
 </p>
-
-
-<!-- [![Latest Release](https://img.shields.io/github/release/DanielRivasMD/MindReader.svg)]()
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) -->
-
-<!-- [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://DanielRivasMD.github.io/MindReader.jl/stable)
-[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://DanielRivasMD.github.io/MindReader.jl/dev) -->
-
-
-<!-- [![Build Status](https://travis-ci.com/DanielRivasMD/MindReader.jl.svg?branch=master)](https://travis-ci.com/DanielRivasMD/MindReader.jl)
-[![Coverage](https://codecov.io/gh/DanielRivasMD/MindReader.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/DanielRivasMD/MindReader.jl) -->
-
-<!-- [![CI Testing](https://github.com/DanielRivasMD/MindReader.jl/workflows/CI/badge.svg)](https://github.com/DanielRivasMD/MindReader.jl/actions?query=workflow%3ACI+branch%3Amain) -->
-
 
 ![MindReader Logo](assets/MindReader.png)
 
