@@ -7,7 +7,7 @@
     nnParams) where T <: Integer
 
 # Description
-Build a three-layered autoencoder
+Build a three-layered autoencoder.
 
 # Arguments
 `inputLayer` number of neurons on input.
