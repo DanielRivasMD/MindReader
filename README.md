@@ -33,22 +33,13 @@
   <a href="https://github.com/SciML/ColPrac">
     <img alt="ColPrac: Contributor's Guide on Collaborative Practices for Community Packages" src="https://img.shields.io/badge/ColPrac-Contributor's%20Guide-blueviolet?style=flat-square">
   </a>
-<!-- <a href="https://doi.org/10.21105/joss.02018">
-    <img alt="JOSS" src="https://joss.theoj.org/papers/10.21105/joss.02018/status.svg">
-  </a> -->
 </p>
 
 <!-- Version and documentation badges -->
 <p align="center">
   <a href="https://github.com/DanielRivasMD/MindReader.jl/releases">
     <img alt="GitHub tag (latest SemVer pre-release)" src="https://img.shields.io/github/v/tag/DanielRivasMD/MindReader.jl?include_prereleases&label=latest%20version&logo=github&sort=semver&style=flat-square">
-  <!-- </a>
-  <a href="https://clima.github.io/OceananigansDocumentation/stable">
-    <img alt="Stable documentation" src="https://img.shields.io/badge/documentation-stable%20release-blue?style=flat-square">
   </a>
-  <a href="https://clima.github.io/OceananigansDocumentation/dev">
-    <img alt="Development documentation" src="https://img.shields.io/badge/documentation-in%20development-orange?style=flat-square">
-  </a> -->
 </p>
 
 <!-- CI/CD badges -->
@@ -79,19 +70,19 @@ julia> using MindReader
 
 For more information, see the [Pkg documentation](https://docs.julialang.org/en/v1/stdlib/Pkg/).
 
-## Citations
-
-If you use MindReader or derivates in your work, please consider citing the code record.
-
 ## Usage
 
 ## Docker
+
+## Citations
+
+If you use **MindReader** or derivates in your work, please consider citing the code record.
 
 ## Contributing and Support
 
 [![ColPrac: Contributor's Guide on Collaborative Practices for Community Packages](https://img.shields.io/badge/ColPrac-Contributor's%20Guide-blueviolet)](https://github.com/SciML/ColPrac)
 
-In general contributions should follow [ColPrac](https://github.com/SciML/ColPrac). If you are interested in extending/improving MindReader, head to the [discussions](https://github.com/DanielRivasMD/MindReader/discussions) to reach out. For support with using MindReader, please open an [issue](https://github.com/DanielRivasMD/MindReader/issues/new/) describing the problem and steps to reproduce it.
+In general contributions should follow [ColPrac](https://github.com/SciML/ColPrac). If you are interested in extending/improving **MindReader**, head to the [discussions](https://github.com/DanielRivasMD/MindReader/discussions) to reach out. For support with using **MindReader**, please open an [issue](https://github.com/DanielRivasMD/MindReader/issues/new/) describing the problem and steps to reproduce it.
 
 ## License
 
