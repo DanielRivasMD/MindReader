@@ -96,7 +96,7 @@ end
 
 "check whether shell argument was explicitly declared and assigned"
 function shChecker(shArgs::Dict, κ::S, ζ::S) where S <: String
-  if shArgs[κ] != nothing
+  if shArgs[κ] ∉ nothing
     return shArgs[κ]
   else
     return replace(shArgs["file"], "edf" => ζ)

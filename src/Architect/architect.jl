@@ -27,3 +27,5 @@ function buildAutoencoder(inputLayer::T; nnParams) where T <: Integer
 end
 
 ################################################################################
+
+# TODO: write documentation on how to build neural network
