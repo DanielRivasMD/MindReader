@@ -16,6 +16,7 @@ using OrderedCollections
 using StatsBase
 using CSV
 using FFTW
+using HiddenMarkovModelReaders
 
 # Flux
 import Flux: Chain, Dense
