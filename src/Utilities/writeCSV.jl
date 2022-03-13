@@ -2,7 +2,7 @@
 
 """
 
-    writeHMM(modelHMM::Dict{S, Tuple{Array{T, 1}, Array{Array{U, 1}, 1}}}, shParams::Dict) where S <: String where T <: Int64 where U <: Float64
+    writeHMM(hmmDc::Dict{S, HMM}, shParams::Dict) where S <: String
 
 # Description
 Write hidden markov model states and traceback wrapper.
@@ -10,9 +10,9 @@ Write hidden markov model states and traceback wrapper.
 
 See also: [`writePerformance`](@ref)
 """
-function writeHMM(modelHMM::Dict{S, Tuple{Array{T, 1}, Array{Array{U, 1}, 1}}}, shParams::Dict) where S <: String where T <: Int64 where U <: Float64
-  if haskey(shParams, "outdir") && haskey(shParams, "file")
-    return writeHMM( string(shParams["outdir"], replace(shParams["file"], ".edf" => "_")), modelHMM )
+function writeHMM(hmmDc::Dict{S, HMM}, shParams::Dict) where S <: String
+  if haskey(shParams, "outhmm") && haskey(shParams, "file")
+    return writeHMM(string(shParams["outhmm"], replace(shParams["file"], ".edf" => "_")), hmmDc)
   else
     @error "Variables are not defined in dictionary"
   end
@@ -22,19 +22,19 @@ end
 
 """
 
-    writeHMM(filePrefix::S, modelHMM::Dict{S, Tuple{Array{T, 1}, Array{Array{U, 1}, 1}}}) where S <: String where T <: Int64 where U <: Float64
+    writeHMM(filePrefix::S, hmmDc::Dict{S, HMM}) where S <: String
 
 # Description
-Write hidden markov model states and traceback wrapper.
+Write hidden markov model traceback and model wrapper.
 
 
 See also: [`writePerformance`](@ref)
 """
-function writeHMM(filePrefix::S, modelHMM::Dict{S, Tuple{Array{T, 1}, Array{Array{U, 1}, 1}}}) where S <: String where T <: Int64 where U <: Float64
-  for (κ, υ) ∈ modelHMM
+function writeHMM(filePrefix::S, hmmDc::Dict{S, HMM}) where S <: String
+  for (κ, υ) ∈ hmmDc
     filename = string( filePrefix, string(κ))
-    writeHMM( string(filename, "_states", ".csv"), υ[1], κ)
-    writeHMM( string(filename, "_traceb", ".csv"), υ[2])
+    writeHMM(string(filename, "_traceback", ".csv"), υ.traceback, κ)
+    writeHMM(string(filename, "_model", ".csv"), υ.model)
   end
 end
 
@@ -42,30 +42,30 @@ end
 
 """
 
-    writeHMM(filename::S, statesHMM::Array{T, 1}, channel::S) where S <: String where T <: Number
+    writeHMM(filename::S, hmmTraceback::Array{T, 1}, channel::S) where S <: String where T <: Integer
 
 # Description
-Write hidden markov model states wrapper.
+Write hidden markov traceback states wrapper.
 
 
 See also: [`writePerformance`](@ref)
 """
-function writeHMM(filename::S, statesHMM::Array{T, 1}, channel::S) where S <: String where T <: Number
-  CSV.write(filename, shiftHMM(statesHMM, channel))
+function writeHMM(filename::S, hmmTraceback::Array{T, 1}, channel::S) where S <: String where T <: Integer
+  CSV.write(filename, shiftHMM(hmmTraceback, channel))
 end
 
 """
 
-    writeHMM(filename::S, tracebHMM::Array{Array{T, 1}, 1}) where S <: String where T <: Number
+    writeHMM(filename::S, hmmModel::Array{Array{T, 1}, 1}) where S <: String where T <: AbstractFloat
 
 # Description
-Write hidden markov model traceback wrapper.
+Write hidden markov model model wrapper.
 
 
 See also: [`writePerformance`](@ref)
 """
-function writeHMM(filename::S, tracebHMM::Array{Array{T, 1}, 1}) where S <: String where T <: Number
-  CSV.write(filename, shiftHMM(tracebHMM))
+function writeHMM(filename::S, hmmModel::Array{Array{T, 1}, 1}) where S <: String where T <: AbstractFloat
+  CSV.write(filename, shiftHMM(hmmModel))
 end
 
 ################################################################################
@@ -83,8 +83,8 @@ See also: [`writeHMM`](@ref)
 function writePerformance(performanceDc::Dict{S, Array{T, 2}}) where S <: String where T <: Number
   outAr = Array{Any, 2}(undef, length(performanceDc) + 1, 3)
   outAr[1, :] .= ["Electrode", "Sensitivity", "Specificity"]
-  for (ζ, (κ, υ)) ∈ enumerate(performanceDc)
-    outAr[ζ + 1, :] = [κ υ]
+  for (ι, (κ, υ)) ∈ enumerate(performanceDc)
+    outAr[ι + 1, :] = [κ υ]
   end
   return outAr
 end
@@ -108,17 +108,17 @@ end
 ################################################################################
 
 "reorder hidden markov model states into table to write"
-function shiftHMM(statesHMM::Array{T, 1}, channel::S) where S <: String where T <: Number
-  return Tables.table(reshape(statesHMM, (length(statesHMM), 1)), header = [channel])
+function shiftHMM(hmmTraceback::Array{T, 1}, channel::S) where S <: String where T <: Integer
+  return Tables.table(reshape(hmmTraceback, (length(hmmTraceback), 1)), header = [channel])
 end
 
 "reorder hidden markov model traceback vectors into table to write"
-function shiftHMM(tracebHMM::Array{Array{T, 1}, 1}) where T <: Number
-  outMt = Array{Float64, 2}(undef, length(tracebHMM[1]), length(tracebHMM))
-  for ι ∈ 1:length(tracebHMM)
-    outMt[:, ι] = tracebHMM[ι]
+function shiftHMM(hmmModel::Array{Array{T, 1}, 1}) where T <: AbstractFloat
+  outMt = Array{Float64, 2}(undef, length(hmmModel[1]), length(hmmModel))
+  for ι ∈ 1:length(hmmModel)
+    outMt[:, ι] = hmmModel[ι]
   end
-  return Tables.table(outMt, header = [Symbol("S$i") for i = 1:size(outMt, 2)])
+  return Tables.table(outMt, header = [Symbol("S$ο") for ο = 1:size(outMt, 2)])
 end
 
 ################################################################################
