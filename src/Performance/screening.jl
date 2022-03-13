@@ -80,8 +80,8 @@ function sensitivitySpecificity(tbVc::Array{T, 1}, labelVec::Array{T, 1}) where 
   tbVec[findall(tbVec .> 1)] .= 2
 
   # adjust & concatenate frecuency tables
-  positives = tbVec[labelVec[:, 1] .== 1] |> freqtable |> p -> convertFqDfTempl(p, templ = labels) |> p -> sort(p, rev = true)
-  negatives = tbVec[labelVec[:, 1] .== 0] |> freqtable |> p -> convertFqDfTempl(p, templ = labels) |> p -> sort(p, rev = true)
+  positives = tbVec[labelVec[:, 1] .== 1] |> freqtable |> π -> convertFqDfTempl(π, templ = labels) |> π -> sort(π, rev = true)
+  negatives = tbVec[labelVec[:, 1] .== 0] |> freqtable |> π -> convertFqDfTempl(π, templ = labels) |> π -> sort(π, rev = true)
   outNamedArray = [positives[:, 2] negatives[:, 2]]
   return sensitivitySpecificity(outNamedArray)
 end
@@ -109,8 +109,8 @@ function sensitivitySpecificity(tbVc::Array{T, 1}, labelMat::Matrix{T}) where T 
   labelVec = sum(labelMat, dims = 2)
 
   # adjust & concatenate frecuency tables
-  positives = tbVec[labelVec[:, 1] .== 1] |> freqtable |> p -> convertFqDfTempl(p, templ = labels) |> p -> sort(p, rev = true)
-  negatives = tbVec[labelVec[:, 1] .== 0] |> freqtable |> p -> convertFqDfTempl(p, templ = labels) |> p -> sort(p, rev = true)
+  positives = tbVec[labelVec[:, 1] .== 1] |> freqtable |> π -> convertFqDfTempl(π, templ = labels) |> π -> sort(π, rev = true)
+  negatives = tbVec[labelVec[:, 1] .== 0] |> freqtable |> π -> convertFqDfTempl(π, templ = labels) |> π -> sort(π, rev = true)
   outNamedArray = [positives[:, 2] negatives[:, 2]]
   return sensitivitySpecificity(outNamedArray)
 end
@@ -119,7 +119,7 @@ end
 
 """
 
-    sensitivitySpecificity(ssDc::Dict{S, Tuple{Array{T, 1}, Array{Array{Float64, 1}, 1}}}, labelVec) where T <: Number where S <: String
+    sensitivitySpecificity(ssDc::Dict{S, HMM}, labelVec) where T <: Number where S <: String
 
 # Description
 Iterate on Dictionary and calculate sensitivity and specificity from a `Hidden Markov model` struct.
@@ -127,13 +127,13 @@ Iterate on Dictionary and calculate sensitivity and specificity from a `Hidden M
 
 See also: [`predictiveValue`](@ref)
 """
-function sensitivitySpecificity(ssDc::Dict{S, Tuple{Array{T, 1}, Array{Array{Float64, 1}, 1}}}, labelVec) where T <: Number where S <: String
+function sensitivitySpecificity(ssDc::Dict{S, HMM}, labelVec) where T <: Number where S <: String
 
-  outDc = Dict{S, Array{Float64, 2}}() where S <: String
-  for (k, v) in ssDc
+  outDc = Dict{S, Array{Float64, 2}}()
+  for (κ, υ) in ssDc
     outSensSpec = zeros(1, 2)
-    (outSensSpec[1, 1], outSensSpec[1, 2]) = sensitivitySpecificity(ssDc[k][1], labelVec)
-    outDc[k] = outSensSpec
+    (outSensSpec[1, 1], outSensSpec[1, 2]) = sensitivitySpecificity(υ.traceback, labelVec)
+    outDc[κ] = outSensSpec
   end
 
   return outDc
@@ -182,7 +182,7 @@ function stFreqTb(fTb::NamedArray{Int64, 1})
       added[1, :] .= 0
       fTb = [added; fTb]
     end
-  # through warning
+  # throw warning
   elseif sTb > 2
     @warn "frecuency table contains more than 2 values"
   end
