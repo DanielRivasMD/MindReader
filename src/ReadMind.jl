@@ -89,18 +89,15 @@ begin
   # create empty dictionary
   hmmDc = Dict{String, HMM}()
 
-  # for (κ, υ) in freqDc
-  begin
-    κ = "P8-O2"
-    υ = freqDc[κ]
+  for (κ, υ) in freqDc
 
-    println()
+    print()
     @info κ
 
     #  build & train autoencoder
     freqAr = shifter(υ)
     model = buildAutoencoder(length(freqAr[1]); nnParams = NNParams)
-    model = modelTrain!(model, freqAr; nnParams = NNParams)
+    modelTrain!(model, freqAr; nnParams = NNParams)
 
     ################################################################################
 
@@ -116,18 +113,17 @@ begin
       # TODO: add hmm iteration settings
       @info "Creating Hidden Markov Model..."
 
-      @info aErr
       # setup
       hmm = setup(aErr)
 
       # process
       for _ in 1:4
-        process!(hmm, aErr, true; params=hmmParams)
+        _ = process!(hmm, aErr, true; params=hmmParams)
       end
 
       # final
       for _ in 1:2
-        process!(hmm, aErr, false; params=hmmParams)
+        _ = process!(hmm, aErr, false; params = hmmParams)
       end
 
       # record hidden Markov model

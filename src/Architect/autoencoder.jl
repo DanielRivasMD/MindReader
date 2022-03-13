@@ -41,7 +41,6 @@ function modelTrain!(model, inputAr; nnParams)
 
   @epochs args.epochs train!(loss, params(model), zip(trainAr), opt, cb = evalcb)
 
-  return model
 end
 
 ################################################################################
