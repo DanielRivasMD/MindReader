@@ -11,8 +11,15 @@ Write hidden markov model states and traceback wrapper.
 See also: [`writePerformance`](@ref)
 """
 function writeHMM(hmmDc::Dict{S, HMM}, shParams::Dict) where S <: String
-  if haskey(shParams, "outhmm") && haskey(shParams, "file")
-    return writeHMM(string(shParams["outhmm"], replace(shParams["file"], ".edf" => "_")), hmmDc)
+  if haskey(shParams, "outDir") && haskey(shParams, "input")
+    return writeHMM(
+      string(
+        shParams["outDir"],
+        "hmm/",
+        replace(shParams["input"], ".edf" => "_")
+      ),
+      hmmDc,
+    )
   else
     @error "Variables are not defined in dictionary"
   end
@@ -75,7 +82,7 @@ end
     writePerformance(performanceDc::Dict{S, Array{T, 2}}) where S <: String where T <: Number
 
 # Description
-Transform model performance to table to write.
+Transform model performance to table for writing.
 
 
 See also: [`writeHMM`](@ref)
@@ -102,7 +109,11 @@ Write model performance to CSV file.
 See also: [`writeHMM`](@ref)
 """
 function writePerformance(filename::S, performanceDc::Dict{S, Array{T, 2}}, delim::S = ",") where S <: String where T <: Number
-  writedlm(filename, writePerformance(performanceDc), delim)
+  writedlm(
+    filename,
+    writePerformance(performanceDc),
+    delim,
+  )
 end
 
 ################################################################################
@@ -115,8 +126,8 @@ end
 "reorder hidden markov model traceback vectors into table to write"
 function shiftHMM(hmmModel::Array{Array{T, 1}, 1}) where T <: AbstractFloat
   outMt = Array{Float64, 2}(undef, length(hmmModel[1]), length(hmmModel))
-  for ι ∈ 1:length(hmmModel)
-    outMt[:, ι] = hmmModel[ι]
+  for (ι, υ) ∈ enumerate(hmmModel)
+    outMt[:, ι] = υ
   end
   return Tables.table(outMt, header = [Symbol("S$ο") for ο = 1:size(outMt, 2)])
 end

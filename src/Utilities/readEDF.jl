@@ -9,8 +9,8 @@ Read EDF file from shell arguments. Return dataframe of signals.
 
 """
 function getSignals(shParams::Dict)
-  if haskey(shParams, "indir") && haskey(shParams, "file")
-    return getSignals( string(shParams["indir"], shParams["file"]) )
+  if haskey(shParams, "inputDir") && haskey(shParams, "input")
+    return getSignals( string(shParams["inputDir"], shParams["input"]) )
   else
     @error "Variables are not defined in dictionary"
   end
