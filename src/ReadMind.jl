@@ -27,10 +27,7 @@ include("Utilities/argParser.jl");
 
 # load parameters
 include(
-  string(
-    shArgs["paramsDir"],
-    shArgs["params"],
-  )
+  string(shArgs["paramsDir"], shArgs["params"]),
 )
 
 ################################################################################
@@ -39,10 +36,7 @@ include(
 if haskey(shArgs, "additional") && haskey(shArgs, "addDir")
   for ι in split(shArgs["additional"], ",")
     include(
-      string(
-        shArgs["addDir"],
-        ι,
-      )
+      string(shArgs["addDir"], ι),
     )
   end
 end
@@ -52,10 +46,7 @@ end
 # read annotation
 if haskey(shArgs, "annotation") && haskey(shArgs, "annotDir")
   annotFile = annotationReader(
-    string(
-      shArgs["annotDir"],
-      shArgs["annotation"],
-    )
+    string(shArgs["annotDir"], shArgs["annotation"]),
   )
 end
 
@@ -96,8 +87,17 @@ begin
 
     #  build & train autoencoder
     freqAr = shifter(υ)
-    model = buildAutoencoder(length(freqAr[1]); nnParams = NNParams)
-    modelTrain!(model, freqAr; nnParams = NNParams)
+
+    model = buildAutoencoder(
+      length(freqAr[1]);
+      nnParams = NNParams,
+    )
+
+    modelTrain!(
+      model,
+      freqAr;
+      nnParams = NNParams,
+    )
 
     ################################################################################
 
@@ -117,13 +117,23 @@ begin
       hmm = setup(aErr)
 
       # process
-      for _ in 1:4
-        _ = process!(hmm, aErr, true; params=hmmParams)
+      for _ ∈ 1:4
+        _ = process!(
+            hmm,
+          aErr,
+          true;
+          params = hmmParams,
+        )
       end
 
       # final
-      for _ in 1:2
-        _ = process!(hmm, aErr, false; params = hmmParams)
+      for _ ∈ 1:2
+        _ = process!(
+          hmm,
+          aErr,
+          false;
+          params = hmmParams,
+        )
       end
 
       # record hidden Markov model
@@ -146,11 +156,7 @@ writeHMM(hmmDc, shArgs)
 
 if haskey(annotFile, replace(shArgs["input"], ".edf" => ""))
   writedlm(
-    string(
-      shArgs["outDir"],
-      "screen/",
-      replace(shArgs["input"], "edf" => "csv")
-    ),
+    string(shArgs["outDir"], "screen/", replace(shArgs["input"], "edf" => "csv")),
     writePerformance(sensitivitySpecificity(hmmDc, labelAr)),
     ", ",
   )
@@ -168,78 +174,3 @@ else
 end
 
 ################################################################################
-
-
-
-# ################################################################################
-
-# # read data
-# begin
-#   # read edf file
-#   edfDf, _, _ = getSignals(shArgs)
-
-#   # calculate fft
-#   freqDc = extractFFT(edfDf, shArgs)
-# end;
-
-# ################################################################################
-
-# # build autoencoder & train hidden Markov model
-# begin
-
-#   errDc = Dict{String, Tuple{Array{Int64, 1}, Array{Array{Float64, 1}, 1}}}()
-
-#   for (κ, υ) ∈ freqDc
-#     println()
-#     @info κ
-
-#     #  build & train autoencoder
-#     freqAr = shifter(υ)
-#     model = buildAutoencoder(length(freqAr[1]), nnParams = NNParams)
-#     model = modelTrain!(model, freqAr, nnParams = NNParams)
-
-#     ################################################################################
-
-#     # calculate post autoencoder
-#     postAr = cpu(model).(freqAr)
-
-#     ################################################################################
-
-#     begin
-#       @info "Creating Hidden Markov Model..."
-#       # error
-#       aErr = reshifter(postAr - freqAr) |> π -> flatten(π) |> permutedims
-
-#       # setup
-#       hmm = setup(aErr)
-
-#       # process
-#       for _ ∈ 1:4
-#         errDc[κ] = process!(hmm, aErr, true, params = hmmParams)
-#       end
-
-#       # final
-#       for _ ∈ 1:2
-#         errDc[κ] = process!(hmm, aErr, false, params = hmmParams)
-#       end
-#     end;
-
-#     ################################################################################
-
-#   end
-
-#   println()
-
-# end;
-
-# ################################################################################
-
-# # write traceback & states
-# writeHMM(errDc, shArgs)
-
-# ################################################################################
-
-# # graphic rendering
-# mindGraphics(errDc, shArgs)
-
-# ################################################################################
