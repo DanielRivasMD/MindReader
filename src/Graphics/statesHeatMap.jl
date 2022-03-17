@@ -2,8 +2,8 @@
 
 """
 
-  mindGraphics(modelHMM::Dict{S, Tuple{Array{T, 1}, Array{Array{U, 1}, 1}}}, shArgs::Dict;
-  labels = nothing) where S <: String where T <: Int64 where U <: Float64
+  mindGraphics(modelHMM::Dict{S, HMM}, shArgs::Dict;
+  labels = nothing) where {S <: String}
 
 # Description
 Control graphic module of *MindReader*. Verifies arguments, builds heatmap, write to file and renders image.
@@ -16,7 +16,7 @@ Control graphic module of *MindReader*. Verifies arguments, builds heatmap, writ
 if available `labels` are available, concatenate to rendering.
 
 """
-function mindGraphics(modelHMM::Dict{S, Tuple{Array{T, 1}, Array{Array{U, 1}, 1}}}, shArgs::Dict; labels = nothing) where S <: String where T <: Int64 where U <: Float64
+function mindGraphics(modelHMM::Dict{S, HMM}, shArgs::Dict; labels = nothing) where {S <: String}
 
   # check arguments | assign
   κ = [:svg, :csv]
@@ -35,19 +35,26 @@ function mindGraphics(modelHMM::Dict{S, Tuple{Array{T, 1}, Array{Array{U, 1}, 1}
   end
 
   # write
-  writedlm( string(shArgs["outdir"], outcsv), toHeat, "," )
+  writedlm(
+    string(shArgs["outdir"], outcsv),
+    toHeat,
+    ",",
+  )
 
   @info "Rendering..."
-  renderGraphics( string(shArgs["outdir"], outsvg), toHeat )
+  renderGraphics(
+    string(shArgs["outdir"], outsvg),
+    toHeat,
+  )
 
 end
 
 ################################################################################
 
 "wrapper for model heatmap plotting"
-function renderGraphics(filename::S, toHeat::Array{T, 2}) where S <: String where T <: Number
+function renderGraphics(filename::S, toHeat::Array{T, 2}) where {S <: String} where {T <: Number}
 
-  #  TODO: add channel labels by passing vector to heatmap function
+  # TODO: add channel labels by passing vector to heatmap function
   # plot layout
   plotFig = Figure()
   heatplot = plotFig[1, 1] = Axis(plotFig, title = "States Heatmap")
@@ -69,21 +76,22 @@ function renderGraphics(filename::S, toHeat::Array{T, 2}) where S <: String wher
   cbar.ticks = 1:1:5
 
   # save rendering
-  save( filename, plotFig )
+  save(filename, plotFig)
 
 end
 
 ################################################################################
 
-"iterate over known electrodes and collect states from Hidden Markov model"
-function collectState(modelHMM::Dict{S, Tuple{Array{T, 1}, Array{Array{U, 1}, 1}}}) where S <: String where T <: Int64 where U <: Float64
+"iterate over known electrodes & collect states from Hidden Markov model"
+function collectState(modelHMM::Dict{S, HMM}) where {S <: String}
 
-  keyString = modelHMM[convert.(String, keys(modelHMM))[1]][1]
+  # collect dictionary keys
+  keyString = modelHMM[convert.(String, keys(modelHMM))[1]].traceback
   toHeat = zeros(length(modelHMM), length(keyString))
   ψ = size(toHeat, 1)
   for ε ∈ elecID
     if haskey(modelHMM, ε)
-      toHeat[ψ, :] = modelHMM[ε][1]
+      toHeat[ψ, :] = modelHMM[ε].traceback
       ψ -= 1
     else
       @debug ε
@@ -94,12 +102,12 @@ end
 
 ################################################################################
 
-"check whether shell argument was explicitly declared and assigned"
-function shChecker(shArgs::Dict, κ::S, ζ::S) where S <: String
+"check whether shell argument was explicitly declared & assigned"
+function shChecker(shArgs::Dict, κ::S, ζ::S) where {S <: String}
   if shArgs[κ] ∉ nothing
     return shArgs[κ]
   else
-    return replace(shArgs["file"], "edf" => ζ)
+    return replace(shArgs["input"], "edf" => ζ)
   end
 end
 
