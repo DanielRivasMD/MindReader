@@ -1,4 +1,5 @@
 ################################################################################
+# TODO: consider expanding wrappers into macros
 
 """
 
@@ -98,6 +99,77 @@ function sensitivitySpecificity(ar::Array{T, 2}) where {T <: Number}
   else
     @error "Array does not have the proper size"
   end
+end
+
+################################################################################
+
+"""
+
+    predictiveValue(ssDc::Dict{S, HMM}, labelVc) where {S <: String}
+
+# Description
+Iterate on Dictionary and calculate predictive values from a `Hidden Markov model` struct.
+
+
+See also: [`sensitivitySpecificity`](@ref)
+"""
+function predictiveValue(pvDc::Dict{S, HMM}, labelVc) where {S <: String}
+
+  outDc = Dict{S, Array{Float64, 2}}()
+  for (κ, υ) in pvDc
+    outPredVal = zeros(1, 2)
+    (outPredVal[1, 1], outPredVal[1, 2]) = predictiveValue(υ.traceback, labelVc)
+    outDc[κ] = outPredVal
+  end
+
+  return outDc
+end
+
+################################################################################
+
+"""
+
+    predictiveValue(tbVc::Array{T, 1}, labelMt::Array{T, 2}) where {T <: Number}
+
+# Description
+Calculate predictive values from a `Hidden Markov model` struct.
+
+
+See also: [`sensitivitySpecificity`](@ref)
+"""
+function predictiveValue(tbVc::Array{T, 1}, labelMt::Array{T, 2}) where {T <: Number}
+  tbVec = copy(tbVc)
+
+  # reassign frecuency labels
+  labels = [1, 2]
+  tbVec[findall(tbVec .> 1)] .= 2
+
+  # add label columns
+  labelVc = sum(labelMt, dims = 2)
+
+  return predictiveValue(adjustFq(tbVec, labelVc, labels))
+end
+
+################################################################################
+
+"""
+
+    predictiveValue(tbVc::Array{T, 1}, labelVc::Array{T, 1}) where {T <: Number}
+
+# Description
+Calculate predictive values from a `Hidden Markov model` struct.
+
+
+See also: [`sensitivitySpecificity`](@ref)
+"""
+function predictiveValue(tbVc::Array{T, 1}, labelVc::Array{T, 1}) where {T <: Number}
+  tbVec = copy(tbVc)
+
+  # reassign frecuency labels
+  labels = [1, 2]
+  tbVec[findall(tbVec .> 1)] .= 2
+
+  return predictiveValue(adjustFq(tbVec, labelVc, labels))
 end
 
 ################################################################################
