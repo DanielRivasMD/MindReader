@@ -18,6 +18,7 @@ if available `labels` are available, concatenate to rendering.
 """
 function mindGraphics(modelHMM::Dict{S, HMM}, shArgs::Dict; labels = nothing) where {S <: String}
 
+  # TODO: to update according to shell args
   # check arguments | assign
   κ = [:svg, :csv]
   for (ζ, ξ) ∈ zip([Symbol("out", ι) for ι ∈ κ], κ)
@@ -53,6 +54,8 @@ end
 
 "wrapper for model heatmap plotting"
 function renderGraphics(filename::S, toHeat::Array{T, 2}) where {S <: String} where {T <: Number}
+
+  # TODO: to update
 
   # TODO: add channel labels by passing vector to heatmap function
   # plot layout

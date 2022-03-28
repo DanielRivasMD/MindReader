@@ -76,26 +76,26 @@ end;
 begin
 
   # EEG montage
-  include( string(montageDir, "electrodeID.jl") )
+  include(string(montageDir, "electrodeID.jl"))
 
   # IO utilities
-  include( string(utilDir,    "readEDF.jl") )
-  include( string(utilDir,    "writeCSV.jl") )
+  include(string(utilDir,    "readEDF.jl"))
+  include(string(utilDir,    "writeCSV.jl"))
 
   # performance
-  include( string(performDir, "screening.jl") )
+  include(string(performDir, "screening.jl"))
 
   # preprocessing
-  include( string(signalDir,  "signalBin.jl") )
-  include( string(signalDir,  "fastFourierTransform.jl") )
+  include(string(signalDir,  "signalBin.jl"))
+  include(string(signalDir,  "fastFourierTransform.jl"))
 
   # neural network
-  include( string(arqDir,     "architect.jl") )
-  include( string(arqDir,     "shapeShifter.jl") )
-  include( string(arqDir,     "autoencoder.jl") )
+  include(string(arqDir,     "architect.jl"))
+  include(string(arqDir,     "shapeShifter.jl"))
+  include(string(arqDir,     "autoencoder.jl"))
 
   # graphic rendering
-  include( string(graphDir,   "statesHeatMap.jl") )
+  include(string(graphDir,   "statesHeatMap.jl"))
 
 end;
 
