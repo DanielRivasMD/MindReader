@@ -25,10 +25,6 @@ import Flux: throttle, params, train!
 import Flux: @epochs
 import Flux.Data: DataLoader
 
-# CairoMakie
-import CairoMakie: Figure, Axis, Colorbar, Relative
-import CairoMakie: heatmap!, save
-
 ################################################################################
 
 # readEDF
@@ -55,9 +51,6 @@ export shifter, reshifter
 # autoencoder
 export modelTrain!
 
-# graphics
-export mindGraphics
-
 ################################################################################
 
 # declare tool directories
@@ -67,7 +60,6 @@ begin
   performDir = "Performance/"                              # performance
   signalDir  = "SignalProcessing/"                         # preprocessing
   arqDir     = "Architect/"                                # neural network
-  graphDir   = "Graphics/"                                 # graphic rendering
 end;
 
 ################################################################################
@@ -93,9 +85,6 @@ begin
   include(string(arqDir,     "architect.jl"))
   include(string(arqDir,     "shapeShifter.jl"))
   include(string(arqDir,     "autoencoder.jl"))
-
-  # graphic rendering
-  include(string(graphDir,   "statesHeatMap.jl"))
 
 end;
 

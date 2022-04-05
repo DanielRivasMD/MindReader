@@ -9,3 +9,6 @@ Manifest.toml
 
 # ignore data
 data/
+
+# ignore deprecated code
+src/deprecated/
