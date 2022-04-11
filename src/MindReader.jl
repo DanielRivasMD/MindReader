@@ -19,11 +19,11 @@ using FFTW
 using HiddenMarkovModelReaders
 
 # Flux
-import Flux: Chain, Dense
-import Flux: mse, throttle, ADAM
-import Flux: throttle, params, train!
-import Flux: @epochs
-import Flux.Data: DataLoader
+using Flux: Chain, Dense
+using Flux: mse, throttle, ADAM
+using Flux: throttle, params, train!
+using Flux: @epochs
+using Flux.Data: DataLoader
 
 ################################################################################
 
