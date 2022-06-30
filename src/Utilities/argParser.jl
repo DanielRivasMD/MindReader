@@ -1,14 +1,14 @@
-################################################################################
+####################################################################################################
 
-import ArgParse: ArgParseSettings, @add_arg_table!, parse_args
+using ArgParse: ArgParseSettings, @add_arg_table!, parse_args
 
-################################################################################
+####################################################################################################
 
 function shArgParser(args)
     # minimal argument parsing
-    s = ArgParseSettings(; description = "MindReader command line utility.")
+    ∫ = ArgParseSettings(; description = "MindReader command line utility.")
 
-    @add_arg_table! s begin
+    @add_arg_table! ∫ begin
 
         "--input", "-i"
         arg_type = String
@@ -68,38 +68,18 @@ function shArgParser(args)
         default = 4
         help = "bin overlap along raw signal"
 
-        # "--outsvg", "-s"
-        # arg_type = String
-        # required = false
-        # help = "output directory svg. Defined as `file`.svg at `outdir` if not specified"
-
-        # "--outcsv", "-c"
-        # arg_type = String
-        # required = false
-        # help = "output directory csv. Defined as `file`.csv at `outdir` if not specified"
-
-        # "--outhmm"
-        # arg_type = String
-        # required = false
-        # help = "output directory `hmm`. Defined as `file`'.csv' at `outdir` if not specified"
-
-        # "--outscreen"
-        # arg_type = String
-        # required = false
-        # help = "output directory `screen`. Defined as `file`'.csv' at `outdir` if not specified"
-
     end
 
-    parsed_args = parse_args(s)
+    parsed_args = parse_args(∫)
     return parsed_args
 end
 
-################################################################################
+####################################################################################################
 
 #  parse shell arguments
 shArgs = shArgParser(ARGS)
 
-################################################################################
+####################################################################################################
 
 # # create directory if does not exist
 # if !isdir(shArgs["outdir"]) && shArgs["outdir"] != "."
@@ -107,4 +87,4 @@ shArgs = shArgParser(ARGS)
 #   mkdir(shArgs["outdir"])
 # end
 
-################################################################################
+####################################################################################################
