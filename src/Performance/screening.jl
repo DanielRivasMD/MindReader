@@ -1,4 +1,4 @@
-################################################################################
+####################################################################################################
 
 # TODO: consider expanding wrappers into macros
 
@@ -24,7 +24,7 @@ function sensitivitySpecificity(ssDc::Dict{S, HMM}, labelVc) where {S <: String}
   return outDc
 end
 
-################################################################################
+####################################################################################################
 
 """
 
@@ -49,7 +49,7 @@ function sensitivitySpecificity(tbVc::Array{T, 1}, labelMt::Array{T, 2}) where {
   return sensitivitySpecificity(adjustFq(tbVec, labelVc, labels))
 end
 
-################################################################################
+####################################################################################################
 
 """
 
@@ -71,7 +71,7 @@ function sensitivitySpecificity(tbVc::Array{T, 1}, labelVc::Array{T, 1}) where {
   return sensitivitySpecificity(adjustFq(tbVec, labelVc, labels))
 end
 
-################################################################################
+####################################################################################################
 
 """
 
@@ -102,7 +102,7 @@ function sensitivitySpecificity(ar::Array{T, 2}) where {T <: Number}
   end
 end
 
-################################################################################
+####################################################################################################
 
 """
 
@@ -126,7 +126,7 @@ function predictiveValue(pvDc::Dict{S, HMM}, labelVc) where {S <: String}
   return outDc
 end
 
-################################################################################
+####################################################################################################
 
 """
 
@@ -151,7 +151,7 @@ function predictiveValue(tbVc::Array{T, 1}, labelMt::Array{T, 2}) where {T <: Nu
   return predictiveValue(adjustFq(tbVec, labelVc, labels))
 end
 
-################################################################################
+####################################################################################################
 
 """
 
@@ -173,7 +173,7 @@ function predictiveValue(tbVc::Array{T, 1}, labelVc::Array{T, 1}) where {T <: Nu
   return predictiveValue(adjustFq(tbVec, labelVc, labels))
 end
 
-################################################################################
+####################################################################################################
 
 """
 
@@ -204,7 +204,7 @@ function predictiveValue(ar::Array{T, 2}) where {T <: Number}
   end
 end
 
-################################################################################
+####################################################################################################
 
 "transform freqtable => dataframe"
 function convertFqDf(fq::NamedVector{T, Array{T, 1}, Tuple{OrderedDict{T, T}}}; colnames::Array{S, 1} = ["Value", "Frecuency"]) where {T <: Number} where {S <: String}
@@ -226,7 +226,7 @@ function convertFqDf(fq::NamedVector{T, Array{T, 1}, Tuple{OrderedDict{T, T}}}, 
   return outDf
 end
 
-################################################################################
+####################################################################################################
 
 "adjust frecuency tables for concatenation"
 function stFreqTb(fTb::NamedArray{Int64, 1})
@@ -259,7 +259,7 @@ function stFreqTb(fTb::NamedArray{Int64, 1})
   return fTb
 end
 
-################################################################################
+####################################################################################################
 
 "adjust & concatenate frecuency tables"
 function adjustFq(tbVec, labelVc, labels)
@@ -268,4 +268,4 @@ function adjustFq(tbVec, labelVc, labels)
   return [positives[:, 2] negatives[:, 2]]
 end
 
-################################################################################
+####################################################################################################
