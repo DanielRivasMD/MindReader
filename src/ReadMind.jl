@@ -34,7 +34,7 @@ include(
 
 # include additional protocols
 if haskey(shArgs, "additional") && haskey(shArgs, "addDir")
-  for ι in split(shArgs["additional"], ",")
+  for ι ∈ split(shArgs["additional"], ",")
     include(
       string(shArgs["addDir"], ι),
     )

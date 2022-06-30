@@ -39,7 +39,7 @@ See also: [`writePerformance`](@ref)
 """
 function writeHMM(filePrefix::S, hmmDc::Dict{S, HMM}) where S <: String
   for (κ, υ) ∈ hmmDc
-    filename = string( filePrefix, string(κ))
+    filename = string(filePrefix, string(κ))
     writeHMM(string(filename, "_traceback", ".csv"), υ.traceback, κ)
     writeHMM(string(filename, "_model", ".csv"), υ.model)
   end
