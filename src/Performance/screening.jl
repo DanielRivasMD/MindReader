@@ -207,13 +207,13 @@ end
 ####################################################################################################
 
 "transform freqtable => dataframe"
-function convertFqDf(fq::NamedVector{T, Array{T, 1}, Tuple{OrderedDict{T, T}}}; colnames::Array{S, 1} = ["Value", "Frecuency"]) where {T <: Number} where {S <: String}
+function convertFqDf(fq; colnames = ["Value", "Frecuency"])
   return DataFrames.DataFrame([names(fq)[1] fq.array], colnames)
 end
 
 
 "transform freqtable => dataframe template"
-function convertFqDf(fq::NamedVector{T, Array{T, 1}, Tuple{OrderedDict{T, T}}}, templ::Array{T, 1}; colnames::Array{S, 1} = ["Value", "Frecuency"]) where {T <: Number} where {S <: String}
+function convertFqDf(fq, templ; colnames = ["Value", "Frecuency"])
 
   fq = convertFqDf(fq)
 
@@ -263,8 +263,8 @@ end
 
 "adjust & concatenate frecuency tables"
 function adjustFq(tbVec, labelVc, labels)
-  positives = tbVec[labelVc[:, 1].==1] |> freqtable |> π -> convertFqDf(π, labels) |> π -> sort(π, rev = true)
-  negatives = tbVec[labelVc[:, 1].==0] |> freqtable |> π -> convertFqDf(π, labels) |> π -> sort(π, rev = true)
+  positives = tbVec[labelVc[:, 1] .== 1] |> freqtable |> π -> convertFqDf(π, labels) |> π -> sort(π, rev = true)
+  negatives = tbVec[labelVc[:, 1] .== 0] |> freqtable |> π -> convertFqDf(π, labels) |> π -> sort(π, rev = true)
   return [positives[:, 2] negatives[:, 2]]
 end
 
