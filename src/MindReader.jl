@@ -30,6 +30,9 @@ using Flux.Data: DataLoader
 # readEDF
 export getSignals
 
+# readCSV
+export reconstructHMM
+
 # writeCSV
 export writeHMM, writePerformance
 
@@ -72,6 +75,7 @@ begin
 
   # IO utilities
   include(string(utilDir,    "readEDF.jl"))
+  include(string(utilDir,    "readCSV.jl"))
   include(string(utilDir,    "writeCSV.jl"))
 
   # performance
