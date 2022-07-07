@@ -2,13 +2,14 @@
 
 """
 
-    getSignals(shParams::Dict)
+    getSignals(shParams::D)
+    where D <: Dict
 
 # Description
 Read EDF file from shell arguments. Return dataframe of signals.
 
 """
-function getSignals(shParams::Dict)
+function getSignals(shParams::D) where D <: Dict
   if haskey(shParams, "inputDir") && haskey(shParams, "input")
     return getSignals(string(shParams["inputDir"], shParams["input"]))
   else
@@ -20,7 +21,8 @@ end
 
 """
 
-    getSignals(edfFile::S) where S <: String
+    getSignals(edfFile::S)
+    where S <: String
 
 # Description
 Read EDF file. Return dataframe of signals.

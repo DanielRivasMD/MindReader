@@ -2,7 +2,9 @@
 
 """
 
-    extractSignalBin(edfDf::DataFrame, params::Dict)
+    extractSignalBin(edfDf::Df, params::D)
+    where Df <: Dataframe
+    where D <: Dict
 
 # Description
 Use `extractSignalBin` on EDF file per channel from shell arguments. Returns a dictionary with channel names as keys.
@@ -10,7 +12,7 @@ Use `extractSignalBin` on EDF file per channel from shell arguments. Returns a d
 
 See also: [`extractFFT`](@ref)
 """
-function extractSignalBin(edfDf::DataFrame, params::Dict)
+function extractSignalBin(edfDf::Df, params::D) where Df <: Dataframe where D <: Dict
   if haskey(params, "window-size") && haskey(params, "bin-overlap")
     return extractSignalBin(edfDf, binSize = params["window-size"], binOverlap = params["bin-overlap"])
   else
@@ -23,8 +25,10 @@ end
 
 """
 
-    extractSignalBin(channel::Array;
-    binSize::T, binOverlap::T) where T <: Number
+    extractSignalBin(channel::A;
+    binSize::T, binOverlap::T)
+    where A <: Array
+    where T <: Number
 
 # Description
 Bin channel signal.
@@ -32,7 +36,7 @@ Bin channel signal.
 
 See also: [`extractFFT`](@ref)
 """
-function extractSignalBin(channel::Array; binSize::T, binOverlap::T) where T <: Number
+function extractSignalBin(channel::A; binSize::T, binOverlap::T) where A <: Array where T <: Number
   # define variables
   stepSize = floor(Int64, binSize / binOverlap)
   signalSteps = 1:stepSize:length(channel)
@@ -66,8 +70,10 @@ end
 
 """
 
-    extractSignalBin(edfDf::DataFrames.DataFrame;
-    binSize::T, binOverlap::T) where T <: Number
+    extractSignalBin(edfDf::Df;
+    binSize::T, binOverlap::T)
+    where Df <: DataFrame
+    where T <: Number
 
 # Description
 Use `extractSignalBin` on EDF file per channel. Returns a dictionary with channel names as keys.
@@ -75,7 +81,7 @@ Use `extractSignalBin` on EDF file per channel. Returns a dictionary with channe
 
 See also: [`extractFFT`](@ref)
 """
-function extractSignalBin(edfDf::DataFrames.DataFrame; binSize::T, binOverlap::T) where T <: Number
+function extractSignalBin(edfDf::Df; binSize::T, binOverlap::T) where Df <: DataFrame where T <: Number
   @info("Binning channels signals...")
   channelDc = Dict()
   signalAr = begin

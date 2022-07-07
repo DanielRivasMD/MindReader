@@ -2,7 +2,7 @@
 
 """
 
-    shifter(inputAr)
+    shifter(ɒ)
 
 # Description
 Reshape signals for autoencoder.
@@ -10,26 +10,26 @@ Reshape signals for autoencoder.
 
 See also: [`reshifter`](@ref)
 """
-function shifter(inputAr)
-  outAr = [
+function shifter(ɒ)
+  Ω = [
     Array{Float64}(
       undef,
-      prod(size(inputAr)[1:2])
+      prod(size(ɒ)[1:2])
     )
-    for _ ∈ 1:size(inputAr, 3)
+    for _ ∈ 1:size(ɒ, 3)
   ]
-  for ι ∈ 1:size(inputAr, 3)
-    outAr[ι] = vec(inputAr[:, :, ι])
+  for ι ∈ 1:size(ɒ, 3)
+    Ω[ι] = vec(ɒ[:, :, ι])
   end
-  return outAr
+  return Ω
 end
 
 ####################################################################################################
 
 """
 
-    reshifter(inputAr;
-    outSize = length(inputAr[1]))
+    reshifter(ɒ;
+    outSize = length(ɒ[1]))
 
 # Description
 Reshape signals from autoencoder.
@@ -37,20 +37,20 @@ Reshape signals from autoencoder.
 
 See also: [`shifter`](@ref)
 """
-function reshifter(inputAr; outSize = length(inputAr[1]))
-  ψ = length(inputAr[1]) / outSize |> π -> convert(Int64, π)
-  outAr  = Array{Float64}(
+function reshifter(ɒ; outSize = length(ɒ[1]))
+  ʒ = length(ɒ[1]) / outSize |> π -> convert(Int64, π)
+  Ω  = Array{Float64}(
     undef,
-    ψ,
+    ʒ,
     outSize,
-    length(inputAr)
+    length(ɒ)
   )
 
-  for ι ∈ 1:length(inputAr)
-    outAr[:, :, ι] = inputAr[ι] |> π -> reshape(π, ψ, outSize)
+  for ι ∈ 1:length(ɒ)
+    Ω[:, :, ι] = ɒ[ι] |> π -> reshape(π, ʒ, outSize)
   end
 
-  return outAr
+  return Ω
 end
 
 ####################################################################################################

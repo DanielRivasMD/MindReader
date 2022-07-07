@@ -4,7 +4,8 @@
 """
 
     buildAutoencoder(inputLayer::T;
-    nnParams) where T <: Integer
+    nnParams)
+    where T <: Integer
 
 # Description
 Build a three-layered autoencoder.
@@ -27,5 +28,3 @@ function buildAutoencoder(inputLayer::T; nnParams) where T <: Integer
 end
 
 ####################################################################################################
-
-# TODO: write documentation on how to build neural network

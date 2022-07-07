@@ -10,14 +10,14 @@
 
 """
 
-    modelTrain!(model, inputAr;
+    modelTrain!(model, ɒ;
     nnParams)
 
 # Description
 Train autoencoder.
 
 # Arguments
-`inputAr` array to train on.
+`ɒ` array to train on.
 
 `model` neural network architecture.
 
@@ -26,11 +26,11 @@ arguments passed as `nnParams` with `Parameters::@with_kw`
 
 See also: [`buildAutoencoder`](@ref)
 """
-function modelTrain!(model, inputAr; nnParams)
+function modelTrain!(model, ɒ; nnParams)
   args = nnParams()
 
   @info("Loading data...")
-  trainAr = args.device.(inputAr)
+  trainAr = args.device.(ɒ)
 
   @info("Training model...")
   loss(χ) = mse(model(χ), χ)

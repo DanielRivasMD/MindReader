@@ -4,7 +4,8 @@
 
 """
 
-    sensitivitySpecificity(ssDc::Dict{S, HMM}, labelVc) where {S <: String}
+    sensitivitySpecificity(ssDc::Dict{S, HMM}, labelVc)
+    where S <: String
 
 # Description
 Iterate on Dictionary and calculate sensitivity and specificity from a `Hidden Markov model` struct.
@@ -12,23 +13,24 @@ Iterate on Dictionary and calculate sensitivity and specificity from a `Hidden M
 
 See also: [`predictiveValue`](@ref)
 """
-function sensitivitySpecificity(ssDc::Dict{S, HMM}, labelVc) where {S <: String}
+function sensitivitySpecificity(ssDc::Dict{S, HMM}, labelVc) where S <: String
 
-  outDc = Dict{S, Array{Float64, 2}}()
+  Ω = Dict{S, Array{Float64, 2}}()
   for (κ, υ) in ssDc
     outSensSpec = zeros(1, 2)
     (outSensSpec[1, 1], outSensSpec[1, 2]) = sensitivitySpecificity(υ.traceback, labelVc)
-    outDc[κ] = outSensSpec
+    Ω[κ] = outSensSpec
   end
 
-  return outDc
+  return Ω
 end
 
 ####################################################################################################
 
 """
 
-    sensitivitySpecificity(tbVc::Array{T, 1}, labelMt::Array{T, 2}) where {T <: Number}
+    sensitivitySpecificity(tbVc::Array{T, 1}, labelMt::Array{T, 2})
+    where T <: Number
 
 # Description
 Calculate sensitivity and specificity from a `Hidden Markov model` struct.
@@ -36,7 +38,10 @@ Calculate sensitivity and specificity from a `Hidden Markov model` struct.
 
 See also: [`predictiveValue`](@ref)
 """
-function sensitivitySpecificity(tbVc::Array{T, 1}, labelMt::Array{T, 2}) where {T <: Number}
+function sensitivitySpecificity(tbVc::Array{T, 1}, labelMt::Array{T, 2}) where T <: Number
+
+  # TODO: is there a way to not pass by reference?
+  # declare internal copy
   tbVec = copy(tbVc)
 
   # reassign frecuency labels
@@ -53,7 +58,8 @@ end
 
 """
 
-    sensitivitySpecificity(tbVc::Array{T, 1}, labelVc::Array{T, 1}) where {T <: Number}
+    sensitivitySpecificity(tbVc::Array{T, 1}, labelVc::Array{T, 1})
+    where T <: Number
 
 # Description
 Calculate sensitivity and specificity from a `Hidden Markov model` struct.
@@ -61,7 +67,9 @@ Calculate sensitivity and specificity from a `Hidden Markov model` struct.
 
 See also: [`predictiveValue`](@ref)
 """
-function sensitivitySpecificity(tbVc::Array{T, 1}, labelVc::Array{T, 1}) where {T <: Number}
+function sensitivitySpecificity(tbVc::Array{T, 1}, labelVc::Array{T, 1}) where T <: Number
+
+  # declare internal copy
   tbVec = copy(tbVc)
 
   # reassign frecuency labels
@@ -75,7 +83,8 @@ end
 
 """
 
-    sensitivitySpecificity(ar::Array{T, 2}) where {T <: Number}
+    sensitivitySpecificity(ar::Array{T, 2})
+    where T <: Number
 
 # Description
 Calculate sensitivity and specificity from 2 x 2 array.
@@ -94,9 +103,9 @@ julia> sensitivitySpecificity(χ)
 
 See also: [`predictiveValue`](@ref)
 """
-function sensitivitySpecificity(ar::Array{T, 2}) where {T <: Number}
-  if size(ar) == (2, 2)
-    return (sensitivity = ar[1, 1] / (ar[1, 1] + ar[2, 1]), specificity = ar[2, 2] / (ar[2, 2] + ar[1, 2]))
+function sensitivitySpecificity(ɒ::Array{T, 2}) where T <: Number
+  if size(ɒ) == (2, 2)
+    return (sensitivity = ɒ[1, 1] / (ɒ[1, 1] + ɒ[2, 1]), specificity = ɒ[2, 2] / (ɒ[2, 2] + ɒ[1, 2]))
   else
     @error "Array does not have the proper size"
   end
@@ -106,7 +115,8 @@ end
 
 """
 
-    predictiveValue(ssDc::Dict{S, HMM}, labelVc) where {S <: String}
+    predictiveValue(ssDc::Dict{S, HMM}, labelVc)
+    where S <: String
 
 # Description
 Iterate on Dictionary and calculate predictive values from a `Hidden Markov model` struct.
@@ -114,23 +124,27 @@ Iterate on Dictionary and calculate predictive values from a `Hidden Markov mode
 
 See also: [`sensitivitySpecificity`](@ref)
 """
-function predictiveValue(pvDc::Dict{S, HMM}, labelVc) where {S <: String}
+function predictiveValue(pvDc::Dict{S, HMM}, labelVc) where S <: String
 
-  outDc = Dict{S, Array{Float64, 2}}()
+  # preallocate out dictionary
+  Ω = Dict{S, Array{Float64, 2}}()
+
+  # iterate on dictionary
   for (κ, υ) in pvDc
     outPredVal = zeros(1, 2)
     (outPredVal[1, 1], outPredVal[1, 2]) = predictiveValue(υ.traceback, labelVc)
-    outDc[κ] = outPredVal
+    Ω[κ] = outPredVal
   end
 
-  return outDc
+  return Ω
 end
 
 ####################################################################################################
 
 """
 
-    predictiveValue(tbVc::Array{T, 1}, labelMt::Array{T, 2}) where {T <: Number}
+    predictiveValue(tbVc::Array{T, 1}, labelMt::Array{T, 2})
+    where T <: Number
 
 # Description
 Calculate predictive values from a `Hidden Markov model` struct.
@@ -138,7 +152,9 @@ Calculate predictive values from a `Hidden Markov model` struct.
 
 See also: [`sensitivitySpecificity`](@ref)
 """
-function predictiveValue(tbVc::Array{T, 1}, labelMt::Array{T, 2}) where {T <: Number}
+function predictiveValue(tbVc::Array{T, 1}, labelMt::Array{T, 2}) where T <: Number
+
+  # declare internal copy
   tbVec = copy(tbVc)
 
   # reassign frecuency labels
@@ -155,7 +171,8 @@ end
 
 """
 
-    predictiveValue(tbVc::Array{T, 1}, labelVc::Array{T, 1}) where {T <: Number}
+    predictiveValue(tbVc::Array{T, 1}, labelVc::Array{T, 1})
+    where T <: Number
 
 # Description
 Calculate predictive values from a `Hidden Markov model` struct.
@@ -163,7 +180,9 @@ Calculate predictive values from a `Hidden Markov model` struct.
 
 See also: [`sensitivitySpecificity`](@ref)
 """
-function predictiveValue(tbVc::Array{T, 1}, labelVc::Array{T, 1}) where {T <: Number}
+function predictiveValue(tbVc::Array{T, 1}, labelVc::Array{T, 1}) where T <: Number
+
+  # declare internal copy
   tbVec = copy(tbVc)
 
   # reassign frecuency labels
@@ -177,7 +196,8 @@ end
 
 """
 
-    predictiveValue(ar::Array{T, 2}) where {T <: Number}
+    predictiveValue(ar::Array{T, 2})
+    where T <: Number
 
 # Description
 Calculate positive and negative predictive values from 2 x 2 array.
@@ -196,9 +216,9 @@ julia> predictiveValue(χ)
 
 See also: [`sensitivitySpecificity`](@ref)
 """
-function predictiveValue(ar::Array{T, 2}) where {T <: Number}
-  if size(ar) == (2, 2)
-    return (positive = ar[1, 1] / (ar[1, 1] + ar[1, 2]), negative = ar[2, 2] / (ar[2, 2] + ar[2, 1]))
+function predictiveValue(ɒ::Array{T, 2}) where T <: Number
+  if size(ɒ) == (2, 2)
+    return (positive = ɒ[1, 1] / (ɒ[1, 1] + ɒ[1, 2]), negative = ɒ[2, 2] / (ɒ[2, 2] + ɒ[2, 1]))
   else
     @error "Array does not have the proper size"
   end
@@ -217,13 +237,13 @@ function convertFqDf(fq, templ; colnames = ["Value", "Frecuency"])
 
   fq = convertFqDf(fq)
 
-  outDf = DataFrames.DataFrame([templ zeros(Int64, length(templ))], colnames)
+  Ω = DataFrames.DataFrame([templ zeros(Int64, length(templ))], colnames)
 
-  for ix in 1:size(fq, 1)
-    outDf[findall(fq[ix, 1] .== outDf[:, 1]), 2] .= fq[ix, 2]
+  for ι ∈ 1:size(fq, 1)
+    Ω[findall(fq[ι, 1] .== Ω[:, 1]), 2] .= fq[ι, 2]
   end
 
-  return outDf
+  return Ω
 end
 
 ####################################################################################################

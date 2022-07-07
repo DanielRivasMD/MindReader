@@ -79,15 +79,18 @@ end
 
 """
 
-    writePerformance(performanceDc::Dict{S, Array{T, 2}}) where S <: String where T <: Number
+    writePerformance(performanceDc::D{S, Array{T, 2}})
+    where D <: Dict
+    where S <: String
+    where T <: Number
 
 # Description
 Transform model performance to table for writing.
 
 
-See also: [`writeHMM`](@ref)
+See also: [`getSignals`](@ref)
 """
-function writePerformance(performanceDc::Dict{S, Array{T, 2}}) where S <: String where T <: Number
+function writePerformance(performanceDc::D{S, Array{T, 2}}) where D <: Dict where S <: String where T <: Number
   outAr = Array{Any, 2}(undef, length(performanceDc) + 1, 3)
   outAr[1, :] .= ["Electrode", "Sensitivity", "Specificity"]
   for (ι, (κ, υ)) ∈ enumerate(performanceDc)
@@ -100,15 +103,18 @@ end
 
 """
 
-    writePerformance(filename::S, performanceDc::Dict{S, Array{T, 2}}, delim::S = ",") where S <: String where T <: Number
+    writePerformance(filename::S, performanceDc::D{S, Array{T, 2}}, delim::S = ",")
+    where D <: Dict
+    where S <: String
+    where T <: Number
 
 # Description
 Write model performance to CSV file.
 
 
-See also: [`writeHMM`](@ref)
+See also: [`getSignals`](@ref)
 """
-function writePerformance(filename::S, performanceDc::Dict{S, Array{T, 2}}, delim::S = ",") where S <: String where T <: Number
+function writePerformance(filename::S, performanceDc::D{S, Array{T, 2}}, delim::S = ",") where D <: Dict where S <: String where T <: Number
   writedlm(
     filename,
     writePerformance(performanceDc),
