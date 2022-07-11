@@ -29,8 +29,8 @@ end
 
 """
 
-    sensitivitySpecificity(tbVc::Array{T, 1}, labelMt::Array{T, 2})
-    where T <: Number
+    sensitivitySpecificity(tbVc::Vector{N}, labelMt::Matrix{N})
+    where N <: Number
 
 # Description
 Calculate sensitivity and specificity from a `Hidden Markov model` struct.
@@ -38,7 +38,7 @@ Calculate sensitivity and specificity from a `Hidden Markov model` struct.
 
 See also: [`predictiveValue`](@ref)
 """
-function sensitivitySpecificity(tbVc::Array{T, 1}, labelMt::Array{T, 2}) where T <: Number
+function sensitivitySpecificity(tbVc::Vector{N}, labelMt::Matrix{N}) where N <: Number
 
   # TODO: is there a way to not pass by reference?
   # declare internal copy
@@ -58,8 +58,8 @@ end
 
 """
 
-    sensitivitySpecificity(tbVc::Array{T, 1}, labelVc::Array{T, 1})
-    where T <: Number
+    sensitivitySpecificity(tbVc::Vector{N}, labelVc::Vector{N})
+    where N <: Number
 
 # Description
 Calculate sensitivity and specificity from a `Hidden Markov model` struct.
@@ -67,7 +67,7 @@ Calculate sensitivity and specificity from a `Hidden Markov model` struct.
 
 See also: [`predictiveValue`](@ref)
 """
-function sensitivitySpecificity(tbVc::Array{T, 1}, labelVc::Array{T, 1}) where T <: Number
+function sensitivitySpecificity(tbVc::Vector{N}, labelVc::Vector{N}) where N <: Number
 
   # declare internal copy
   tbVec = copy(tbVc)
@@ -83,8 +83,8 @@ end
 
 """
 
-    sensitivitySpecificity(ar::Array{T, 2})
-    where T <: Number
+    sensitivitySpecificity(ar::Matrix{N})
+    where N <: Number
 
 # Description
 Calculate sensitivity and specificity from 2 x 2 array.
@@ -103,7 +103,7 @@ julia> sensitivitySpecificity(χ)
 
 See also: [`predictiveValue`](@ref)
 """
-function sensitivitySpecificity(ɒ::Array{T, 2}) where T <: Number
+function sensitivitySpecificity(ɒ::Matrix{N}) where N <: Number
   if size(ɒ) == (2, 2)
     return (sensitivity = ɒ[1, 1] / (ɒ[1, 1] + ɒ[2, 1]), specificity = ɒ[2, 2] / (ɒ[2, 2] + ɒ[1, 2]))
   else
@@ -143,8 +143,8 @@ end
 
 """
 
-    predictiveValue(tbVc::Array{T, 1}, labelMt::Array{T, 2})
-    where T <: Number
+    predictiveValue(tbVc::Vector{N}, labelMt::Matrix{N})
+    where N <: Number
 
 # Description
 Calculate predictive values from a `Hidden Markov model` struct.
@@ -152,7 +152,7 @@ Calculate predictive values from a `Hidden Markov model` struct.
 
 See also: [`sensitivitySpecificity`](@ref)
 """
-function predictiveValue(tbVc::Array{T, 1}, labelMt::Array{T, 2}) where T <: Number
+function predictiveValue(tbVc::Vector{N}, labelMt::Matrix{N}) where N <: Number
 
   # declare internal copy
   tbVec = copy(tbVc)
@@ -171,8 +171,8 @@ end
 
 """
 
-    predictiveValue(tbVc::Array{T, 1}, labelVc::Array{T, 1})
-    where T <: Number
+    predictiveValue(tbVc::Vector{N}, labelVc::Vector{N})
+    where N <: Number
 
 # Description
 Calculate predictive values from a `Hidden Markov model` struct.
@@ -180,7 +180,7 @@ Calculate predictive values from a `Hidden Markov model` struct.
 
 See also: [`sensitivitySpecificity`](@ref)
 """
-function predictiveValue(tbVc::Array{T, 1}, labelVc::Array{T, 1}) where T <: Number
+function predictiveValue(tbVc::Vector{N}, labelVc::Vector{N}) where N <: Number
 
   # declare internal copy
   tbVec = copy(tbVc)
@@ -196,8 +196,8 @@ end
 
 """
 
-    predictiveValue(ar::Array{T, 2})
-    where T <: Number
+    predictiveValue(ar::Matrix{N})
+    where N <: Number
 
 # Description
 Calculate positive and negative predictive values from 2 x 2 array.
@@ -216,7 +216,7 @@ julia> predictiveValue(χ)
 
 See also: [`sensitivitySpecificity`](@ref)
 """
-function predictiveValue(ɒ::Array{T, 2}) where T <: Number
+function predictiveValue(ɒ::Matrix{N}) where N <: Number
   if size(ɒ) == (2, 2)
     return (positive = ɒ[1, 1] / (ɒ[1, 1] + ɒ[1, 2]), negative = ɒ[2, 2] / (ɒ[2, 2] + ɒ[2, 1]))
   else
@@ -249,7 +249,7 @@ end
 ####################################################################################################
 
 "adjust frecuency tables for concatenation"
-function stFreqTb(fTb::NamedArray{Int64, 1})
+function stFreqTb(fTb::NamedArray{I, 1})where I <: Int64
   sTb = size(fTb, 1)
   # de novo
   if sTb == 0

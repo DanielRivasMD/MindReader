@@ -3,9 +3,9 @@
 # three-layered autoencoder
 """
 
-    buildAutoencoder(inputLayer::T;
+    buildAutoencoder(inputLayer::I;
     nnParams)
-    where T <: Integer
+    where I <: Integer
 
 # Description
 Build a three-layered autoencoder.
@@ -18,7 +18,7 @@ Build a three-layered autoencoder.
 
 See also: [`modelTrain!`](@ref)
 """
-function buildAutoencoder(inputLayer::T; nnParams) where T <: Integer
+function buildAutoencoder(inputLayer::I; nnParams) where I <: Integer
   @info("Building three-layered autoencoder...")
   args = nnParams()
   return Chain(
