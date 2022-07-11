@@ -2,8 +2,7 @@
 
 """
 
-    extractFFT(edfDf::Df, params::D)
-    where Df <: DataFrame
+    extractFFT(edfDf::DataFrame, params::D)
     where D <: Dict
 
 # Description
@@ -12,7 +11,7 @@ Use `extractFFT` on EDF file per channel from shell arguments. Returns a diction
 
 See also: [`extractSignalBin`](@ref)
 """
-function extractFFT(edfDf::Df, params::D) where Df <: DataFrame where D <: Dict
+function extractFFT(edfDf::DataFrame, params::D) where D <: Dict
   if haskey(params, "window-size") && haskey(params, "bin-overlap")
     return extractFFT(edfDf, binSize = params["window-size"], binOverlap = params["bin-overlap"])
   else
@@ -25,9 +24,9 @@ end
 """
 
     extractFFT(channel::A;
-    binSize::T, binOverlap::T)
+    binSize::N, binOverlap::N)
     where A <: Array
-    where T <: Number
+    where N <: Number
 
 # Description
 Apply fast fourier transform (FFT) to channel.
@@ -35,7 +34,7 @@ Apply fast fourier transform (FFT) to channel.
 
 See also: [`extractSignalBin`](@ref)
 """
-function extractFFT(channel::A; binSize::T, binOverlap::T) where A <: Array where T <: Number
+function extractFFT(channel::A; binSize::N, binOverlap::N) where A <: Array where N <: Number
   # define variables
   stepSize = floor(Int32, binSize / binOverlap)
   signalSteps = 1:stepSize:length(channel)
@@ -78,10 +77,9 @@ end
 
 """
 
-    extractFFT(edfDf::Df;
-    binSize::T, binOverlap::T)
-    where Df <: DataFrame
-    where T <: Number
+    extractFFT(edfDf::DataFrame;
+    binSize::N, binOverlap::N)
+    where N <: Number
 
 # Description
 Use `extractFFT` on EDF file per channel. Returns a dictionary with channel names as keys.
@@ -89,7 +87,7 @@ Use `extractFFT` on EDF file per channel. Returns a dictionary with channel name
 
 See also: [`extractSignalBin`](@ref)
 """
-function extractFFT(edfDf::Df; binSize::T, binOverlap::T) where Df <: DataFrame where T <: Number
+function extractFFT(edfDf::DataFrame; binSize::N, binOverlap::N) where N <: Number
   @info "Extracting channel frecuencies..."
   channelDc = Dict()
   freqAr = begin

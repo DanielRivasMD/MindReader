@@ -2,8 +2,7 @@
 
 """
 
-    extractSignalBin(edfDf::Df, params::D)
-    where Df <: Dataframe
+    extractSignalBin(edfDf::DataFrame, params::D)
     where D <: Dict
 
 # Description
@@ -12,7 +11,7 @@ Use `extractSignalBin` on EDF file per channel from shell arguments. Returns a d
 
 See also: [`extractFFT`](@ref)
 """
-function extractSignalBin(edfDf::Df, params::D) where Df <: Dataframe where D <: Dict
+function extractSignalBin(edfDf::DataFrame, params::D) where D <: Dict
   if haskey(params, "window-size") && haskey(params, "bin-overlap")
     return extractSignalBin(edfDf, binSize = params["window-size"], binOverlap = params["bin-overlap"])
   else
@@ -26,9 +25,9 @@ end
 """
 
     extractSignalBin(channel::A;
-    binSize::T, binOverlap::T)
+    binSize::N, binOverlap::N)
     where A <: Array
-    where T <: Number
+    where N <: Number
 
 # Description
 Bin channel signal.
@@ -36,7 +35,7 @@ Bin channel signal.
 
 See also: [`extractFFT`](@ref)
 """
-function extractSignalBin(channel::A; binSize::T, binOverlap::T) where A <: Array where T <: Number
+function extractSignalBin(channel::A; binSize::N, binOverlap::N) where A <: Array where N <: Number
   # define variables
   stepSize = floor(Int64, binSize / binOverlap)
   signalSteps = 1:stepSize:length(channel)
@@ -70,10 +69,9 @@ end
 
 """
 
-    extractSignalBin(edfDf::Df;
-    binSize::T, binOverlap::T)
-    where Df <: DataFrame
-    where T <: Number
+    extractSignalBin(edfDf::DataFrame;
+    binSize::N, binOverlap::N)
+    where N <: Number
 
 # Description
 Use `extractSignalBin` on EDF file per channel. Returns a dictionary with channel names as keys.
@@ -81,7 +79,7 @@ Use `extractSignalBin` on EDF file per channel. Returns a dictionary with channe
 
 See also: [`extractFFT`](@ref)
 """
-function extractSignalBin(edfDf::Df; binSize::T, binOverlap::T) where Df <: DataFrame where T <: Number
+function extractSignalBin(edfDf::DataFrame; binSize::N, binOverlap::N) where N <: Number
   @info("Binning channels signals...")
   channelDc = Dict()
   signalAr = begin
