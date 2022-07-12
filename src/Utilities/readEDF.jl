@@ -61,7 +61,7 @@ end
 "obtain start time"
 function getedfStart(edfRecord)
   # collect timestamp
-  startTime = edfRecord.header.start |> Dates.Time
+  edfRecord.header.start |> Dates.Time
 end
 
 ####################################################################################################
