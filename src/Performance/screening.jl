@@ -83,7 +83,7 @@ end
 
 """
 
-    sensitivitySpecificity(ar::Matrix{N})
+    sensitivitySpecificity(ɒ::Matrix{N})
     where N <: Number
 
 # Description
@@ -115,7 +115,7 @@ end
 
 """
 
-    predictiveValue(ssDc::Dict{S, HMM}, labelVc)
+    predictiveValue(pvDc::Dict{S, HMM}, labelVc)
     where S <: String
 
 # Description
@@ -196,7 +196,7 @@ end
 
 """
 
-    predictiveValue(ar::Matrix{N})
+    predictiveValue(ɒ::Matrix{N})
     where N <: Number
 
 # Description

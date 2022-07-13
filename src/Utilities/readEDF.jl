@@ -8,6 +8,7 @@
 # Description
 Read EDF file from shell arguments. Return dataframe of signals.
 
+
 """
 function getSignals(shParams::D) where D <: Dict
   if haskey(shParams, "inputDir") && haskey(shParams, "input")
@@ -26,6 +27,7 @@ end
 
 # Description
 Read EDF file. Return dataframe of signals.
+
 
 """
 function getSignals(edfFile::S) where S <: String
