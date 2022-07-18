@@ -3,7 +3,7 @@
 """
 
     getSignals(shParams::D)
-    where D <: Dict
+      where D <: Dict
 
 # Description
 Read EDF file from shell arguments. Return dataframe of signals.
@@ -23,16 +23,19 @@ end
 """
 
     getSignals(edfFile::S)
-    where S <: String
+      where S <: String
 
 # Description
 Read EDF file. Return dataframe of signals.
 
 
 """
-function getSignals(edfFile::S) where S <: String
+function getSignals(edfFile::S; verbose::B = false) where S <: String where B <: Bool
+
+  # verbose
+  if verbose @info "Reading EDF file..." end
+
   # read edf file
-  @info "Reading EDF file..."
   edfRecord = EDF.read(edfFile)
 
   # load signals
