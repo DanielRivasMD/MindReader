@@ -88,7 +88,7 @@ Use `extractFFT` on EDF file per channel. Returns a dictionary with channel name
 See also: [`extractSignalBin`](@ref)
 """
 function extractFFT(edfDf::DataFrame; binSize::N, binOverlap::N) where N <: Number
-  @info "Extracting channel frecuencies..."
+  # @info "Extracting channel frecuencies..."
   channelDc = Dict()
   freqAr = begin
     stepSize = floor(Int32, binSize / binOverlap)

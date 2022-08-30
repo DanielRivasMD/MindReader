@@ -83,7 +83,7 @@ begin
   for (κ, υ) in freqDc
 
     print()
-    @info κ
+    # @info κ
 
     #  build & train autoencoder
     freqAr = shifter(υ)
@@ -111,7 +111,7 @@ begin
 
     begin
       # TODO: add hmm iteration settings
-      @info "Creating Hidden Markov Model..."
+      # @info "Creating Hidden Markov Model..."
 
       # setup
       hmm = setup(aErr)

@@ -1,7 +1,7 @@
 ####################################################################################################
 
 # if CUDAapi.has_cuda()
-  # # @info "CUDA is on"
+  # # # @info "CUDA is on"
   # import CuArrays
   # CuArrays.allowscalar(false)
 # end
@@ -29,10 +29,10 @@ See also: [`buildAutoencoder`](@ref)
 function modelTrain!(model, ɒ; nnParams)
   args = nnParams()
 
-  @info("Loading data...")
+  # @info("Loading data...")
   trainAr = args.device.(ɒ)
 
-  @info("Training model...")
+  # @info("Training model...")
   loss(χ) = mse(model(χ), χ)
 
   # training

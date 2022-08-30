@@ -19,7 +19,7 @@ Build a three-layered autoencoder.
 See also: [`modelTrain!`](@ref)
 """
 function buildAutoencoder(inputLayer::I; nnParams) where I <: Integer
-  @info("Building three-layered autoencoder...")
+  # @info("Building three-layered autoencoder...")
   args = nnParams()
   return Chain(
     Dense(inputLayer, args.λ, args.σ),

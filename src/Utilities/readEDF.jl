@@ -33,7 +33,7 @@ Read EDF file. Return dataframe of signals.
 function getSignals(edfFile::S; verbose::B = false) where S <: String where B <: Bool
 
   # verbose
-  if verbose @info "Reading EDF file..." end
+  if verbose # @info "Reading EDF file..." end
 
   # read edf file
   edfRecord = EDF.read(edfFile)
