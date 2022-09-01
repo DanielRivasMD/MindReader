@@ -77,7 +77,7 @@ begin
   for (κ, υ) in freqDc
 
     print()
-    # @info κ
+    @info κ
 
     #  build & train autoencoder
     freqAr = shifter(υ)
@@ -105,7 +105,7 @@ begin
 
     begin
       # TODO: add hmm iteration settings
-      # @info "Creating Hidden Markov Model..."
+      @info "Creating Hidden Markov Model..."
 
       # setup
       hmm = setup(aErr)
@@ -148,23 +148,23 @@ writeHMM(hmmDc, shArgs)
 
 ####################################################################################################
 
-if haskey(annotFile, replace(shArgs["input"], ".edf" => ""))
-  writedlm(
-    string(shArgs["outDir"], "screen/", replace(shArgs["input"], "edf" => "csv")),
-    writePerformance(sensitivitySpecificity(hmmDc, labelAr)),
-    ", ",
-  )
+# if haskey(annotFile, replace(shArgs["input"], ".edf" => ""))
+#   writedlm(
+#     string(shArgs["outDir"], "screen/", replace(shArgs["input"], "edf" => "csv")),
+#     writePerformance(sensitivitySpecificity(hmmDc, labelAr)),
+#     ", ",
+#   )
 
-  ####################################################################################################
+#   ####################################################################################################
 
-  # # graphic rendering
-  # mindGraphics(hmmDc, shArgs, labelAr)
+#   # # graphic rendering
+#   # mindGraphics(hmmDc, shArgs, labelAr)
 
-else
+# else
 
-  # # graphic rendering
-  # mindGraphics(hmmDc, shArgs)
+#   # # graphic rendering
+#   # mindGraphics(hmmDc, shArgs)
 
-end
+# end
 
 ####################################################################################################

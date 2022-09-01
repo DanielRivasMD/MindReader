@@ -80,7 +80,7 @@ Use `extractSignalBin` on EDF file per channel. Returns a dictionary with channe
 See also: [`extractFFT`](@ref)
 """
 function extractSignalBin(edfDf::DataFrame; binSize::N, binOverlap::N) where N <: Number
-  # @info("Binning channels signals...")
+  @info("Binning channels signals...")
   channelDc = Dict()
   signalAr = begin
     stepSize = floor(Int64, binSize / binOverlap)
