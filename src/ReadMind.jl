@@ -58,7 +58,6 @@ begin
   if haskey(annotFile, replace(shArgs["input"], ".edf" => ""))
     labelAr = annotationCalibrator(
       annotFile[replace(shArgs["input"], ".edf" => "")];
-      startTime = startTime,
       recordFreq = recordFreq,
       signalLength = size(edfDf, 1),
       shParams = shArgs,
