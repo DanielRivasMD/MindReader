@@ -75,6 +75,9 @@ begin
 
   for (κ, υ) in freqDc
 
+    # add channel patch
+    if κ == "-" continue end
+
     print()
     @info κ
 
