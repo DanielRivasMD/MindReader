@@ -27,9 +27,10 @@ end
 
 """
 
-    writePerformance(filename::S, performanceDc::D, delim::S = ",")
-      where S <: String
+    writePerformance(filename::S, performanceDc::D;
+    delim::S = ",")
       where D <: Dict{S, M}
+      where S <: String
       where M <: Matrix{N}
       where N <: Number
 
@@ -39,7 +40,7 @@ Write model performance to CSV file.
 
 See also: [`getSignals`](@ref)
 """
-function writePerformance(filename::S, performanceDc::D, delim::S = ",") where S <: String where D <: Dict{S, M} where M <: Matrix{N} where N <: Number
+function writePerformance(filename::S, performanceDc::D; delim::S = ",") where D <: Dict{S, M} where S <: String where M <: Matrix{N} where N <: Number
   writedlm(
     filename,
     writePerformance(performanceDc),
