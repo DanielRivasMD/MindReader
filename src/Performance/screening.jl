@@ -41,7 +41,7 @@ Calculate sensitivity and specificity from a `Hidden Markov model` struct.
 
 See also: [`predictiveValue`](@ref)
 """
-function sensitivitySpecificity(tbVc::V, labelMt::M) where V <: Vector{N} M <: Matrix{N} where N <: Number
+function sensitivitySpecificity(tbVc::V, labelMt::M) where V <: Vector{N} where M <: Matrix{N} where N <: Number
 
   # TODO: is there a way to not pass by reference?
   # declare internal copy
@@ -160,7 +160,7 @@ Calculate predictive values from a `Hidden Markov model` struct.
 
 See also: [`sensitivitySpecificity`](@ref)
 """
-function predictiveValue(tbVc::V, labelMt::M) where V <: Vector{N} M <: Matrix{N} where N <: Number
+function predictiveValue(tbVc::V, labelMt::M) where V <: Vector{N} where M <: Matrix{N} where N <: Number
 
   # declare internal copy
   tbVec = copy(tbVc)
