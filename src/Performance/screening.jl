@@ -6,6 +6,35 @@
 
     sensitivitySpecificity(ssDc::DSH, labelVc)
       where DSH <: Dict{S, HMM}
+      where DSV <: Dict{S, V}
+      where S <: String
+      where V <: Vector{I}
+      where I <: Int
+
+# Description
+Iterate on Dictionary and calculate sensitivity and specificity from a `Hidden Markov model` struct.
+
+
+See also: [`predictiveValue`](@ref)
+"""
+function sensitivitySpecificity(ssDc::DSH, maskDc::DSV, labelVc) where DSH <: Dict{S, HMM} where DSV <: Dict{S, V} where S <: String where V <: Vector{I} where I <: Int
+
+  Ω = Dict{S, Array{Float64, 2}}()
+  for (κ, υ) in ssDc
+    outSensSpec = zeros(1, 2)
+    (outSensSpec[1, 1], outSensSpec[1, 2]) = sensitivitySpecificity(υ.traceback, labelVc[Not(maskDc[κ])])
+    Ω[κ] = outSensSpec
+  end
+
+  return Ω
+end
+
+####################################################################################################
+
+"""
+
+    sensitivitySpecificity(ssDc::DSH, labelVc)
+      where DSH <: Dict{S, HMM}
       where S <: String
 
 # Description
