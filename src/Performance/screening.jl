@@ -22,7 +22,7 @@ function sensitivitySpecificity(ssDc::DSH, maskDc::DSV, labelVc) where DSH <: Di
   Ω = Dict{S, Array{Float64, 2}}()
   for (κ, υ) in ssDc
     outSensSpec = zeros(1, 2)
-    (outSensSpec[1, 1], outSensSpec[1, 2]) = sensitivitySpecificity(υ.traceback[Not(maskDc[κ])], labelVc[1:end .∉ maskDc[κ]])
+    (outSensSpec[1, 1], outSensSpec[1, 2]) = sensitivitySpecificity(υ.traceback[1:end .∉ [maskDc[κ]]], labelVc[1:end .∉ [maskDc[κ]]])
     Ω[κ] = outSensSpec
   end
 
