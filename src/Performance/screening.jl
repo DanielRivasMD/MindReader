@@ -105,7 +105,7 @@ function sensitivitySpecificity(tbVc::V, labelVc::V) where V <: Vector{N} where 
 
   # reassign frecuency labels
   labels = [1, 2]
-  tbVec[findall(tbVec .> 1)] .= 2
+  tbVec[tbVec .> 1] .= 2
 
   return sensitivitySpecificity(adjustFq(tbVec, labelVc, labels))
 end
