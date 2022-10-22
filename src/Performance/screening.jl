@@ -1,10 +1,8 @@
 ####################################################################################################
 
-# TODO: consider expanding wrappers into macros
-
 """
 
-    sensitivitySpecificity(ssDc::DSH, labelVc)
+    sensitivitySpecificity(ssDc::DSH, maskDc::DSV, labelVc)
       where DSH <: Dict{S, HMM}
       where DSV <: Dict{S, V}
       where S <: String
