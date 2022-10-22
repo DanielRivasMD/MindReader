@@ -276,7 +276,7 @@ function convertFqDf(fq, templ; colnames = ["Value", "Frecuency"])
 
   Ω = DataFrames.DataFrame([templ zeros(Int64, length(templ))], colnames)
 
-  for ι ∈ 1:size(fq, 1)
+  for ι ∈ axes(fq, 1)
     Ω[findall(fq[ι, 1] .== Ω[:, 1]), 2] .= fq[ι, 2]
   end
 
