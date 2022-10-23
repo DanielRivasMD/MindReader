@@ -149,24 +149,3 @@ end;
 writeHMM(hmmDc, shArgs)
 
 ####################################################################################################
-
-# if haskey(annotFile, replace(shArgs["input"], ".edf" => ""))
-#   writedlm(
-#     string(shArgs["outDir"], "screen/", replace(shArgs["input"], "edf" => "csv")),
-#     writePerformance(sensitivitySpecificity(hmmDc, labelAr)),
-#     ", ",
-#   )
-
-#   ####################################################################################################
-
-#   # # graphic rendering
-#   # mindGraphics(hmmDc, shArgs, labelAr)
-
-# else
-
-#   # # graphic rendering
-#   # mindGraphics(hmmDc, shArgs)
-
-# end
-
-####################################################################################################
