@@ -33,8 +33,9 @@ export getSignals
 # writeCSV
 export writePerformance
 
-# screening
-export sensitivitySpecificity, predictiveValue
+# performance
+export performance
+export accuracy, fScore, sensitivity, specificity, PPV, PNV, FPR, FNR, FDR, FOR, MCC
 
 # signalBin
 export extractSignalBin
