@@ -1,0 +1,13 @@
+prerelease v0.5.0
+
+Features:
+- Refactor, enhance & test predictive performance functions.
+- Expose functions to:
+  - Calculate overall predictive performance.
+  - Calculate accuracy.
+  - Calculate f1-score.
+  - Calculate sensitivity & specificity.
+  - Calculate predictive values.
+  - Calculate false positve & negative rates.
+  - Calculate false discovery & omission rates.
+  - Calculate Mathews correlation coeficient.
