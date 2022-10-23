@@ -15,7 +15,7 @@ See also: [`getSignals`](@ref)
 """
 function writePerformance(performanceDSF::DSF) where DSF <: Dict{S, AF} where S <: String where AF <: AbstractFloat
   Ω = Matrix{Any}(undef, 2, length(performanceDSF))
-  for (ι, (κ, υ)) ∈ enumerate(performanceDSF)
+  for (ι, (κ, υ)) ∈ enumerate(["Sensitivity", "Specificity", "Accuracy", "FScore", "PPV", "NPV", "FPR", "FNR", "FDR", "FOR", "MCC",])
     Ω[:, ι] .= [string(κ), υ]
   end
   return Ω
@@ -39,7 +39,7 @@ See also: [`getSignals`](@ref)
 function writePerformance(performanceDSF::DSF, electrode::S) where DSF <: Dict{S, AF} where AF <: AbstractFloat where S <: String
   Ω = Matrix{Any}(undef, 1, length(performanceDSF) + 1)
   Ω[1, 1] = electrode
-  for (ι, (_, υ)) ∈ enumerate(performanceDSF)
+  for (ι, (_, υ)) ∈ enumerate(["Sensitivity", "Specificity", "Accuracy", "FScore", "PPV", "NPV", "FPR", "FNR", "FDR", "FOR", "MCC",])
     Ω[1, ι + 1] = υ
   end
   return Ω
@@ -86,9 +86,9 @@ Transform model predictive performance to table for writing.
 See also: [`getSignals`](@ref)
 """
 function writePerformance(performanceDDS::DDS) where DDS <: Dict{S, DSF} where DSF <: Dict{S, AF} where AF <: AbstractFloat where S <: String
-  firstPerformance = performanceDDS[performanceDDS |> keys .|> string |> π -> getindex(π, 1)]
-  Ω = Matrix{Any}(undef, length(performanceDDS) + 1, length(firstPerformance) + 1)
-  Ω[1, :] .= ["Electrode"; [ι for ι ∈ string.(keys(firstPerformance))]]
+  performanceVc = ["Sensitivity", "Specificity", "Accuracy", "FScore", "PPV", "NPV", "FPR", "FNR", "FDR", "FOR", "MCC",]
+  Ω = Matrix{Any}(undef, length(performanceDDS) + 1, length(performanceVc) + 1)
+  Ω[1, :] .= ["Electrode"; [ι for ι ∈ performanceVc]]
   for (ι, (κ, υ)) ∈ enumerate(performanceDDS)
     Ω[ι + 1, :] = writePerformance(υ, κ)
   end
