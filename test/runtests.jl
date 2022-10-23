@@ -11,8 +11,8 @@ tests = [
   # private functions
 
   # export functions
-  "screening.jl",
   "writeCSV.jl",
+  "performance.jl",
 
 ]
 
