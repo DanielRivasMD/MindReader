@@ -89,8 +89,8 @@ function writePerformance(performanceDDS::DDS) where DDS <: Dict{S, DSF} where D
   performanceVc = ["Sensitivity", "Specificity", "Accuracy", "FScore", "PPV", "NPV", "FPR", "FNR", "FDR", "FOR", "MCC",]
   Ω = Matrix{Any}(undef, length(performanceDDS) + 1, length(performanceVc) + 1)
   Ω[1, :] .= ["Electrode"; [ι for ι ∈ performanceVc]]
-  for (ι, κ) ∈ enumerate(performanceVc)
-    Ω[ι + 1, :] = writePerformance(performanceDDS[κ], κ)
+  for (ι, (κ, υ)) ∈ enumerate(performanceDDS)
+    Ω[ι + 1, :] = writePerformance(υ, κ)
   end
   return Ω
 end
