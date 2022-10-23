@@ -15,8 +15,8 @@ See also: [`getSignals`](@ref)
 """
 function writePerformance(performanceDSF::DSF) where DSF <: Dict{S, AF} where S <: String where AF <: AbstractFloat
   Ω = Matrix{Any}(undef, 2, length(performanceDSF))
-  for (ι, (κ, υ)) ∈ enumerate(["Sensitivity", "Specificity", "Accuracy", "FScore", "PPV", "NPV", "FPR", "FNR", "FDR", "FOR", "MCC",])
-    Ω[:, ι] .= [string(κ), υ]
+  for (ι, κ) ∈ enumerate(["Sensitivity", "Specificity", "Accuracy", "FScore", "PPV", "NPV", "FPR", "FNR", "FDR", "FOR", "MCC",])
+    Ω[:, ι] .= [κ, performanceDSF[κ]]
   end
   return Ω
 end
@@ -39,8 +39,8 @@ See also: [`getSignals`](@ref)
 function writePerformance(performanceDSF::DSF, electrode::S) where DSF <: Dict{S, AF} where AF <: AbstractFloat where S <: String
   Ω = Matrix{Any}(undef, 1, length(performanceDSF) + 1)
   Ω[1, 1] = electrode
-  for (ι, (_, υ)) ∈ enumerate(["Sensitivity", "Specificity", "Accuracy", "FScore", "PPV", "NPV", "FPR", "FNR", "FDR", "FOR", "MCC",])
-    Ω[1, ι + 1] = υ
+  for (ι, κ) ∈ enumerate(["Sensitivity", "Specificity", "Accuracy", "FScore", "PPV", "NPV", "FPR", "FNR", "FDR", "FOR", "MCC",])
+    Ω[1, ι + 1] = performanceDSF[κ]
   end
   return Ω
 end
@@ -88,9 +88,9 @@ See also: [`getSignals`](@ref)
 function writePerformance(performanceDDS::DDS) where DDS <: Dict{S, DSF} where DSF <: Dict{S, AF} where AF <: AbstractFloat where S <: String
   performanceVc = ["Sensitivity", "Specificity", "Accuracy", "FScore", "PPV", "NPV", "FPR", "FNR", "FDR", "FOR", "MCC",]
   Ω = Matrix{Any}(undef, length(performanceDDS) + 1, length(performanceVc) + 1)
-  Ω[1, :] .= ["Electrode"; [ι for ι ∈ performanceVc]]
-  for (ι, (κ, υ)) ∈ enumerate(performanceDDS)
-    Ω[ι + 1, :] = writePerformance(υ, κ)
+  Ω[1, :] .= ["Electrode"; [ι for ι ∈ [performanceVc]]]
+  for (ι, κ) ∈ enumerate(performanceVc)
+    Ω[ι + 1, :] = writePerformance(performanceDDS[κ], κ)
   end
   return Ω
 end
