@@ -75,7 +75,20 @@ begin
   include(string(utilDir,    "writeCSV.jl"))
 
   # performance
-  include(string(performDir, "screening.jl"))
+  include(string(performDir, "performance.jl"))
+
+  include(string(performDir, "accuracy.jl"))
+  include(string(performDir, "fdr.jl"))
+  include(string(performDir, "fnr.jl"))
+  include(string(performDir, "for.jl"))
+  include(string(performDir, "fpr.jl"))
+  include(string(performDir, "fScore.jl"))
+  include(string(performDir, "mcc.jl"))
+  include(string(performDir, "npv.jl"))
+  include(string(performDir, "ppv.jl"))
+  include(string(performDir, "sensitivity.jl"))
+  include(string(performDir, "specificity.jl"))
+  include(string(performDir, "utils.jl"))
 
   # preprocessing
   include(string(signalDir,  "signalBin.jl"))
