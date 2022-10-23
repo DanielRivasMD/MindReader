@@ -1,7 +1,7 @@
 name = "MindReader"
 uuid = "29767591-7395-4f5d-bb0f-9767abbb8d26"
 authors = ["DanielRivasMD <danielrivasmd@gmail.com> and contributors"]
-version = "0.5.0"
+version = "0.5.1"
 
 [deps]
 ArgParse = "c7e460c6-2fb9-53a9-8c5b-16f535851c63"
