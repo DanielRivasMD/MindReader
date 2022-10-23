@@ -2,45 +2,61 @@
 
 """
 
-    writePerformance(performanceDc::D)
-      where D <: Dict{S, M}
+    writePerformance(performanceTp, electrode::S)
       where S <: String
-      where M <: Matrix{N}
-      where N <: Number
 
 # Description
-Transform model performance to table for writing.
+Transform model predictive performance to table for writing.
 
 
 See also: [`getSignals`](@ref)
 """
-function writePerformance(performanceDc::D) where D <: Dict{S, M} where S <: String where M <: Matrix{N} where N <: Number
-  outAr = Matrix{Any}(undef, length(performanceDc) + 1, 3)
-  outAr[1, :] .= ["Electrode", "Sensitivity", "Specificity"]
-  for (ι, (κ, υ)) ∈ enumerate(performanceDc)
-    outAr[ι + 1, :] = [κ υ]
+function writePerformance(performanceTp, electrode::S) where S <: String
+  Ω = Vector{Any}(undef, length(performanceTp) + 1)
+  Ω[1] = electrode
+  for (ι, υ) ∈ enumerate(performanceTp)
+    Ω[ι + 1] = υ
   end
-  return outAr
+  return Ω
 end
 
 ####################################################################################################
 
 """
 
-    writePerformance(filename::S, performanceDc::D;
-    delim::S = ",")
-      where D <: Dict{S, M}
-      where S <: String
-      where M <: Matrix{N}
-      where N <: Number
+    writePerformance(performanceDc)
 
 # Description
-Write model performance to CSV file.
+Transform model predictive performance to table for writing.
 
 
 See also: [`getSignals`](@ref)
 """
-function writePerformance(filename::S, performanceDc::D; delim::S = ",") where D <: Dict{S, M} where S <: String where M <: Matrix{N} where N <: Number
+function writePerformance(performanceDc)
+  firstPerformance = performanceDc[performanceDc |> keys .|> string |> π -> getindex(π, 1)]
+  Ω = Matrix{Any}(undef, length(performanceDc) + 1, length(firstPerformance) + 1)
+  Ω[1, :] .= ["Electrode"; [ι for ι ∈ string.(keys(firstPerformance))]]
+  for (ι, (κ, υ)) ∈ enumerate(performanceDc)
+    Ω[ι + 1, :] = writePerformance(υ, κ)
+  end
+  return Ω
+end
+
+####################################################################################################
+
+"""
+
+    writePerformance(filename::S, performanceDc;
+    delim::S = ",")
+      where S <: String
+
+# Description
+Write model predictive performance to CSV file.
+
+
+See also: [`getSignals`](@ref)
+"""
+function writePerformance(filename::S, performanceDc; delim::S = ",") where S <: String
   writedlm(
     filename,
     writePerformance(performanceDc),
