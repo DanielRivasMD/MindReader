@@ -11,8 +11,8 @@ tests = [
   # private functions
 
   # export functions
-  "writeCSV.jl",
   "performance.jl",
+  "writeIO.jl",
 
 ]
 
@@ -23,6 +23,7 @@ tests = [
   for τ ∈ tests
     include(τ)
   end
+
 end
 
 ####################################################################################################
