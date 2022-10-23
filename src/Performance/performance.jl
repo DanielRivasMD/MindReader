@@ -140,18 +140,18 @@ See also: [`performance`](@ref), [`accuracy`](@ref), [`fScore`](@ref), [`sensiti
 """
 function performance(ɒ::M) where M <: Matrix{N} where N <: Number
   if size(ɒ) == (2, 2)
-    return (
-      sensitivity = sensitivity(ɒ),
-      specificity = specificity(ɒ),
-      accuracy = accuracy(ɒ),
-      fScore = fScore(ɒ),
-      PPV = PPV(ɒ),
-      NPV = NPV(ɒ),
-      FPR = FPR(ɒ),
-      FNR = FNR(ɒ),
-      FDR = FDR(ɒ),
-      FOR = FOR(ɒ),
-      MCC = MCC(ɒ),
+    return Dict(
+      "Sensitivity" => sensitivity(ɒ),
+      "Specificity" => specificity(ɒ),
+      "Accuracy" => accuracy(ɒ),
+      "FScore" => fScore(ɒ),
+      "PPV" => PPV(ɒ),
+      "NPV" => NPV(ɒ),
+      "FPR" => FPR(ɒ),
+      "FNR" => FNR(ɒ),
+      "FDR" => FDR(ɒ),
+      "FOR" => FOR(ɒ),
+      "MCC" => MCC(ɒ),
     )
   else
     @error "Array does not have the proper size"
