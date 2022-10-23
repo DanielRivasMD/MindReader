@@ -17,7 +17,7 @@ julia> accuracy(χ)
 ```
 
 
-See also: [`performance`](@ref),[`accuracy`](@ref),[`fScore`](@ref),[`sensitivity`](@ref),[`specificity`](@ref),[`PPV`](@ref),[`NPV`](@ref),[`FPR`](@ref),[`FNR`](@ref),[`FDR`](@ref),[`FOR`](@ref),[`MCC`](@ref)
+See also: [`performance`](@ref), [`accuracy`](@ref), [`fScore`](@ref), [`sensitivity`](@ref), [`specificity`](@ref), [`PPV`](@ref), [`NPV`](@ref), [`FPR`](@ref), [`FNR`](@ref), [`FDR`](@ref), [`FOR`](@ref), [`MCC`](@ref).
 """
 function accuracy(ɒ::M) where M <: Matrix{N} where N <: Number
   if size(ɒ) == (2, 2)

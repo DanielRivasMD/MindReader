@@ -124,19 +124,19 @@ Calculate performance from contingency table or confusion matrix.
 ```jldoctest
 julia> χ = [10 40; 5 45]
 julia> performance(χ)
-(sensitivity = 0.6666666666666666, specificity = 0.5294117647058824)
+(sensitivity = 0.6666666666666666, specificity = 0.5294117647058824, accuracy = 0.55, fScore = 0.30769230769230765, PPV = 0.2, NPV = 0.9, FPR = 0.47058823529411764, FNR = 0.3333333333333333, FDR = 0.8, FOR = 0.1, MCC = 0.14002800840280097)
 
 julia> χ = [20 33; 10 37]
 julia> performance(χ)
-(sensitivity = 0.6666666666666666, specificity = 0.5285714285714286)
+(sensitivity = 0.6666666666666666, specificity = 0.5285714285714286, accuracy = 0.57, fScore = 0.4819277108433735, PPV = 0.37735849056603776, NPV = 0.7872340425531915, FPR = 0.4714285714285714, FNR = 0.3333333333333333, FDR = 0.6226415094339622, FOR = 0.2127659574468085, MCC = 0.17926163185860888)
 
 julia> χ = [20 180; 10 1820]
 julia> performance(χ)
-(sensitivity = 0.6666666666666666, specificity = 0.91)
+(sensitivity = 0.6666666666666666, specificity = 0.91, accuracy = 0.9064039408866995, fScore = 0.1739130434782609, PPV = 0.1, NPV = 0.994535519125683, FPR = 0.09, FNR = 0.3333333333333333, FDR = 0.9, FOR = 0.00546448087431694, MCC = 0.23348550853492078)
 ```
 
 
-See also: [`performance`](@ref),[`accuracy`](@ref),[`fScore`](@ref),[`sensitivity`](@ref),[`specificity`](@ref),[`PPV`](@ref),[`NPV`](@ref),[`FPR`](@ref),[`FNR`](@ref),[`FDR`](@ref),[`FOR`](@ref),[`MCC`](@ref)
+See also: [`performance`](@ref), [`accuracy`](@ref), [`fScore`](@ref), [`sensitivity`](@ref), [`specificity`](@ref), [`PPV`](@ref), [`NPV`](@ref), [`FPR`](@ref), [`FNR`](@ref), [`FDR`](@ref), [`FOR`](@ref), [`MCC`](@ref).
 """
 function performance(ɒ::M) where M <: Matrix{N} where N <: Number
   if size(ɒ) == (2, 2)
