@@ -26,7 +26,7 @@ specificity = 0.91
 ```
 
 
-See also: [`predictiveValue`](@ref)
+See also: [`performance`](@ref),[`accuracy`](@ref),[`fScore`](@ref),[`sensitivity`](@ref),[`specificity`](@ref),[`PPV`](@ref),[`NPV`](@ref),[`FPR`](@ref),[`FNR`](@ref),[`FDR`](@ref),[`FOR`](@ref),[`MCC`](@ref)
 """
 function specificity(ɒ::M) where M <: Matrix{N} where N <: Number
   if size(ɒ) == (2, 2)

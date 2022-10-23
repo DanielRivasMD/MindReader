@@ -13,7 +13,7 @@
 Iterate on Dictionary and calculate performance from a `Hidden Markov model` struct with mask.
 
 
-See also: [`predictiveValue`](@ref)
+See also: [`accuracy`](@ref),[`fScore`](@ref),[`sensitivity`](@ref),[`specificity`](@ref),[`PPV`](@ref),[`NPV`](@ref),[`FPR`](@ref),[`FNR`](@ref),[`FDR`](@ref),[`FOR`](@ref),[`MCC`](@ref)
 """
 function performance(ssDc::DSH, maskDc::DSV, labelVc) where DSH <: Dict{S, HMM} where DSV <: Dict{S, V} where S <: String where V <: Vector{I} where I <: Int
 
@@ -39,7 +39,7 @@ end
 Iterate on Dictionary and calculate performance from a `Hidden Markov model` struct.
 
 
-See also: [`predictiveValue`](@ref)
+See also: [`accuracy`](@ref),[`fScore`](@ref),[`sensitivity`](@ref),[`specificity`](@ref),[`PPV`](@ref),[`NPV`](@ref),[`FPR`](@ref),[`FNR`](@ref),[`FDR`](@ref),[`FOR`](@ref),[`MCC`](@ref)
 """
 function performance(ssDc::DSH, labelVc) where DSH <: Dict{S, HMM} where S <: String
 
@@ -66,7 +66,7 @@ end
 Calculate performance from prediction vector and supervised matrix.
 
 
-See also: [`predictiveValue`](@ref)
+See also: [`accuracy`](@ref),[`fScore`](@ref),[`sensitivity`](@ref),[`specificity`](@ref),[`PPV`](@ref),[`NPV`](@ref),[`FPR`](@ref),[`FNR`](@ref),[`FDR`](@ref),[`FOR`](@ref),[`MCC`](@ref)
 """
 function performance(tbVc::V, labelMt::M) where V <: Vector{N} where M <: Matrix{N} where N <: Number
 
@@ -95,7 +95,7 @@ end
 Calculate performance from prediction vector and supervised vector.
 
 
-See also: [`predictiveValue`](@ref)
+See also: [`accuracy`](@ref),[`fScore`](@ref),[`sensitivity`](@ref),[`specificity`](@ref),[`PPV`](@ref),[`NPV`](@ref),[`FPR`](@ref),[`FNR`](@ref),[`FDR`](@ref),[`FOR`](@ref),[`MCC`](@ref)
 """
 function performance(tbVc::V, labelVc::V) where V <: Vector{N} where N <: Number
 
@@ -136,7 +136,7 @@ julia> performance(χ)
 ```
 
 
-See also: [`predictiveValue`](@ref)
+See also: [`performance`](@ref),[`accuracy`](@ref),[`fScore`](@ref),[`sensitivity`](@ref),[`specificity`](@ref),[`PPV`](@ref),[`NPV`](@ref),[`FPR`](@ref),[`FNR`](@ref),[`FDR`](@ref),[`FOR`](@ref),[`MCC`](@ref)
 """
 function performance(ɒ::M) where M <: Matrix{N} where N <: Number
   if size(ɒ) == (2, 2)
