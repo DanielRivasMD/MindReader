@@ -21,7 +21,7 @@ See also: [`predictiveValue`](@ref)
 """
 function fScore(ɒ::M) where M <: Matrix{N} where N <: Number
   if size(ɒ) == (2, 2)
-    return 2 * ((positivePV(ɒ) * sensitivity(ɒ)) / (positivePV(ɒ) + sensitivity(ɒ)))
+    return 2 * ((PPV(ɒ) * sensitivity(ɒ)) / (PPV(ɒ) + sensitivity(ɒ)))
   else
     @error "Array does not have the proper size"
   end
