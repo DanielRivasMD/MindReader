@@ -88,7 +88,7 @@ See also: [`getSignals`](@ref)
 function writePerformance(performanceDDS::DDS) where DDS <: Dict{S, DSF} where DSF <: Dict{S, AF} where AF <: AbstractFloat where S <: String
   performanceVc = ["Sensitivity", "Specificity", "Accuracy", "FScore", "PPV", "NPV", "FPR", "FNR", "FDR", "FOR", "MCC",]
   Ω = Matrix{Any}(undef, length(performanceDDS) + 1, length(performanceVc) + 1)
-  Ω[1, :] .= ["Electrode"; [ι for ι ∈ [performanceVc]]]
+  Ω[1, :] .= ["Electrode"; [ι for ι ∈ performanceVc]]
   for (ι, κ) ∈ enumerate(performanceVc)
     Ω[ι + 1, :] = writePerformance(performanceDDS[κ], κ)
   end
