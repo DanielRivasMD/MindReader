@@ -35,7 +35,7 @@ export writePerformance
 
 # performance
 export performance
-export accuracy, fScore, sensitivity, specificity, PPV, PNV, FPR, FNR, FDR, FOR, MCC
+export accuracy, balancedAccuracy, fScore, sensitivity, specificity, PPV, PNV, FPR, FNR, FDR, FOR, MCC
 
 # signalBin
 export extractSignalBin
@@ -79,6 +79,7 @@ begin
   include(string(performDir, "performance.jl"))
 
   include(string(performDir, "accuracy.jl"))
+  include(string(performDir, "balancedAccuracy.jl"))
   include(string(performDir, "fdr.jl"))
   include(string(performDir, "fnr.jl"))
   include(string(performDir, "for.jl"))
