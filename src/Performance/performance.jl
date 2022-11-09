@@ -144,6 +144,7 @@ function performance(ɒ::M) where M <: Matrix{N} where N <: Number
       "Sensitivity" => sensitivity(ɒ),
       "Specificity" => specificity(ɒ),
       "Accuracy" => accuracy(ɒ),
+      "BalancedAccuracy" => balancedAccuracy(ɒ),
       "FScore" => fScore(ɒ),
       "PPV" => PPV(ɒ),
       "NPV" => NPV(ɒ),
