@@ -39,7 +39,7 @@ See also: [`getSignals`](@ref)
 function writePerformance(performanceDSF::DSF, electrode::S) where DSF <: Dict{S, AF} where AF <: AbstractFloat where S <: String
   Ω = Matrix{Any}(undef, 1, length(performanceDSF) + 1)
   Ω[1, 1] = electrode
-  for (ι, κ) ∈ enumerate(["Sensitivity", "Specificity", "Accuracy", "FScore", "PPV", "NPV", "FPR", "FNR", "FDR", "FOR", "MCC",])
+  for (ι, κ) ∈ enumerate(["Sensitivity", "Specificity", "Accuracy", "BalancedAccuracy", "FScore", "PPV", "NPV", "FPR", "FNR", "FDR", "FOR", "MCC",])
     Ω[1, ι + 1] = performanceDSF[κ]
   end
   return Ω
@@ -86,7 +86,7 @@ Transform model predictive performance to table for writing.
 See also: [`getSignals`](@ref)
 """
 function writePerformance(performanceDDS::DDS) where DDS <: Dict{S, DSF} where DSF <: Dict{S, AF} where AF <: AbstractFloat where S <: String
-  performanceVc = ["Sensitivity", "Specificity", "Accuracy", "FScore", "PPV", "NPV", "FPR", "FNR", "FDR", "FOR", "MCC",]
+  performanceVc = ["Sensitivity", "Specificity", "Accuracy", "BalancedAccuracy", "FScore", "PPV", "NPV", "FPR", "FNR", "FDR", "FOR", "MCC",]
   Ω = Matrix{Any}(undef, length(performanceDDS) + 1, length(performanceVc) + 1)
   Ω[1, :] .= ["Electrode"; [ι for ι ∈ performanceVc]]
   for (ι, (κ, υ)) ∈ enumerate(performanceDDS)
