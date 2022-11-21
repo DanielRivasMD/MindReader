@@ -15,7 +15,7 @@ See also: [`getSignals`](@ref)
 """
 function writePerformance(performanceDSF::DSF) where DSF <: Dict{S, AF} where S <: String where AF <: AbstractFloat
   Ω = Matrix{Any}(undef, 2, length(performanceDSF))
-  for (ι, κ) ∈ enumerate(["Sensitivity", "Specificity", "Accuracy", "FScore", "PPV", "NPV", "FPR", "FNR", "FDR", "FOR", "MCC",])
+  for (ι, κ) ∈ enumerate(["Sensitivity", "Specificity", "Accuracy", "BalancedAccuracy", "FScore", "PPV", "NPV", "FPR", "FNR", "FDR", "FOR", "MCC",])
     Ω[:, ι] .= [κ, performanceDSF[κ]]
   end
   return Ω
