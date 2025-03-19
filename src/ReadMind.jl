@@ -30,19 +30,19 @@ include(string(shArgs["paramsDir"], shArgs["params"]))
 
 ####################################################################################################
 
-# include additional protocols
-if haskey(shArgs, "additional") && haskey(shArgs, "addDir")
-  for ι ∈ split(shArgs["additional"], ",")
-    include(string(shArgs["addDir"], ι))
-  end
-end
+# # include additional protocols
+# if haskey(shArgs, "additional") && haskey(shArgs, "addDir")
+#   for ι ∈ split(shArgs["additional"], ",")
+#     include(string(shArgs["addDir"], ι))
+#   end
+# end
 
 ####################################################################################################
 
-# read annotation
-if haskey(shArgs, "annotation") && haskey(shArgs, "annotDir")
-  annotFile = annotationReader(shArgs["annotDir"], shArgs["annotation"])
-end
+# # read annotation
+# if haskey(shArgs, "annotation") && haskey(shArgs, "annotDir")
+#   annotFile = annotationReader(shArgs["annotDir"], shArgs["annotation"])
+# end
 
 ####################################################################################################
 
@@ -54,15 +54,15 @@ begin
   # calculate fft
   freqDc = extractFFT(edfDf, shArgs)
 
-  # calibrate annotations
-  if haskey(annotFile, replace(shArgs["input"], ".edf" => ""))
-    labelAr = annotationCalibrator(
-      annotFile[replace(shArgs["input"], ".edf" => "")];
-      recordFreq = recordFreq,
-      signalLength = size(edfDf, 1),
-      shParams = shArgs,
-    )
-  end
+#   # calibrate annotations
+#   if haskey(annotFile, replace(shArgs["input"], ".edf" => ""))
+#     labelAr = annotationCalibrator(
+#       annotFile[replace(shArgs["input"], ".edf" => "")];
+#       recordFreq = recordFreq,
+#       signalLength = size(edfDf, 1),
+#       shParams = shArgs,
+#     )
+#   end
 end;
 
 ####################################################################################################
