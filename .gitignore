@@ -12,3 +12,5 @@ data/
 
 # ignore deprecated code
 src/deprecated/
+hmm
+images.tar.gz
